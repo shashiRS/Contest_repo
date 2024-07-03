@@ -1,0 +1,65 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    This file contains up to four methods that will be called by the test framework:
+        - global_setup(): Will be called before ALL test-cases
+        - setup(): Will be called before EACH test-case
+        - teardown(): Will be called after EACH test-case. Will also be called if test-case fails.
+        - global_teardown(): Will be called after ALL test-cases.
+                             Will be called if any execution before fails.
+
+    :file: setup.pytest
+
+    :author:
+        - Ganga Prabhakar Guntamukkala <ganga.prabhakar.guntamukkala@continental-corporation.com>
+"""
+
+
+# standard Python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts and global_params) AS BELOW.
+#        FOR PROPER ERROR REPORTING AND PARAMETER CONTROL
+from ptf.ptf_utils.global_params import *
+from ptf.tools_utils.psu import psu
+
+
+def global_setup():
+    """
+    This method will be called before ALL testcases are executed.
+    You can set global variables with :func:`set_global_parameter`.
+    Will skip execution of tests if this method fails.
+    """
+    # Creating object of PSU for GW INSTEK power supply channel 1
+    psu_app = psu.Psu(vendor='GW INSTEK', channel=1, operating_voltage=12.0,
+                      operating_current=3.0, max_voltage=15.0)
+
+    # assigning object to a global variable to be accessed later
+    set_global_parameter("psu_app", psu_app)
+
+def global_teardown():
+    """
+    This method will be called after ALL testcases are executed.
+    Guaranteed to be called, even if any test or global setup fails.
+    """
+    psu_app = get_parameter("psu_app")
+    psu_app.close()
+
+def setup():
+    """
+    This method will be called before EACH testcase is executed.
+    You can set global variables with :func:`set_global_parameter` and local variables just
+    available for the next testcase using :func:`set_local_parameter`.
+    Will skip execution of test if this method fails.
+    Skipped if global setup fails.
+    """
+    pass
+
+def teardown():
+    """
+    This method will be called after EACH testcase is executed.
+    Guaranteed to be called, even if the test or setup fails.
+    Skipped if global setup fails.
+    """
+    pass

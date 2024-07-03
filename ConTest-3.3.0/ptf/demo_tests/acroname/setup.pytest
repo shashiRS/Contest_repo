@@ -1,0 +1,72 @@
+"""
+    Copyright 2019 Continental Corporation
+
+    This file contains up to four methods that will be called by the test framework:
+        - global_setup(): Will be called before ALL test-cases
+        - setup(): Will be called before EACH test-case
+        - teardown(): Will be called after EACH test-case. Will also be called if test-case fails.
+        - global_teardown(): Will be called after ALL test-cases.
+                             Will be called if any execution before fails.
+
+    :file: setup.pytest
+
+    :author:
+        - Felix Wohlfrom <felix.2.wohlfrom@continental-corporation.com>
+"""
+
+# standard Python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts and global_params) AS BELOW.
+#        FOR PROPER ERROR REPORTING AND PARAMETER CONTROL
+from ptf.ptf_utils.global_params import set_global_parameter, get_parameter
+from ptf.tools_utils.acroname import usb_devices
+
+
+def global_setup():
+    """
+    This method will be called before ALL test-cases are executed.
+
+    You can set global variables with :func:`set_global_parameter`.
+    Will skip execution of tests if this method fails.
+    """
+    # creating an object of usb hub 3p utility
+    usb_hub = usb_devices.USBHub3p()
+    # creating a global parameter and assigning usb hub utility object to it
+    set_global_parameter("usb_hub", usb_hub)
+
+def global_teardown():
+    """
+    This method will be called after ALL test-cases are executed.
+
+    You can access global variables with :func:`get_parameter`.
+    Guaranteed to be called, even if any test or global setup fails.
+    """
+    usb_hub = get_parameter("usb_hub")
+    usb_hub.disconnect()
+
+def setup():
+    """
+    This method will be called before EACH test-case is executed.
+
+    You can set local variables just available for the next test-case
+    using :func:`set_local_parameter`.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Will skip execution of test if this method fails.
+    Skipped if global setup fails.
+    """
+    pass
+
+def teardown():
+    """
+    This method will be called after EACH testcase is executed.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Guaranteed to be called, even if the test or setup fails.
+    Skipped if global setup fails.
+    """
+    pass

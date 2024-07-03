@@ -1,0 +1,74 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    :file: swt_doip_demo.pytest
+    :platform: Windows
+    :synopsis:
+        File containing demo test(s) for DoIP related APIs
+
+    :author:
+        - Ganga Prabhakar G <ganga.prabhakar.guntamukkala@continental-corporation.com>
+"""
+
+
+
+from ptf.ptf_utils.report import DETAILS, VERIFIES, TESTTAG, TESTSTEP, EXPECTED, TESTCASE
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_DOIP_DEMO_CHANGE_SESSIONv1():
+    DETAILS("This is an example test case for changing diagnostic session")
+    VERIFIES("change_session")
+    TESTTAG("HIL")
+    TESTCASE()
+
+    TESTSTEP("Change session to extended")
+    EXPECTED("Diagnostic session changed successfully to extended")
+    doip_obj = get_parameter("doip")
+    doip_obj.change_session(3)
+
+    TESTSTEP("Change session to default")
+    EXPECTED("Diagnostic session changed successfully to default")
+    doip_obj.change_session(1)
+
+    zenzefi_auth = get_parameter("zenzefi_auth")
+    zenzefi_auth()
+    doip_obj.change_session(3)
+
+
+def SWT_DOIP_DEMO_READ_CLEAR_DTCv1():
+    DETAILS("This is an example test case for Reading and clearing DTCs")
+    VERIFIES("report_supported_dtc")
+    VERIFIES("clear_dtc")
+    TESTTAG("HIL")
+    TESTCASE()
+
+    TESTSTEP("Read supported DTCs")
+    EXPECTED("Supported DTCs are read successfully")
+    doip_obj = get_parameter("doip")
+    doip_obj.report_supported_dtc()
+
+    TESTSTEP("Clear DTCs")
+    EXPECTED("DTCs are cleared successfully")
+    doip_obj.clear_dtc()
+
+
+def SWT_DOIP_DEMO_READ_WRITE_DIDv1():
+    DETAILS("This is an example test case for Reading and writing DID")
+    VERIFIES("read_data_by_identifier")
+    VERIFIES("write_data_by_identifier")
+    TESTTAG("HIL")
+    TESTCASE()
+
+    TESTSTEP("Read Diagnostic Identifier 0x1205 (GVC_Activation-Deactivation)")
+    EXPECTED("Supported DTCs are read successfully")
+    doip_obj = get_parameter("doip")
+    value = doip_obj.read_data_by_identifier(0x1205)
+    print(value)
+
+    TESTSTEP("Write Diagnostic Identifier 0x1205 (GVC_Activation-Deactivation)")
+    EXPECTED("Supported DTCs are read successfully")
+    value = {'GVC_Activation-Deactivation': 0x01}
+    doip_obj.write_data_by_identifier(0x1205, data=value)
+
+

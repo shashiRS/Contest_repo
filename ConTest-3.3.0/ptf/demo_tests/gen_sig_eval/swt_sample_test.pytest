@@ -1,0 +1,151 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    :file: swt_sample_tests.pytest
+    :platform: Windows
+    :synopsis:
+        Sample test case(s) for the demo of generic signal evaluations
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+
+# standard Python import area
+import pandas as pd
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from contest_verify.verify import contest_asserts
+from contest_verify.verify import contest_expects
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+from ptf.ptf_utils.parameterized import parameterized
+
+
+
+def SWT_FILTER_QUERYv1():
+    DETAILS("Example test case for filtering and querying API")
+
+    VERIFIES("L3_SW_SIG_EVAL")
+
+    TESTTAG("sig_eval")
+
+    test_signals = ['Time_Stamp', 'ars_sctl_cnt_eol_succeeded']
+
+    TESTSTEP("Fetching signal evaluation class object")
+    EXPECTED("Signal evaluation class object fetched successfully")
+    sig_eval = get_parameter("sig_eval_obj")
+
+    TESTSTEP("Filtering and querying the filtered dataframe with query expression")
+    EXPECTED("Filtering and quering done successfully")
+    test_signals_df = sig_eval.filter_and_query_dataframe(
+        signals_list=test_signals,
+        ignore_missing_signals=False,
+        query_exp="(20 < Time_Stamp < 21) and (100 <= ars_sctl_cnt_eol_succeeded <= 101)",
+        return_bool=True)
+    print(test_signals_df)
+    contest_asserts.verify(test_signals_df, True, "Failure in 'ars_sctl_cnt_eol_succeeded' checking")
+
+@parameterized([
+    ("ars_dpc_runtime_core1_coreusagepercentage", "Time_Stamp", 5, 40, 0.01, 1.06)
+])
+def SWT_SIG_ALWAYS_IN_RANGE_DURING_TIMEFRAMEv1(
+        sig_name, ts_name, sig_start_lmt, sig_end_lmt, ts_start_val, ts_end_val):
+    DETAILS("Test case for verifying if a signal is in a range in between some time duration")
+    DETAILS("This test case shows the usage of filter_and_query_dataframe API + pandas generic APIs")
+
+    VERIFIES("SIG_ALWAYS_IN_RANGE_DURING_TIMEFRAME")
+
+    TESTTAG("sig_eval")
+
+    sig_eval = get_parameter("sig_eval_obj")
+
+    test_signals = [ts_name, sig_name]
+
+    sig_exp_eval = "{} <= {} <= {}".format(sig_start_lmt, sig_name, sig_end_lmt)
+    ts_filter_query_exp = "{} <= {} <= {}".format(ts_start_val, ts_name, ts_end_val)
+
+    # evaluation using `eval` function over a ranged timestamp dataframe
+    # 1. filter signals over a specified timestamp range
+    # 2. apply `eval` function over filtered dataframe acquired in step 1
+    ts_df = sig_eval.filter_and_query_dataframe(
+        signals_list=test_signals, query_exp=ts_filter_query_exp, return_bool=False)
+    print("EVAL EXP: '", sig_exp_eval, "'")
+    result_eval = ts_df.eval(sig_exp_eval)
+    contest_asserts.verify(
+        all(result_eval), True,
+        "{} signal not in range [{} - {}] all time during Time_Stamp [{} - {}]".format(
+            sig_name, sig_start_lmt, sig_end_lmt, ts_start_val, ts_end_val))
+    print("{} signal in range [{} - {}] all time during "
+          "Time_Stamp [{} - {}]".format(
+            sig_name, sig_start_lmt, sig_end_lmt, ts_start_val, ts_end_val))
+
+
+@parameterized([
+    ("ars_aln_out_current_elevation", 0.0017, 0.0019)
+])
+def SWT_SIG_END_VAL_IN_RANGEv1(sig_name, sig_start_lmt, sig_end_lmt):
+    DETAILS("Test case for verifying if a signal end value is in a range in between some time duration")
+
+    VERIFIES("SIG_END_VAL_IN_RANGE")
+
+    TESTTAG("sig_eval")
+
+    sig_eval = get_parameter("sig_eval_obj")
+
+    test_signals = [sig_name]
+
+    exp = "{} < {}.tail(1) < {}".format(sig_start_lmt, sig_name, sig_end_lmt)
+    print("EVAL EXP: '", exp, "'")
+    elv_df = sig_eval.filter_dataframe(signals_list=test_signals)
+    result_eval = elv_df.eval(exp, engine="python")
+    last_value = elv_df[sig_name].iat[-1]
+    contest_asserts.verify(
+        all(result_eval), True,
+        "{} signal last value '{}' is not in range [{} - {}]".format(
+            sig_name, last_value, sig_start_lmt, sig_end_lmt))
+    print("{} signal last value '{}' is in range [{} - {}]".format(
+            sig_name, last_value, sig_start_lmt, sig_end_lmt))
+
+
+@parameterized([
+    ("ars_preclusterlist_cyclecounter", 5270, "==", 10, 20, "both", 12, False),
+    ("Cycle_ID", 212, "==", 10, 20, "both", 171, False)
+])
+def SWT_SIG_EQ_IN_TFv1(
+        signal, exp_value, comparison_operator, tf_start, tf_end, tf_boundary, occ_check, verify):
+    DETAILS("Test case verifying if a specific signal occurs for a particular number of times")
+    DETAILS("Within a given Time Frame")
+    DETAILS("This test case is parameterized which allows users to edit parameter set values")
+    DETAILS("Or select a particular set of values from ConTest GUI")
+
+    VERIFIES("L3_SIG_END_VAL_IN_RANGE")
+
+    TESTTAG("equal")
+
+    TESTCASE()
+
+    TESTSTEP("Fetching signal evaluation class object")
+    EXPECTED("Signal evaluation class object fetched successfully")
+    sig_eval = get_parameter("sig_eval_obj")
+
+    TESTSTEP("Getting the number of occurrences of signal within a Time Frame")
+    EXPECTED("The occurrence value is grabbed successfully within requested Time Frame")
+    signal_occurrence, filtered_df = sig_eval.get_sig_val_occ_in_tf(
+        signal, exp_value, tf_start, tf_end, comparison_operator, None, tf_boundary, True)
+
+    TESTSTEP("Checking if signal occurrence is equal to expected value")
+    EXPECTED("The occurrence value of signal in Time Frame is equal to expected value")
+    if verify:
+        contest_asserts.verify(
+            signal_occurrence, occ_check,
+            "'{} !{} {}' {} time(s) during Time Frame {} to {}".format(
+                signal, comparison_operator, exp_value, occ_check, tf_start, tf_end))
+    print("\n'{} {} {}' {} time(s) during Time Frame {} to {}\n".format(
+            signal, comparison_operator, exp_value, signal_occurrence, tf_start, tf_end))
+
+    # in the end printing the filtered dataframe --> users can also plot the dataframe here
+    # and later add these plots/figures/diagrams in
+    print(filtered_df)

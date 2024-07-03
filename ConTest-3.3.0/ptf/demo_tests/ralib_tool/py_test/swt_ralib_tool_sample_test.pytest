@@ -1,0 +1,141 @@
+"""
+    Copyright 2021 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for usage of RALib tool utils.
+
+    :author:
+        - Vanama Ravi Kumar <ravi.kumar.vanama@continental-corporation.com>
+"""
+
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_RALIB_TOOL_CAPTURE_TESTv1():
+    DETAILS("This is an example test case to capture RTE inputs and outputs of a specific SW-C")
+    DETAILS("This test case is specific to HCP2 Project and HW to be connected.")
+
+    VERIFIES("RaLib Tool APIs")
+
+    TESTTAG("Hil")
+
+    TESTSTEP("Fetching RaLib Tool Instance created in 'global_setup'")
+    EXPECTED("RaLib class instance grabbed successfully")
+    ra_lib_tool = get_parameter("RaLib_tool")
+
+    TESTSTEP("Capturing the RTE Inputs and outputs of a SW-C on debug Ethernet port and "
+             "logging into PCAP format")
+    EXPECTED("Captured the data saved into .pcap format")
+    log_pcap_file = "log_sh00.pcap"
+    swc_names = ['CtApVkmsDiag_SH00']
+
+    ra_lib_tool.capture(log_pcap_file, swc_names)
+
+
+def SWT_RALIB_TOOL_REPLAY_WITHOUT_FILTER_TESTv1():
+    DETAILS("This is an example test case to replay the pcap file based on the SWC's without "
+            "filtering")
+
+    VERIFIES("RaLib Tool APIs")
+
+    TESTTAG("Sil")
+
+    TESTSTEP("Fetching RaLib Tool Instance created in 'global_setup'")
+    EXPECTED("RaLib class instance grabbed successfully")
+    ra_lib_tool = get_parameter("RaLib_tool")
+
+    TESTSTEP("Replaying the PCAP file(captured) based on SW-C and logging into output PCAP format")
+    EXPECTED("Replayed the PCAP file successfully")
+    input_pcap_file = "log_sh00.pcap"
+    output_pcap_file = "test_output_log.pcap"
+    swc_names = ['CtApVkmsProxy_SH00']
+    exclude_swcs = None
+    ra_lib_tool.replay(input_pcap_file, output_pcap_file, swc_names, exclude_swcs)
+
+
+def SWT_RALIB_TOOL_REPLAY_WITH_FILTER_TESTv1():
+    DETAILS("This is an example test case to replay the pcap file based on the SWC's with "
+            "filtered")
+
+    VERIFIES("RaLib Tool APIs")
+
+    TESTTAG("Sil")
+
+    TESTSTEP("Fetching RaLib Tool Instance created in 'global_setup'")
+    EXPECTED("RaLib class instance grabbed successfully")
+    ra_lib_tool = get_parameter("RaLib_tool")
+
+    TESTSTEP("Filtering the PCAP file(captured) based on SW-C and logging into output PCAP format")
+    EXPECTED("Filtered the PCAP file successfully")
+    input_pcap_file = "log_sh00.pcap"
+    swc_names = ['CtApVkmsProxy_SH00']
+    replay_pcap_file = ra_lib_tool.filter(input_pcap_file, swc_names)
+
+    TESTSTEP("Replaying the PCAP file(filtered) and logging into output PCAP format")
+    EXPECTED("Replayed the PCAP file successfully")
+    output_pcap_file = "test_output_replay.pcap"
+    swc_names = []
+    exclude_swcs = None
+    ra_lib_tool.replay(replay_pcap_file, output_pcap_file, swc_names, exclude_swcs)
+
+
+def SWT_RALIB_TOOL_CONVERT_PCAP_TO_CSV_TESTv1():
+    DETAILS("This is an example test case to convert the input PCAP file to CSV files based on "
+            "SW-C")
+
+    VERIFIES("RaLib Tool APIs")
+
+    TESTTAG("Sil")
+
+    TESTSTEP("Fetching RaLib Tool Instance created in 'global_setup'")
+    EXPECTED("RaLib class instance grabbed successfully")
+    ra_lib_tool = get_parameter("RaLib_tool")
+
+    TESTSTEP("Convert the files from PCAP to CSV format")
+    EXPECTED("Converted the files from  PCAP to CSV  successfully")
+    input_pcap_file = "log_sh00.pcap"
+    output_csv_dir = "log_sh00_csv"
+    swc_names = ['CtApVkmsDiag_SH00']
+    ra_lib_tool.convert_pcap_to_csv(input_pcap_file, output_csv_dir, swc_names)
+
+
+def SWT_RALIB_TOOL_CONVERT_CSV_TO_PCAP_TESTv1():
+    DETAILS("This is an example test case to convert the files from CSV to PCAP format ")
+
+    VERIFIES("RaLib Tool APIs")
+
+    TESTTAG("Sil")
+
+    TESTSTEP("Fetching RaLib Tool Instance created in 'global_setup'")
+    EXPECTED("RaLib class instance grabbed successfully")
+    ra_lib_tool = get_parameter("RaLib_tool")
+
+    TESTSTEP("Convert the CSV files to PCAP files")
+    EXPECTED("Converted the files from CSV to PCAP  successfully")
+    input_pcap_dir = "log_sh00_pcap"
+    output_pcap_dir = "log_sh00_csv"
+    ra_lib_tool.convert_csv_to_pcap(input_pcap_dir, output_pcap_dir)
+
+
+def SWT_RALIB_TOOL_COMPARE_TESTv1():
+    DETAILS("This is an example test case to compare recorded RTE signals with RTE signal "
+            "references according to specified allowed deviation file ")
+
+    VERIFIES("RaLib Tool APIs")
+
+    TESTTAG("Sil")
+
+    TESTSTEP("Fetching RaLib Tool Instance created in 'global_setup'")
+    EXPECTED("RaLib class instance grabbed successfully")
+    ra_lib_tool = get_parameter("RaLib_tool")
+
+    TESTSTEP("compare recorded RTE signals with RTE Signal references with specified allowed "
+             "deviation")
+    EXPECTED("Compared the RTE Signals successfully")
+    rte_signals_ = "rte_data.csv"
+    rte_signals_ref = "rte_data_ref.csv"
+    deviation_file = "deviation.csv"
+    ra_lib_tool.compare(rte_signals_, rte_signals_ref, deviation_file)

@@ -1,0 +1,138 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        This file contains sample test(s) for the 4 channel relay control APIs
+
+    :author:
+        - Ganga Prabhakar G <ganga.prabhakar.guntamukkala@continental-corporation.com>
+"""
+
+
+# standard Python import area
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from contest_verify.verify import contest_asserts
+from ptf.ptf_utils.report import DETAILS, PRECONDITION, VERIFIES, TESTTAG, TESTSTEP, EXPECTED, TESTCASE
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_CONRAD_RELAY_ACTIVATIONv1():
+    DETAILS("Demo test to show how to activate CONRAD 4 channel Relays")
+    PRECONDITION("Ensure the relay board is powered and interface connected properly")
+
+    VERIFIES("activate_relays API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD 4 channel Relay control variable created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_4ch_relay = get_parameter("conrad_relay")
+
+    TESTSTEP("Activating the relays 1 and 4 according to mapping")
+    EXPECTED("Relays activated successfully")
+    result = conrad_4ch_relay.activate_relays(0x09)
+    print('resulted relay mapping is: ', result)
+
+
+def SWT_CONRAD_RELAY_DEACTIVATIONv1():
+    DETAILS("Demo test to show how to deactivate CONRAD 4 channel Relays")
+    PRECONDITION("Ensure the relay board is powered and interface connected properly")
+
+    VERIFIES("deactivate_relays API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD 4 channel Relay control variable created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_4ch_relay = get_parameter("conrad_relay")
+
+    TESTSTEP("Deactivating the relays 1 according to mapping")
+    EXPECTED("Relays deactivated successfully")
+    result = conrad_4ch_relay.deactivate_relays(0x01)
+    print('resulted relay mapping is: ', result)
+
+
+def SWT_CONRAD_RELAY_STATUSv1():
+    DETAILS("Demo test to show how to read the CONRAD 4 channel Relays status")
+    PRECONDITION("Ensure the relay board is powered and interface connected properly")
+
+    VERIFIES("relays_status API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD Relay control variable created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_4ch_relay = get_parameter("conrad_relay")
+
+    TESTSTEP("Acquiring the relays status")
+    EXPECTED("Relays status acquired successfully")
+    result = conrad_4ch_relay.relays_status()
+    print('Relays mapping is: ', result)
+
+
+def SWT_CONRAD_RELAY_RESETv1():
+    DETAILS("Demo test to show how to reset the CONRAD 4 channel Relays")
+    PRECONDITION("Ensure the relay board is powered and interface connected properly")
+
+    VERIFIES("reset_relays API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD Relay control variable created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_4ch_relay = get_parameter("conrad_relay")
+
+    TESTSTEP("Resetting relays according to the given mapping")
+    EXPECTED("relays are reset successfully")
+    conrad_4ch_relay.reset_relays(relays=2, target_state="ON")
+
+
+def SWT_CONRAD_RELAY_SET_OFFv1():
+    DETAILS("Demo test to show how to switch all the Relays to OFF")
+    PRECONDITION("Ensure the relay board is powered and interface connected properly")
+
+    VERIFIES("set_all_relays_off API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD Relay control variable created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_4ch_relay = get_parameter("conrad_relay")
+
+    TESTSTEP("Resetting relays according to the given mapping")
+    EXPECTED("relays are reset successfully")
+    conrad_4ch_relay.set_all_relays_off()
+
+
+def SWT_CONRAD_RELAY_SET_ONv1():
+    DETAILS("Demo test to show how to switch all the Relays to ON")
+    PRECONDITION("Ensure the relay board is powered and interface connected properly")
+
+    VERIFIES("set_all_relays_on API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD Relay control variable created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_4ch_relay = get_parameter("conrad_relay")
+
+    TESTSTEP("Resetting relays according to the given mapping")
+    EXPECTED("relays are reset successfully")
+    conrad_4ch_relay.set_all_relays_on()

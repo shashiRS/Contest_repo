@@ -1,0 +1,9 @@
+Kindly note that the libraries/modules inside the file 'ConTest/install_scripts/python_libraries.yml' are
+transitive/runtime dependencies. These dependencies are not part of ConTest release in any way. It is the
+user's responsibility to install these dependencies in their Python environment.
+
+This file is being provided by Continental to the end user.
+
+Copyright Continental AG and subsidiaries
+ConTest: v3.3.0
+Distribution: EXTERNAL

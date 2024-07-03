@@ -1,0 +1,98 @@
+"""
+    Copyright 2021 Continental Corporation
+
+    This file contains up to four methods that will be called by the test framework:
+        - global_setup(): Will be called before ALL test-cases
+        - setup(): Will be called before EACH test-case
+        - teardown(): Will be called after EACH test-case. Will also be called if test-case fails.
+        - global_teardown(): Will be called after ALL test-cases.
+                             Will be called if any execution before fails.
+
+    :file: setup.pytest
+
+    :author:
+        - Praveenkumar G K  <praveenkumar.gomathi.kaliamoorthi@continental-corporation.com>
+"""
+
+
+# standard Python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts and global_params) AS BELOW.
+#        FOR PROPER ERROR REPORTING AND PARAMETER CONTROL
+from ptf.ptf_utils.global_params import set_global_parameter, get_parameter
+from ptf.tools_utils.carmaker import carmaker_utils
+
+
+def global_setup():
+    """
+    This method will be called before ALL test-cases are executed.
+
+    You can set global variables with :func:`set_global_parameter`.
+    Will skip execution of tests if this method fails.
+    """
+    # Creating object of CarMaker tool.
+    cm_app = carmaker_utils.CarMaker()
+
+    # adding CarMaker tool object into global parameter.
+    set_global_parameter("carmaker", cm_app)
+
+    # Starting and establishing telnet connection with CarMaker GUI (Additionally, if CarMaker GUI
+    # opened already with Default port 2327, it tries to establish telnet connection).
+    cm_app.start_carmaker(cm_exe_path=r"C:\LegacyApp\IPG\carmaker\win64-8.1.1\bin\CM.exe")
+
+    cm_app.set_project_dir(project_dirs=r"C:\LegacyApp\IPG\carmaker\win64-8.1.1")
+
+    # selecting right application executable
+    # relative path only supported for "bin" path
+    # otherwise user has to provide absolute path
+    # opt is option command for application supported
+    # target is real time host name for hil
+    cm_app.appl_exe("CarMaker.win64.exe", opt=["-v", "-screen"], target="rtl")
+    # selecting the project dir
+    cm_app.set_project_dir(project_dirs=r"C:\LegacyApp\IPG\carmaker\win64-8.1.1")
+    # getting current loaded project dir
+    print("Current CarMaker Project Dir is ", cm_app.get_project_path())
+    # start connecting the carmaker gui with carmaker appl.
+    cm_app.start_and_connect()
+
+
+
+def global_teardown():
+    """
+    This method will be called after ALL test-cases are executed.
+
+    You can access global variables with :func:`get_parameter`.
+    Guaranteed to be called, even if any test or global setup fails.
+    """
+    cm_app = get_parameter("carmaker")
+    # closing carmaker gui
+    cm_app.close()
+
+
+def setup():
+    """
+    This method will be called before EACH test-case is executed.
+
+    You can set local variables just available for the next test-case
+    using :func:`set_local_parameter`.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Will skip execution of test if this method fails.
+    Skipped if global setup fails.
+    """
+    pass
+
+
+def teardown():
+    """
+    This method will be called after EACH testcase is executed.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Guaranteed to be called, even if the test or setup fails.
+    Skipped if global setup fails.
+    """
+    pass

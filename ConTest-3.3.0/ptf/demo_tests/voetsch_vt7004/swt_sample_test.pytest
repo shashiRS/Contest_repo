@@ -1,0 +1,68 @@
+"""
+    Copyright 2023 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for usage of VOETSCH VT7004 chamber automation APIs.
+
+    :author:
+        - Ganga Prabhakar G <ganga.prabhakar.guntamukkala@continental-corporation.com>
+"""
+
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_MCTB_CHAMBER_TEMP_SET_TESTv1():
+    DETAILS("This is an example test case to set temperature on VOETSCH VT7004 chamber")
+
+    VERIFIES("EnvChamber API set_temperature")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Setting chamber temperature to 30")
+    EXPECTED("Chamber temperature set value is set to 30")
+    print(chamber_obj.set_temperature(30.0))
+
+
+def SWT_MCTB_CHAMBER_TEMP_READ_TESTv1():
+    DETAILS("This is an example test case to read temperature from VOETSCH VT7004 chamber")
+
+    VERIFIES("EnvChamber API read_current_temperature")
+    VERIFIES("EnvChamber API read_set_temperature")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Reading chamber set temperature")
+    EXPECTED("Chamber set temperature is read successfully")
+    print(chamber_obj.read_set_temperature())
+
+    TESTSTEP("Reading chamber current temperature")
+    EXPECTED("Chamber current temperature is read successfully")
+    print(chamber_obj.read_current_temperature())
+
+
+def SWT_MCTB_CHAMBER_GOTO_TEMP_TESTv1():
+    DETAILS("This is an example test case to set temperature on VOETSCH VT7004 chamber")
+
+    VERIFIES("EnvChamber API go_to_temperature")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Setting chamber temperature to 30")
+    EXPECTED("Chamber temperature set value is set to 30")
+    print(chamber_obj.go_to_temperature(30.0))
+

@@ -1,0 +1,82 @@
+"""
+    Copyright 2018 Continental Corporation
+
+    :file: swt_canoe_demo.pytest
+    :platform: Windows
+    :synopsis:
+        File containing demo test(s) for CANoe related APIs
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+
+
+from ptf.ptf_utils.report import DETAILS, PRECONDITION, VERIFIES, TESTTAG, TESTSTEP, EXPECTED, TESTCASE
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_CANOE_DEMO_TESTv1():
+    DETAILS("This is an example test case for checking CANoe APIs on RVS231 ECU")
+    DETAILS("For running this test the ECU HW need to be connected properly")
+    DETAILS("NOTE: This test will only run on RVS231 HW others can take these tests as examples")
+    PRECONDITION("Fill in precondition")
+
+    VERIFIES("L3_SW_CHECK_CANOE")
+
+    TESTTAG("hil")
+
+    TESTSTEP("Grabbing CANoe and ARXML variables created in global setup")
+    EXPECTED("Variables grabbed")
+    canoe_app = get_parameter("canoe")
+    db_app = get_parameter("db")
+
+    TESTSTEP("Running a PTF specific CAPL function")
+    EXPECTED("Function ran successfully")
+    canoe_app.call_capl_function('Test__multiply', [20, 10])
+
+    TESTSTEP("Disabling RVC node")
+    EXPECTED("RVC node disabled")
+    canoe_app.enable_disable_nodes("RVC", False)
+
+    TESTSTEP("Sending a diagnostic command to RVC ECU via a diag node created in cfg")
+    EXPECTED("Diag command sent")
+    resp = canoe_app.send_diag_cmd("10 01", "RVC223")
+    print(resp)
+
+    TESTSTEP("Sending a diagnostic command via ID to RVC ECU via a diag node created in cfg")
+    EXPECTED("Diag command sent")
+    resp = canoe_app.send_diag_cmd_via_id("Default_Start", "RVC223")
+    print(resp)
+
+    TESTSTEP("Reading a signal value")
+    EXPECTED("Value read successfully")
+    val = canoe_app.get_signal_value(
+        'RVC_RVC_HSVL_Container_ST3_DRVM_Msg_ST3',
+        'DRVM_SysMd_Stat_ST3',
+        bus_type="CAN")
+    print("DRVM_SysMd_Stat_ST3 = ", val)
+
+    TESTSTEP("Writing a signal value within 0.6 seconds")
+    EXPECTED("Value written successfully")
+    canoe_app.change_signal_value(
+        'HU_RVC_HSVL_Container_ST3_Ign_Stat_ST3',
+        'ISw_Stat_ST3',
+        db_app.get_constant_value('I_C03_ISW_STAT_IGN_ON'),
+        bus_type="CAN",
+        time_out=0.6)
+
+    TESTSTEP("Checking if a signal is online")
+    EXPECTED("Signal shall be online")
+    canoe_app.check_signal_online(
+        'HU_RVC_HSVL_Container_ST3_Ign_Stat_ST3',
+        'ISw_Stat_ST3')
+
+    TESTSTEP("Checking if a signal value is changed within a tolerance value (+/-)")
+    EXPECTED("Signal value changed accordingly")
+    canoe_app.change_signal_value_with_tolerance(
+        'HU_RVC_HSVL_Container_ST3_EPS_FtWhl_StWhl_Stat_ST3',
+        'EPS_FtWhlAngl_ST3',
+        47.0,
+        0.5e-6
+    )

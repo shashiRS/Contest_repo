@@ -1,0 +1,88 @@
+"""
+    Copyright 2024 Continental Corporation
+
+    :file: swt_<what_ever>.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        <fill_details>
+
+    :author:
+        - <your_name>
+"""
+
+# standard Python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, contest_warn, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from contest_verify.verify import contest_asserts
+from contest_verify.verify import contest_expects
+from contest_verify.verify import contest_warn
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+from ptf.ptf_utils.parameterized import parameterized
+import paths
+import time
+
+@parameterized([
+    ("CHECK_01_TESTv1", paths.TESTRUN_CHECK_01),
+    ("CHECK_02_TESTv1", paths.TESTRUN_CHECK_02),
+])
+
+def SWT_SAMPLE_TESTv1(Test_run, n2):
+    DETAILS("This is FFL Closed Loop testing")
+    DETAILS("Complete simulation process with contest")
+
+    PRECONDITION("Checking the .erg genefrated or not")
+
+    VERIFIES("Mention requirement satisfied by this test case")
+
+    TESTTAG("sil")
+    TESTTAG("hil")
+    TESTTAG("integration")
+    TESTTAG("blackbox")
+
+    TESTSTEP("Fetching carmaker class instance created in 'global_setup'")
+    EXPECTED("Carmaker class instance grabbed successfully")
+    cm_app = get_parameter("carmaker")
+    TESTSTEP("Loading a test run of carmaker")
+    EXPECTED("CarMaker started and test run loaded successfully")
+
+    print("Waiting 5 secs.")
+
+    time.sleep(3)
+    cm_app.load_test_run(path_to_test_run=n2)
+
+    cm_app.start_sim()
+    time.sleep(5)
+    print("Waiting 5 secs.........")
+    #cm_app.simulate()
+    #print("Simulating......")
+    
+    """
+    cm_app.load_test_run(path_to_test_run=paths.TESTRUN_CHECK_01)
+    
+    time.sleep(3)
+    sim_status = cm_app.get_sim_status()
+    print(sim_status)
+    print("*******************************")
+    
+    cm_app.start_sim()
+    time.sleep(3)
+    cm_app.simulate()
+    
+    #time.sleep(3)
+    #cm_app.load_test_run(path_to_test_run=paths.TESTRUN_CHECK_02)
+    #time.sleep(3)
+    #sim_status = cm_app.get_sim_status()
+    #print(sim_status)
+    #print("*******************************")
+    
+    #cm_app.start_sim()
+    #time.sleep(3)
+    #cm_app.simulate()
+    """
+
+
+   

@@ -1,0 +1,35 @@
+# Ignore file for git
+
+# VS Code IDE
+.vscode/
+
+# Python virtual environment
+venv/
+
+# Python compiled files & pytest cache
+*.pyc
+*.pyo
+*.pytestc
+.cache/
+.idea/
+
+# report folders to ignore if created
+contest__*/
+
+# doc build folder to ignore
+build/
+api_doc/
+global_param_doc/
+verify_doc/
+global_param_auto.rst
+tool_api_auto.rst
+verify_api_auto.rst
+
+# ignoring compiled CAPL files
+*.cbf
+
+# ignoring CANoe stfg file
+*.stcfg
+
+# Automatically downloaded webdriver
+bin/webdriver/chromedriver.exe

@@ -1,0 +1,75 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    Sample setup.pytest used for release testing of ConTest.
+
+    This file contains up to four methods that will be called by the test framework:
+        - global_setup(): Will be called before ALL test-cases
+        - setup(): Will be called before EACH test-case
+        - teardown(): Will be called after EACH test-case. Will also be called if test-case fails.
+        - global_teardown(): Will be called after ALL test-cases.
+                             Will be called if any execution before fails.
+
+    :file: setup.pytest
+
+    :author:
+        - Vanama Ravi Kumar <ravi.kumar.vanama@continental-corporation.com>
+"""
+
+# standard Python import area
+
+
+# PTF or custom import area
+# NOTE : ALWAYS IMPORT (ptf_expects, ptf_asserts and global_params) AS BELOW.
+#        FOR PROPER ERROR REPORTING AND PARAMETER CONTROL
+from ptf.verify_utils import ptf_asserts
+from ptf.verify_utils import ptf_expects
+from ptf.ptf_utils.global_params import *
+
+
+def global_setup():
+    """
+    This method will be called before ALL test-cases are executed.
+
+    You can set global variables with :func:`set_global_parameter`.
+    Will skip execution of tests if this method fails.
+    """
+    raise RuntimeError("Failure")
+
+
+def global_teardown():
+    """
+    This method will be called after ALL test-cases are executed.
+
+    You can access global variables with :func:`get_parameter`.
+    Guaranteed to be called, even if any test or global setup fails.
+    """
+    pass
+
+
+def setup():
+    """
+    This method will be called before EACH test-case is executed.
+
+    You can set local variables just available for the next test-case
+    using :func:`set_local_parameter`.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Will skip execution of test if this method fails.
+    Skipped if global setup fails.
+    """
+    raise RuntimeError("Failure")
+
+
+def teardown():
+    """
+    This method will be called after EACH testcase is executed.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Guaranteed to be called, even if the test or setup fails.
+    Skipped if global setup fails.
+    """
+    pass
+

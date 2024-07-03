@@ -1,0 +1,40 @@
+
+@startuml{tests.png}
+
+node "Setup [setup.pytest]" as setup {
+    node "Function to be called before\nall tests" <<global_setup>> as glob_setup
+    node "Function to be called after\nall tests" <<global_teardown>> as glob_teardown
+    node "Function to be called before\neach tests" <<setup>> as atomic_setup
+    node "Function to be called after\neach tests" <<teardown>> as atomic_teardown
+}
+
+node "Utils" as utils {
+    node "Variable Container" <<global_params>> as var
+    node "Automated Tools APIs" <<tools_utils>> as tools
+    node "Verify Utils" <<verify_utils>> as verify
+}
+
+node "Tests" as tests {
+    node "Second test script" <<swt_my_test_2.pytest>> as test_2
+    node "First test script" <<swt_my_test_1.pytest>> as test_1
+}
+
+
+setup <-> utils: Create or access variables\nUse tools APIs and\nError handling and verification
+tests <-> utils: Create or access variables\nUse tools APIs and\nError handling and verification
+
+skinparam node {
+    backgroundColor<<global_setup>> Orange
+    backgroundColor<<global_teardown>> Orange
+    backgroundColor<<setup>> Orange
+    backgroundColor<<global_params>> LightGreen
+    backgroundColor<<tools_utils>> LightGreen
+    backgroundColor<<teardown>> Orange
+    backgroundColor<<swt_my_test_2.pytest>> Orange
+    backgroundColor<<swt_my_test_1.pytest>> Orange
+    backgroundColor<<verify_utils>> LightGreen
+
+}
+
+
+@enduml

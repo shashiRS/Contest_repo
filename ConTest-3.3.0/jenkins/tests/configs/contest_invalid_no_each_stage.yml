@@ -1,0 +1,6 @@
+# Configuration without "each" tag in "stage". This should fail.
+
+# Stage specific configuration
+stage:
+  # This will be ignored, the test should fail because of missing "each" tag
+  foo:

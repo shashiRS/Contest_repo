@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "ConTest json chamber registers address or commands schema",
+  "properties": {
+    "commands": {
+      "type": "object",
+      "description": "Object with different chamber's register addresses or commands",
+      "properties": {
+        "CSZ-MCTB": {
+          "type": "object",
+          "description": "Object with CSZ-MCTB chamber register addresses holding different chamber information",
+          "properties": {
+            "LP1_PV": {
+              "type": "integer",
+              "description": "Register address of LP1_PV (Loop1 Process Value), which is Current chamber temperature"
+            },
+            "LP1_SP": {
+              "type": "integer",
+              "description": "Register address of LP1_SP (Loop1 Set Point), which is Set value of the chamber temperature"
+            },
+            "LP2_PV": {
+              "type": "integer",
+              "description": "Register address of LP1_PV (Loop2 Process Value), which is Current chamber humidity"
+            },
+            "LP2_SP": {
+              "type": "integer",
+              "description": "Register address of LP1_SP (Loop1 Set Point), which is Set value of the chamber humidity"
+            },
+            "Prog_Name_Start": {
+              "type": "integer",
+              "description": "Starting register address of the program name"
+            },
+            "Prog_Name_Length": {
+              "type": "integer",
+              "description": "Total no of registers in which the program name is spread"
+            }
+          }
+        }
+      }
+    }
+  }
+}

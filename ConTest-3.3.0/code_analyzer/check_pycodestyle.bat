@@ -1,0 +1,1 @@
+pycodestyle --exclude venv,mfile,design_files,resource_rc.py --config=%~dp0\pep8.config %~dp0\..

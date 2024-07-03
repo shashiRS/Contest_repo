@@ -1,0 +1,41 @@
+"""
+    Copyright 2019 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for DTS tool.
+
+    :author:
+        - - Praveenkumar G K  <praveenkumar.gomathi.kaliamoorthi@continental-corporation.com>
+"""
+
+
+# standard Python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from contest_verify.verify import contest_asserts
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_SAMPLE_TESTv1():
+    DETAILS("Sample test for DTS diagnostics")
+    PRECONDITION("No precondition")
+
+    VERIFIES("L3_SW_")
+
+    TESTTAG("hil")
+    TESTCASE()
+    dts = get_parameter("dts")
+    TESTSTEP(
+        "reading a service ReadDataByIdentifier_GeneralECM_Coding from logical link LL_ECM_UDS")
+    EXPECTED("Response expected: 62 10 3 1 45 52 5f 33 31 31 5f 53 32 32 5f 45 55 35")
+    response = dts.send_diag_cmd_via_id("ReadDataByIdentifier_GeneralECM_Coding", "LL_ECM_UDS")
+
+    contest_asserts.verify(response,
+                       "62 10 3 1 45 52 5f 33 31 31 5f 53 32 32 5f 45 55 35",
+                       "Response is not as expected")

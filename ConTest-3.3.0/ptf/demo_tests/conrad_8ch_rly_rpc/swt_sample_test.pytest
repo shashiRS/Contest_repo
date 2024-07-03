@@ -1,0 +1,87 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        This file contains sample test(s) for APIs to control CONRAD 8 channel relay over RPC.
+
+    :author:
+        - Ganga Prabhakar G <ganga.prabhakar.guntamukkala@continental-corporation.com>
+"""
+
+
+# standard Python import area
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from contest_verify.verify import contest_asserts
+from ptf.ptf_utils.report import DETAILS, PRECONDITION, VERIFIES, TESTTAG, TESTSTEP, EXPECTED, TESTCASE
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_CONRAD_RELAY_ACTIVATIONv1():
+    DETAILS("Demo test to show how to activate CONRAD 8 channel Relay using RPC")
+    PRECONDITION("Ensure the relay board is powered and relay control application is "
+                 "running on the remote PC")
+
+    VERIFIES("activate_single_relay API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD 8 channel Relay RPC control object created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_8ch_relay = get_parameter("conrad_rpc")
+
+    TESTSTEP("Activating the 2nd relay in Conrad 8 channel relay")
+    EXPECTED("Relay activated successfully")
+    conrad_8ch_relay.activate_single_relay(0x02)
+
+
+def SWT_CONRAD_RELAY_DEACTIVATIONv1():
+    DETAILS("Demo test to show how to deactivate CONRAD 8 channel Relay using RPC")
+    PRECONDITION("Ensure the relay board is powered and relay control application is "
+                 "running on the remote PC")
+
+    VERIFIES("deactivate_single_relay API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD 8 channel Relay RPC control object created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_8ch_relay = get_parameter("conrad_rpc")
+
+    TESTSTEP("Deactivating the relay 2 according to mapping")
+    EXPECTED("Relay deactivated successfully")
+    conrad_8ch_relay.deactivate_single_relay(0x02)
+
+
+def SWT_CONRAD_RELAY_STATUSv1():
+    DETAILS("Demo test to show how to read CONRAD 8 channel Relay status using RPC")
+    PRECONDITION("Ensure the relay board is powered and relay control application is "
+                 "running on the remote PC")
+
+    VERIFIES("get_single_relay_status API")
+
+    TESTTAG("HIL")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing CONRAD 8 channel Relay RPC control object created in global setup")
+    EXPECTED("Variables grabbed")
+    conrad_8ch_relay = get_parameter("conrad_rpc")
+
+    TESTSTEP("Acquiring the relay_1 status")
+    EXPECTED("Relay status acquired successfully")
+    rly_1 = conrad_8ch_relay.get_single_relay_status(channel=1)
+    print('Relay channel no.1 status is: ', rly_1)
+
+    TESTSTEP("Acquiring the relay_2 status")
+    EXPECTED("Relay status acquired successfully")
+    rly_2 = conrad_8ch_relay.get_single_relay_status(channel=2)
+    print('Relay channel no.2 status is: ', rly_2)

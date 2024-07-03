@@ -1,0 +1,93 @@
+"""
+    Copyright 2019 Continental Corporation
+
+    This file contains up to four methods that will be called by the test framework:
+        - global_setup(): Will be called before ALL test-cases
+        - setup(): Will be called before EACH test-case
+        - teardown(): Will be called after EACH test-case. Will also be called if test-case fails.
+        - global_teardown(): Will be called after ALL test-cases.
+                             Will be called if any execution before fails.
+
+    :file: setup.pytest
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+
+# standard Python import area
+import os
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts and global_params) AS BELOW.
+#        FOR PROPER ERROR REPORTING AND PARAMETER CONTROL
+from contest_verify.verify import contest_asserts
+from contest_verify.verify import contest_expects
+from ptf.ptf_utils.global_params import *
+import ptf.tools_utils.lauterbach.lauterbach as lauterbach_util
+
+
+def global_setup():
+    """
+    This method will be called before ALL test-cases are executed.
+
+    You can set global variables with :func:`set_global_parameter`.
+    Will skip execution of tests if this method fails.
+    """
+    # creating lauterbach instance for 't32marm' core and assigning it to a global variable
+    t32_marm = lauterbach_util.Lauterbach(
+        t32_app=r"C:\T32\bin\windows64\t32marm.exe",
+        t32_cfg=os.path.join(os.path.dirname(__file__), "config_marm.t32"),
+        multicore=True)
+    set_global_parameter("t32_marm", t32_marm)
+
+    # creating lauterbach instance for 't32marm64' core and assigning it to a global variable
+    t32_marm64 = lauterbach_util.Lauterbach(
+        t32_app=r"C:\T32\bin\windows64\t32marm64.exe",
+        t32_cfg=os.path.join(os.path.dirname(__file__), "config_marm_64.t32"),
+        multicore=True)
+    set_global_parameter("t32_marm64", t32_marm64)
+
+
+def global_teardown():
+    """
+    This method will be called after ALL test-cases are executed.
+
+    You can access global variables with :func:`get_parameter`.
+    Guaranteed to be called, even if any test or global setup fails.
+    """
+    # grabbing cores instances
+    t32_marm = get_parameter("t32_marm")
+    t32_marm64 = get_parameter("t32_marm64")
+    # make sure to close 't32marm' core since it's master core
+    # if it's not closed first then next execution will have remote API connection issues
+    t32_marm.close()
+    t32_marm64.close()
+
+
+def setup():
+    """
+    This method will be called before EACH test-case is executed.
+
+    You can set local variables just available for the next test-case
+    using :func:`set_local_parameter`.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Will skip execution of test if this method fails.
+    Skipped if global setup fails.
+    """
+    pass
+
+
+def teardown():
+    """
+    This method will be called after EACH testcase is executed.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Guaranteed to be called, even if the test or setup fails.
+    Skipped if global setup fails.
+    """
+    pass
+

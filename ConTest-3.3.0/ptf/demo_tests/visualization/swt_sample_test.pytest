@@ -1,0 +1,123 @@
+"""
+    Copyright 2019 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        File containing test(s) related to images.
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+
+# standard Python import area
+import os
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter, add_file_hyperlink_to_html_report
+
+# fetching directory name of this file during import process
+CURRENT_FILE_DIR = os.path.dirname(__file__)
+
+
+def SWT_IMAGE_COMPARISONv1():
+    DETAILS("Sample test for comparing images using Structural Similarity (SSIM) algorithm.")
+    DETAILS("A reference image will be used with which some test images will be compared.")
+    DETAILS("Test images will be the modified versions of reference image.")
+
+    PRECONDITION("Images under test should exist on machine.")
+
+    VERIFIES("L3_SW_IMAGE_COMPARISON")
+
+    TESTTAG("blackbox")
+
+    TESTSTEP("Grabbing object of Image utility class")
+    EXPECTED("Object grabbed successfully")
+    img_utils = get_parameter("img_utils")
+
+    TESTSTEP("Assigning images paths to variables")
+    reference_img = os.path.join(CURRENT_FILE_DIR, "test_images", "example_input.png")
+    blur_img = os.path.join(CURRENT_FILE_DIR, "test_images", "img_blurred.png")
+    shift_x = os.path.join(CURRENT_FILE_DIR, "test_images", "img_shift_x.png")
+    shift_y = os.path.join(CURRENT_FILE_DIR, "test_images", "img_shift_y.png")
+    shift_xy = os.path.join(CURRENT_FILE_DIR, "test_images", "img_shift_xy.png")
+
+    # adding files to html report
+    add_file_hyperlink_to_html_report([reference_img,
+                                       blur_img, shift_x, shift_xy])
+
+    TESTSTEP("Comparing reference image with itself with 1.0 threshold i.e. perfect match.")
+    EXPECTED("Comparison should pass.")
+    img_utils.compare_images(reference_img, reference_img)
+
+    TESTSTEP("Comparing reference image with blurred version of reference image.")
+    TESTSTEP("Threshold is 0.9")
+    EXPECTED("Comparison should pass with given threshold")
+    img_utils.compare_images(reference_img, blur_img, threshold=0.9)
+
+    TESTSTEP("Comparing reference image with x-shifted version of reference image.")
+    TESTSTEP("Threshold is 0.9")
+    EXPECTED("Comparison should pass with given threshold")
+    img_utils.compare_images(reference_img, shift_x, threshold=0.9)
+
+    TESTSTEP("Comparing reference image with y-shifted and xy-shifted versions of reference image.")
+    TESTSTEP("Threshold is 0.9")
+    EXPECTED("Comparison should pass with given threshold")
+    img_utils.compare_images(reference_img, [shift_y, shift_xy], threshold=0.9)
+
+
+def SWT_CAPTURE_IMAGEv1():
+    DETAILS("Capturing image")
+    PRECONDITION("Camera is connected properly")
+    VERIFIES("L3_SW_IMAGE_CAPTURE")
+
+    TESTTAG("blackbox")
+
+    TESTCASE()
+    TESTSTEP("Grabbing image utility object")
+
+    # getting object of image utility
+    img_utils = get_parameter("img_utils")
+    # capturing image with time stamp on image file name
+    # default image format is .png
+    TESTSTEP("Capturing image with time stamp info with image format in .png")
+    EXPECTED("Object captured successfully")
+    img_utils.capture_image(0, CURRENT_FILE_DIR, "captured_img", timestamp=True)
+    # user can change image format to .bmp or .jpg
+    TESTSTEP(
+        "Capturing image without time stamp info with image format in .bmp and color format as RGB")
+    EXPECTED("Object captured successfully")
+    img_utils.capture_image(0, CURRENT_FILE_DIR, "captured_img", image_format=".bmp",
+                            color_format="RGB")
+    
+
+
+def SWT_ADD_FILES_TO_HTML_REPORTv1():
+    DETAILS("Adding the files to test case html report")
+    VERIFIES("SW_FILES_DETAILS ADDED")
+
+    TESTTAG("blackbox")
+
+    TESTCASE()
+    TESTSTEP("Grabbing the files")
+
+    TESTSTEP("Added CarModel")
+    CarModel_OGray = os.path.join(CURRENT_FILE_DIR, "test_images", "CarModel_OGray.jpg")
+    IMAGE(CarModel_OGray)
+    TESTSTEP("Added FV_Crossing_1")
+    FV_Crossing_1 = os.path.join(CURRENT_FILE_DIR, "test_images", "FV_Crossing_1.jpg")
+    IMAGE(FV_Crossing_1)
+
+    TESTSTEP("accelx_graph")
+    accelx_graph = os.path.join(CURRENT_FILE_DIR, "test_images", "accelx_graph.html")
+
+    EXPECTED("Files added to test case html report")
+    # adding the files as a string
+    add_file_hyperlink_to_html_report(FV_Crossing_1)
+
+    # adding the files as a list
+    add_file_hyperlink_to_html_report([accelx_graph, CarModel_OGray])

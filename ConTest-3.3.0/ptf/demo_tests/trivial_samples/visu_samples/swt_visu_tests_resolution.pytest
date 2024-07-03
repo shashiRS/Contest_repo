@@ -1,0 +1,161 @@
+"""
+ Copyright 2017 Continental Corporation
+
+ Author:
+    M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+
+ File:
+    swt_visu_tests_resolution.pytest
+
+ Details:
+    File containing visualization tests
+"""
+
+
+import os
+import numpy as np
+
+# PTF related imports
+from contest_verify.verify import contest_asserts
+from ptf.ptf_utils.report import *
+
+# fetching directory name of this file during import process
+CURRENT_FILE_DIR = os.path.dirname(__file__)
+
+
+def SWT_VISU_IMG_RESOLUTION_PASSv1():
+    DETAILS("The test will verify this requirement by verifying the output ")
+    DETAILS("image resolution")
+    DETAILS("and the result is dumped into log file for the detail ")
+    DETAILS("verification")
+
+    VERIFIES("L3SW_SVU2x0_SV_841")
+
+    TESTTAG("requirement")
+    TESTTAG("design-driven")
+    TESTTAG("blackbox")
+    TESTTAG("regression")
+
+    TESTSTEP("Setting-up expected values for height, width and channel")
+    expected_width = 1920
+    expected_height = 1080
+    expected_channels = 3
+    expected_resolution = np.array(
+        [expected_height, expected_width, expected_channels])
+
+    TESTSTEP("Setting-up path for stored images")
+    image_path = os.path.join(CURRENT_FILE_DIR, 'output_images/%05d.png')
+
+    error_frame_count = 0
+
+    TESTSTEP("Creating instance of video capture object")
+    EXPECTED("Object created successfully")
+    import cv2
+    cap = cv2.VideoCapture(image_path)
+
+    TESTSTEP("Opening up captures object")
+    EXPECTED("Object opened successfully")
+    contest_asserts.verify(cap.isOpened(), True, 'Unable to read the image')
+
+    TESTSTEP("Check all images in a loop and performing following steps for ")
+    TESTSTEP("each image")
+    TESTSTEP("1. Check the resolution of the image")
+    TESTSTEP("2. Put the image (actual) resolution in an array")
+    TESTSTEP("3. Now compare actual resolution with expected resolution")
+    EXPECTED("Actual resolution shall be equal to expected one for each image")
+    while cap.isOpened():
+        read_success, frame = cap.read()
+        if read_success:
+            rows, cols, channels = frame.shape
+            print('Frame Number:', (cap.get(cv2.CAP_PROP_POS_FRAMES)))
+            actual_resolution = np.array([rows, cols, channels])
+            if np.array_equal(actual_resolution, expected_resolution):
+                print('*' * 20, 'PASS', '*' * 20)
+            else:
+                print("actualHeight:", actual_resolution[0])
+                print("actualWidth:", actual_resolution[1])
+                print("actualChannels:", actual_resolution[2])
+                print("pixel resolution doesn't match with image resolution")
+                print("expectedHeight,", expected_resolution[0])
+                print("expectedWidth,", expected_resolution[1])
+                print("expectedChannels,", expected_resolution[2])
+                print('*' * 20, 'FAIL', '*' * 20)
+                error_frame_count += 1
+        else:
+            break
+
+    print('Total number of images:', (cap.get(cv2.CAP_PROP_FRAME_COUNT)))
+    cap.release()
+
+    TESTSTEP("Check if any error frame found")
+    EXPECTED("No error frame shall be present")
+    contest_asserts.verify(error_frame_count, 0, 'error_frame_count != 0')
+    print('Total number of failed frame:', error_frame_count)
+
+
+def SWT_VISU_IMG_RESOLUTION_FAILv1():
+    DETAILS("The test will verify this requirement by verifying the output ")
+    DETAILS("image resolution and the result is dumped into log file for ")
+    DETAILS("the detail verification.")
+
+    VERIFIES("L3SW_SVU2x0_SV_841")
+
+    TESTTAG("requirement")
+    TESTTAG("design-driven")
+    TESTTAG("blackbox")
+    TESTTAG("regression")
+
+    TESTSTEP("Setting-up expected values for height, width and channel")
+    expected_width = 1918
+    expected_height = 1080
+    expected_channels = 3
+    expected_resolution = np.array(
+        [expected_height, expected_width, expected_channels])
+
+    TESTSTEP("Setting-up path for stored images")
+    image_path = os.path.join(CURRENT_FILE_DIR, 'output_images/%05d.png')
+
+    error_frame_count = 0
+    TESTSTEP("Creating instance of video capture object")
+    EXPECTED("Object created successfully")
+    import cv2
+    cap = cv2.VideoCapture(image_path)
+
+    TESTSTEP("Opening up captures object")
+    EXPECTED("Object opened successfully")
+    contest_asserts.verify(cap.isOpened(), True, 'Unable to read the image')
+
+    TESTSTEP("Check all images in a loop and performing following steps for ")
+    TESTSTEP("each image")
+    TESTSTEP("1. Check the resolution of the image")
+    TESTSTEP("2. Put the image (actual) resolution in an array")
+    TESTSTEP("3. Now compare actual resolution with expected resolution")
+    EXPECTED("Actual resolution shall be equal to expected one for each image")
+    while cap.isOpened():
+        read_success, frame = cap.read()
+        if read_success:
+            rows, cols, channels = frame.shape
+            print('Frame Number:', (cap.get(cv2.CAP_PROP_POS_FRAMES)))
+            actual_resolution = np.array([rows, cols, channels])
+            if np.array_equal(actual_resolution, expected_resolution):
+                print('*' * 20, 'PASS', '*' * 20)
+            else:
+                print("actualHeight:", actual_resolution[0])
+                print("actualWidth:", actual_resolution[1])
+                print("actualChannels:", actual_resolution[2])
+                print("pixel resolution doesn't match with image resolution")
+                print("expectedHeight,", expected_resolution[0])
+                print("expectedWidth,", expected_resolution[1])
+                print("expectedChannels,", expected_resolution[2])
+                print('*' * 20, 'FAIL', '*' * 20)
+                error_frame_count += 1
+        else:
+            break
+
+    print('Total number of images:', (cap.get(cv2.CAP_PROP_FRAME_COUNT)))
+    cap.release()
+
+    TESTSTEP("Check if any error frame found")
+    EXPECTED("No error frame shall be present")
+    contest_asserts.verify(error_frame_count, 0, 'error_frame_count != 0')
+    print('Total number of failed frame:', error_frame_count)

@@ -1,0 +1,33 @@
+"""
+    Copyright 2023 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for chilis tool.
+
+    :author:
+        - Praveenkumar G K  <praveenkumar.gomathi.kaliamoorthi@continental-corporation.com>
+"""
+
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_CHILIS_REMOTE_SIMULATION_TESTv1():
+    DETAILS("Sample to test case to show Chilis remote simulation")
+    VERIFIES("chilis_simulation")
+    TESTTAG("HiL")
+    TESTCASE()
+
+    chilis = get_parameter("chilis_tool")
+    # chilis simulation step
+    TESTSTEP("Trigger remote simulation")
+    EXPECTED("No PTF assert expected during chilis_remote_sim call")
+    # below is fire and forget call, user has to take care of the inputs existence
+    # all the necessary paths are from remote host
+    chilis.chilis_remote_sim(
+        r_path_to_chilis_ini=r"D:\tools\tools\CHiLISprojects\ARS540BW11_RDH_Cube_Ulmtest\CHiLIS.ini",
+        r_path_to_recording=r"D:\tools\tools\Recordings\ARS540BW11\2020.07.09_at_17.07.36_radar-mi_5025_onroad.rrec",
+        r_path_to_store_log=r"D:\tools\tools\Logs"
+    )

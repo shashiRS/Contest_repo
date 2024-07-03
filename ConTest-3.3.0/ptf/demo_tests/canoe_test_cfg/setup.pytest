@@ -1,0 +1,76 @@
+"""
+    This file contains the (global_)setup and (global_)teardown methods.
+    Copyright 2022 Continental Corporation
+
+    This file contains up to four methods that will be called by the test framework:
+        - global_setup(): Will be called before ALL testcases
+        - setup(): Will be called before EACH testcase
+        - teardown(): Will be called after EACH testcase. Will also be called if testcase fails.
+        - global_teardown(): Will be called after ALL testcases.
+                             Will be called if any execution before fails.
+
+    :file: setup.pytest
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+from ptf.ptf_utils.global_params import *
+from ptf.tools_utils.canoe import canoe
+
+
+# change these paths if you want to run demo tests using CANoe
+CFG_PATH = r"D:\workspace\vTestStudio\UDSBasic.cfg"
+HSI_VTUEXE_PATH = r"D:\workspace\vTestStudio\Executables\HSI_TestUnit.vtuexe"
+VOLTAGE_VTUEXE_PATH = r"D:\workspace\vTestStudio\Executables\Volage_TestUnit.vtuexe"
+
+
+def global_setup():
+    """
+    This method will be called before ALL testcases are executed.
+    You can set global variables with :func:`set_global_parameter`.
+    Will skip execution of tests if this method fails.
+    """
+    canoe_app = canoe.Canoe()
+    print(get_cfg_paths())
+    canoe_app.open_cfg(
+        cfg_name=CFG_PATH,
+        # to store report at
+        # `<contest_html_report_dir>/CANoe__<canoe_cfg_name>__<test_cfg_name>.html`
+        test_cfg_report_path=get_cfg_paths("htmlReport"),
+        disable_meas_events=True,
+        visible=True)
+    canoe_app.start_simulation()
+    set_global_parameter("canoe", canoe_app)
+    set_global_parameter("hsi_vtuexe", HSI_VTUEXE_PATH)
+    set_global_parameter("voltage_vtuexe", VOLTAGE_VTUEXE_PATH)
+
+
+def setup():
+    """
+    This method will be called before EACH testcase is executed.
+    You can set global variables with :func:`set_global_parameter` and local variables just
+    available for the next testcase using :func:`set_local_parameter`.
+    Will skip execution of test if this method fails.
+    Skipped if global setup fails.
+    """
+    pass
+
+
+def teardown():
+    """
+    This method will be called after EACH testcase is executed.
+    Guaranteed to be called, even if the test or setup fails.
+    Skipped if global setup fails.
+    """
+    canoe_app = get_parameter("canoe")
+    canoe_app.start_simulation()
+
+
+def global_teardown():
+    """
+    This method will be called after ALL testcases are executed.
+    Guaranteed to be called, even if any test or global setup fails.
+    """
+    canoe_app = get_parameter("canoe")
+    canoe_app.stop_simulation()
+    canoe_app.close()

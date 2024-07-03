@@ -1,0 +1,177 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    :file: swt_esys_tool_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for usage of E-Sys tool utils.
+
+    :author:
+        - Vanama Ravi Kumar <ravi.kumar.vanama@continental-corporation.com>
+        - Blaser, Timo <Timo.Blaser@continental-corporation.com>
+"""
+
+import os
+import glob
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+path_to_sw_src = 'D:\\SW\\ARS540BW11_SW_GENERIC_PATH\\'
+
+PASSAT_B8 = {
+    "WheelBase_ASIL_CRC": "101",
+    "VehicleLength_ASIL": "102",
+    "VehicleLength_ASIL_CRC": "485",
+    "WheelBase_ASIL": "103",
+    # "MountingHeight_FRONT_ASIL": "75",
+    # "MountingOffsetLong_FRONT_ASIL": "189",
+    # "MountingHeight_FRONT_ASIL_CRC": "98",
+    # "MountingOffsetLong_FRONT_ASIL_CRC": "83",
+    "MountingHeightML2_ASIL": "100",
+    "MountingOffsetLong_ASIL": "100",
+    "MountingHeightML2_ASIL_CRC": "100",
+    "MountingOffsetLong_ASIL_CRC": "100",
+    "CountryType_ASIL_CRC": "99",
+    "CountryType_ASIL_PDU": "03",
+    "TypeSteering_ASIL_CRC": "26",
+    "TypeSteering_ASIL_PDU": "011",
+    "TypeVehicle_ASIL_PDU": "135",
+    "TypeVehicle_ASIL_CRC": "451",
+    "EnableBraking_GVB": "121",
+    "EnableBraking_LAW": "131",
+    "EnableBraking_QVA": "141",
+    "EnableBraking_iBrake": "256",
+    "Enable_LAW": "171",
+    "Enable_QVA": "181",
+    "Enable_iBrake": "191",
+    "Enable_pFGS": "211",
+}
+
+INPUT_FWL_FILE = r"D:/MyWork/fwl-update-python-master/input/0_FRR-30_5AU_cafd_00006ba9_033_007_002.fwl"
+OUTPUT_FWL_FILE = r"D:/MyWork/fwl-update-python-master/input/0_FRR-30_5AU_cafd_00006ba9_033_007_002.fwl"
+
+
+def listdirwithextension(path_to_folder, extension):
+    for file in os.listdir(path_to_folder):
+        if file.endswith(extension):
+            # print(file)
+            file = file.replace('.pdx', '')
+            print(file)
+            return file
+
+
+def SWT_ESYS_TOOL_AUTHENTICATEv1():
+    DETAILS("This is an example test case to Authenticate E-Sys server")
+    DETAILS("This test case is specific to ARS540BW11 Project.")
+
+    VERIFIES("E-Sys Tool APIs")
+
+    TESTTAG("Hil")
+
+    TESTSTEP("Fetching E-Sys Tool Instance created in 'global_setup'")
+    EXPECTED("E-Sys class instance grabbed successfully")
+    esys_tool = get_parameter("ESys_tool")
+
+    TESTSTEP("Starting the authentication")
+    EXPECTED("Authentication done successfully.")
+    user = ""
+    connection = ""
+    esys_tool.authenticate(user, connection)
+
+
+def SWT_ESYS_TOOL_Import_PDX():
+    DETAILS("This is an example test case to Import PDX")
+    DETAILS("This test case is specific to ARS540BW11 Project.")
+    VERIFIES("E-Sys Tool APIs")
+    TESTTAG("Hil")
+    TESTSTEP("Fetching E-Sys Tool Instance created in 'global_setup'")
+    EXPECTED("E-Sys class instance grabbed successfully")
+    esys_tool = get_parameter("ESys_tool")
+
+    SW_LABEL_VAL = sorted(glob.glob(os.path.join(path_to_sw_src, '*/')), key=os.path.getmtime)[-1]
+    SW_LABEL_VAL = os.path.basename(os.path.dirname(SW_LABEL_VAL))
+    esys_tool.import_pdx(
+        f"{path_to_sw_src + SW_LABEL_VAL}\\pdx\\FRR__30__I020.{SW_LABEL_VAL[14:]}.pdx",
+        f"G070_FRR__30__I020.{SW_LABEL_VAL[14:]}")
+
+    cafd = listdirwithextension(r"C:\Data\psdzdata\swe\cafd", '')
+    print(cafd[18:])
+    with open(r"C:\EC-Apps\ESG\E-Sys\config\connection.properties", "w") as file:
+        CONNECTION = "vin"
+        GATEWAY_VIN = "BMWTEST111H123456_DIAGADR10"
+        URL = "169.254.63.13"
+        VEHICLEINFO = "G070"
+        file.write(f"CONNECTION = {CONNECTION}\n")
+        file.write(f"GATEWAY_VIN = {GATEWAY_VIN}\n")
+        file.write(f"URL = {URL}\n")
+        file.write(f"VEHICLEINFO = {VEHICLEINFO}\n")
+        file.write(f"PROJECT = G070_FRR__30__I020.{SW_LABEL_VAL[14:]}\n")
+    with open("C:\\Data\\config.cfg", "w") as file:
+        file.write(
+            f"TAL = D:\\\\SW\\\\ARS540BW11_SW_GENERIC_PATH\\\\{SW_LABEL_VAL}\\\\pdx\\\\Tals_for_D1_Sample_ESys_flashing\\\\TAL_FRR__30__I020.{SW_LABEL_VAL[14:]}_for_D1.xml\n")
+        file.write(f"PROJECT = G070_FRR__30__I020.{SW_LABEL_VAL[14:]}\n")
+        file.write(f"FA = D:\\\\data\\\\Fahrzeug_VIN_Test\\\\FA_aus_VCM_1244.xml\n")
+        file.write(f"CODING_TYPE = ncd \n")
+        file.write(f"USE_LOCAL_NCD = on \n")
+        file.write(f"PATH_NCD = C:\\\\Data\\\\CAF\\\\NCD\\\\signed\\\\WBACR61030LJ09214\\\\ \n")
+        file.write(
+            f"NCD_LIST = C:\\\\Data\\\\CAF\\\\NCD\\\\signed\\\\WBACR61030LJ09214\\\\00008A27_00006ba9.caf.{cafd[18:]}.ncd\n")
+        file.write(f"VEHICLEINFO = G070 \n")
+
+
+def SWT_ESYS_TOOL_Generate_NCD():
+    DETAILS("This is an example test case to Generate NCD")
+    DETAILS("This test case is specific to ARS540BW11 Project.")
+    VERIFIES("E-Sys Tool APIs")
+    TESTTAG("Hil")
+    TESTSTEP("Fetching E-Sys Tool Instance created in 'global_setup'")
+    EXPECTED("E-Sys class instance grabbed successfully")
+    esys_tool = get_parameter("ESys_tool")
+
+    esys_tool.generate_ncd(r'D:\data\Fahrzeug_VIN_Test\FA_aus_VCM_1244.xml', r'C:\Data\CAF\NCD')
+
+
+def SWT_ESYS_TOOL_Sign_NCD():
+    DETAILS("This is an example test case to Sign NCD")
+    DETAILS("This test case is specific to ARS540BW11 Project.")
+    VERIFIES("E-Sys Tool APIs")
+    TESTTAG("Hil")
+    TESTSTEP("Fetching E-Sys Tool Instance created in 'global_setup'")
+    EXPECTED("E-Sys class instance grabbed successfully")
+    esys_tool = get_parameter("ESys_tool")
+
+    with open("C:\\Data\\ncdSign.config", "w") as file:
+        file.write(f"VIN = WBACR61030LJ09214\n")
+        file.write(f"SIGNED_NCD_DIR = C:\\\\Data\\\\CAF\\\\NCD\\\\signed\\\\ \n")
+        file.write(
+            f"NCD_LIST_1 = 00008A27;C:\\\\Data\\\\CAF\\\\NCD\\\\00008A27_00006ba9.caf.{cafd[18:]}.ncd \n")
+
+    esys_tool.sign_ncd("C:\\Data\\ncdSign.config")
+
+
+def SWT_ESYS_TOOL_Execute_TAL():
+    DETAILS("This is an example test case to Execute TAL.")
+    DETAILS("This test case is specific to ARS540BW11 Project.")
+    VERIFIES("E-Sys Tool APIs")
+    TESTTAG("Hil")
+    TESTSTEP("Fetching E-Sys Tool Instance created in 'global_setup'")
+    EXPECTED("E-Sys class instance grabbed successfully")
+    esys_tool = get_parameter("ESys_tool")
+
+    esys_tool.execute_tal(r'C:\Data\config.cfg')
+
+
+def SWT_ESYS_TOOL_CODING_API():
+    DETAILS("This is an example test case for CODING API E-Sys server")
+    DETAILS("This test case is specific to ARS540BW11 Project.")
+
+    VERIFIES("E-Sys Tool APIs")
+
+    TESTTAG("Hil")
+
+    TESTSTEP("Fetching E-Sys Tool Instance created in 'global_setup'")
+    EXPECTED("E-Sys class instance grabbed successfully")
+    esys_tool = get_parameter("ESys_tool")
+    TESTSTEP("Starting the Coding API")
+    EXPECTED("CODING API done successfully.")
+    esys_tool.coding_api(INPUT_FWL_FILE, PASSAT_B8, OUTPUT_FWL_FILE)

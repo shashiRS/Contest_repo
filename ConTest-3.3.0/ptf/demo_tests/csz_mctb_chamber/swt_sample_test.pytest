@@ -1,0 +1,151 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for usage of CSZ-MCTB chamber automation APIs.
+
+    :author:
+        - Ganga Prabhakar G <ganga.prabhakar.guntamukkala@continental-corporation.com>
+"""
+
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_MCTB_CHAMBER_TEMP_SET_TESTv1():
+    DETAILS("This is an example test case to set temperature on MCTB chamber")
+
+    VERIFIES("EnvChamber API set_temperature")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Setting chamber temperature to 30")
+    EXPECTED("Chamber temperature set value is set to 30")
+    print(chamber_obj.set_temperature(30.0))
+
+
+def SWT_MCTB_CHAMBER_HUMID_SET_TESTv1():
+    DETAILS("This is an example test case to set humidity on MCTB chamber")
+
+    VERIFIES("EnvChamber API set_humidity")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Setting chamber humidity to 50")
+    EXPECTED("Chamber humidity set value is set to 50")
+    print(chamber_obj.set_humidity(50.0))
+
+def SWT_MCTB_CHAMBER_TEMP_READ_TESTv1():
+    DETAILS("This is an example test case to read temperature from MCTB chamber")
+
+    VERIFIES("EnvChamber API read_current_temperature")
+    VERIFIES("EnvChamber API read_set_temperature")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Reading chamber set temperature")
+    EXPECTED("Chamber set temperature is read successfully")
+    print(chamber_obj.read_set_temperature())
+
+    TESTSTEP("Reading chamber current temperature")
+    EXPECTED("Chamber current temperature is read successfully")
+    print(chamber_obj.read_current_temperature())
+
+
+def SWT_MCTB_CHAMBER_HUMID_READ_TESTv1():
+    DETAILS("This is an example test case to read humidity from MCTB chamber")
+
+    VERIFIES("EnvChamber API read_current_humidity")
+    VERIFIES("EnvChamber API read_set_humidity")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Reading chamber set humidity")
+    EXPECTED("Chamber set humidity is read successfully")
+    print(chamber_obj.read_set_humidity())
+
+    TESTSTEP("Reading chamber current humidity")
+    EXPECTED("Chamber current humidity is read successfully")
+    print(chamber_obj.read_current_humidity())
+
+
+def SWT_MCTB_CHAMBER_PROG_NAME_TESTv1():
+    DETAILS("This is an example test case to read program name from MCTB chamber")
+
+    VERIFIES("EnvChamber API get_selected_program_name")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Reading current program name from the chamber")
+    EXPECTED("Chamber current program name is fetched successfully")
+    print(chamber_obj.get_selected_program_name())
+
+
+def SWT_MCTB_CHAMBER_PROG_START_STEP_TESTv1():
+    DETAILS("This is an example test case to read and set the starting step of currently loaded "
+            "program of CSZ-MCTB chamber")
+
+    VERIFIES("EnvChamber API get_automatic_program_starting_step")
+    VERIFIES("EnvChamber API set_automatic_program_starting_step")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Reading currently loaded program starting step from the chamber")
+    EXPECTED("Automatic program starting step is read successfully")
+    print(chamber_obj.get_automatic_program_starting_step())
+
+    TESTSTEP("Setting currently loaded program starting step to '2'")
+    EXPECTED("Automatic program starting step set to '2' successfully")
+    print(chamber_obj.set_automatic_program_starting_step(step=2))
+
+
+def SWT_MCTB_CHAMBER_PROG_STATUS_TESTv1():
+    DETAILS("This is an example test case to read and set the operating status of currently loaded "
+            "program from CSZ-MCTB chamber")
+
+    VERIFIES("EnvChamber API get_automatic_program_status")
+    VERIFIES("EnvChamber API set_automatic_program_status")
+
+    TESTTAG("HiL")
+
+    TESTSTEP("Fetching chamber Instance created in 'global_setup'")
+    EXPECTED("Chamber class instance grabbed successfully")
+    chamber_obj = get_parameter("chamber")
+
+    TESTSTEP("Reading currently loaded program operating status from the chamber")
+    EXPECTED("Automatic program operating status is fetched successfully")
+    print(chamber_obj.get_automatic_program_status())
+
+    TESTSTEP("Setting currently loaded program operating status to 'RUN'")
+    EXPECTED("Automatic program operating status set to 'RUN' successfully")
+    print(chamber_obj.set_automatic_program_status(status=0))
+
+    TESTSTEP("Setting currently loaded program operating status to 'OFF'")
+    EXPECTED("Automatic program operating status set to 'OFF' successfully")
+    print(chamber_obj.set_automatic_program_status(status=2))

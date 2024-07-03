@@ -1,0 +1,60 @@
+"""
+    Copyright 2019 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        This file contains sample test(s) for Serial utility
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+
+# standard Python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from contest_verify.verify import contest_asserts
+from contest_verify.verify import contest_expects
+from ptf.ptf_utils.report import DETAILS, PRECONDITION, VERIFIES, TESTTAG, TESTSTEP, EXPECTED, TESTCASE
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_SAMPLE_SERIAL_TESTv1():
+    DETAILS("Sample test for serial utility")
+    DETAILS("This test case is written for Power Supply (SSP 240-40)")
+    DETAILS("Make sure you have connected COM4 port of PC to Power Supply (SSP 240-40)")
+
+    PRECONDITION("Fill in precondition")
+
+    VERIFIES("L3_SW_CHECK_SERIAL")
+
+    TESTTAG("hil")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing serial utility object via global variable")
+    EXPECTED("Object grabbed successfully")
+    serial_app = get_parameter("serial_app")
+
+    TESTSTEP("Sending or writing Identification command to serial port")
+    EXPECTED("Command sent successfully")
+    serial_app.write_serial_data("*IDN?\n")
+
+    TESTSTEP("Reading data sent from power device")
+    EXPECTED("Data read successfully")
+    data_list = serial_app.read_serial_data(time_out=1.0)
+    print("Serial Data : ", data_list)
+
+    TESTSTEP("Checking if serial port is still open")
+    EXPECTED("Serial port shall be opened")
+    contest_asserts.verify(serial_app.is_open(), True, "Port is closed")
+    print("Serial port still open")
+
+    TESTSTEP("Checking if 'GOSSEN-METRAWATT' string exists in read serial data")
+    EXPECTED("The read serial list shall contain 'GOSSEN-METRAWATT' string")
+    status = serial_app.check_uart_string(data_list, "GOSSEN-METRAWATT")
+    contest_asserts.verify(status, True, "'GOSSEN-METRAWATT' string not found")

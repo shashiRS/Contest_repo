@@ -1,0 +1,132 @@
+"""
+    Copyright 2020 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for chilis tool.
+
+    :author:
+        - Praveenkumar G K  <praveenkumar.gomathi.kaliamoorthi@continental-corporation.com>
+"""
+
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter, get_reporting_parameter
+
+
+def SWT_CHILIS_SIMULATION_TESTv1():
+    DETAILS("Sample to test case to show Chilis simulation")
+    VERIFIES("chilis_simulation")
+    TESTTAG("HiL")
+    TESTCASE()
+
+    chilis = get_parameter("chilis_tool")
+    # chilis simulation step
+    TESTSTEP("chilis recording injection to ECU in HiL")
+    EXPECTED("Chilis simulation exit with 0 - No Error")
+    chilis.chilis_rrec_simulation(
+        path_to_chilis_ini=r"D:\02_dev\integrate_chilis\CHiLISprojects\ARS540BW11_RDH_Cube_Ulmtest\CHiLISv.ini",
+        path_to_recording=r"D:\02_dev\integrate_chilis\Recordings\ARS540BW11\2020.07.09_at_17.07.36_radar-mi_5025_onroad.rrec",
+        path_to_store_log=r"D:\02_dev\integrate_chilis\Logs")
+
+
+def SWT_CHILIS_SIMULATION_TEST_WITH_FUNCv1():
+    DETAILS("Sample test case to show Chilis simulation along with passing a function")
+    VERIFIES("chilis_simulation")
+    TESTTAG("HiL")
+    TESTCASE()
+
+    chilis = get_parameter("chilis_tool")
+    # chilis simulation step
+    TESTSTEP("chilis recording injection to ECU in HiL")
+    EXPECTED("Chilis simulation exit with 0 - No Error")
+    chilis.chilis_rrec_simulation(
+        "D:\\tools\\CHiLISprojects\\ARS540BW11_RDH_Cube_Ulmtest\\CHiLIS.ini",
+        "D:\\tools\\Recordings\\ARS540BW11"
+        "\\2020.07.09_at_17.07.36_radar-mi_5025_onroad.rrec",
+        "D:\\tools\\Logs", local_func
+    )
+
+
+def SWT_CHILIS_SIMULATION_TEST_WITH_FUNC_ARGSv1():
+    DETAILS("Sample test case to show Chilis simulation along with passing a function and its "
+            "arguments")
+    VERIFIES("chilis_simulation")
+    TESTTAG("HiL")
+    TESTCASE()
+
+    chilis = get_parameter("chilis_tool")
+    # chilis simulation step
+    TESTSTEP("chilis recording injection to ECU in HiL")
+    EXPECTED("Chilis simulation exit with 0 - No Error")
+    # framing a list with arguments of "func_with_args"
+    args = [5, 6]
+    # Chilis simulation call with function as an argument and passing its arguments.
+    chilis.chilis_rrec_simulation(
+        "D:\\tools\\CHiLISprojects\\ARS540BW11_RDH_Cube_Ulmtest\\CHiLIS.ini",
+        "D:\\tools\\Recordings\\ARS540BW11"
+        "\\2020.07.09_at_17.07.36_radar-mi_5025_onroad.rrec",
+        "D:\\tools\\Logs", func_with_args, *args
+    )
+
+
+def SWT_CHILIS_SIMULATION_TEST_WITH_FUNC_KWARGSv1():
+    DETAILS("Sample test case to show Chilis simulation along with passing a function and its "
+            "keyword arguments")
+    VERIFIES("chilis_simulation")
+    TESTTAG("HiL")
+    TESTCASE()
+
+    chilis = get_parameter("chilis_tool")
+    # chilis simulation step
+    TESTSTEP("chilis recording injection to ECU in HiL")
+    EXPECTED("Chilis simulation exit with 0 - No Error")
+    # framing a dictionary with keyword arguments of "func_with_kwargs"
+    kwargs = {'b': 5, 'a': 25}
+    # Chilis simulation call with function as an argument and passing its keyword arguments.
+    chilis.chilis_rrec_simulation(
+        "D:\\tools\\CHiLISprojects\\ARS540BW11_RDH_Cube_Ulmtest\\CHiLIS.ini",
+        "D:\\tools\\Recordings\\ARS540BW11"
+        "\\2020.07.09_at_17.07.36_radar-mi_5025_onroad.rrec",
+        "D:\\tools\\Logs", func_with_kwargs, **kwargs
+    )
+
+
+def SWT_CHILIS_SIMULATION_TEST_WITH_FUNC_ARGS_KWARGSv1():
+    DETAILS("Sample test case to show Chilis simulation along with passing a function, its "
+            "arguments and keyword arguments")
+    VERIFIES("chilis_simulation")
+    TESTTAG("HiL")
+    TESTCASE()
+
+    chilis = get_parameter("chilis_tool")
+    # chilis simulation step
+    TESTSTEP("chilis recording injection to ECU in HiL")
+    EXPECTED("Chilis simulation exit with 0 - No Error")
+    # framing a tuple and dictionary with keyword arguments of "func_with_kwargs"
+    args = [2]
+    kwargs = {'b': 7}
+    # Chilis simulation call with function as an argument and passing its keyword arguments.
+    chilis.chilis_rrec_simulation(
+        "D:\\tools\\CHiLISprojects\\ARS540BW11_RDH_Cube_Ulmtest\\CHiLIS.ini",
+        "D:\\tools\\Recordings\\ARS540BW11"
+        "\\2020.07.09_at_17.07.36_radar-mi_5025_onroad.rrec",
+        "D:\\tools\\Logs", func_with_args_kwargs, *args, **kwargs
+    )
+
+
+def local_func():
+    print("This is user's local function to be passed as an argument to chilis API")
+
+def func_with_args(a, b):
+    print("This is user's local function with arguments to be passed as an argument to chilis API")
+    print("sum of 'a' and 'b' is: ", a + b)
+
+def func_with_kwargs(a=1, b=4):
+    print("This is user's local function with keyword arguments to be passed as an argument to "
+          "chilis API")
+    print("sum of 'a' and 'b' is: ", a + b)
+
+def func_with_args_kwargs(a, b=3):
+    print("This is user's local function with args and kwargs to be passed to chilis API")
+    print("sum of 'a' and 'b' is: ", a + b)

@@ -1,0 +1,45 @@
+# Full valid configuration containing data for all possible values
+
+# Example file to be copied to your project into conf/contest.yml file.
+# ATTENTION: Please modify according to your needs, usually this file won't fit.
+
+# Stage specific configuration
+stage:
+  # Executed on each commit.
+  each:
+    # The configuration file to use for this stage.
+    config: conf/contest_config.ini
+
+    # Optional: Use a specific setup file for this stage. Path is relative to ptf tests path in
+    # your ConTest configuration. By default, setup.pytest in the project
+    # Not used in this demo.
+    setup_file: setup.pytest
+
+    # Optional: Test case filter to use for this stage.
+    # See contest documentation for available values.
+    # Multiple filters can be applied in a single configuration.
+    # If no filter is defined, the testcases defined in the configuration file are used.
+    filter:
+      - type: "tag"
+        value: "each hil sil"
+
+    # Optional: No of loop/times testcase to execute this stage.
+    # Enter integer value to run the test cases multiple times
+    no_of_loops: 2
+
+    # Optional:Import python modules path to sys.path for this stage
+    # Enter locations which need to be added in sys.path for importing python modules
+    ext_loc:
+        - "D:\\demo1"
+        - "D:\\demo2"
+        - "D:\\demo3"
+
+    # Optional: Execute testcase randomly for this stage
+    # If this flag is given, the tests will be executed in random order
+    random: True
+
+    # Optional: Rest port nuber for client for this stage
+    # Start Contest with rest client. A Rest Client is provided with port number.
+    # The port must be used equal to rest server port, which is running independently on same machine.
+    rest_port: 5555
+

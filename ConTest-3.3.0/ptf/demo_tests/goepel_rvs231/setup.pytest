@@ -1,0 +1,178 @@
+"""
+    Copyright 2019 Continental Corporation
+
+    This file contains up to four methods that will be called by the test framework:
+        - global_setup(): Will be called before ALL test-cases
+        - setup(): Will be called before EACH test-case
+        - teardown(): Will be called after EACH test-case. Will also be called if test-case fails.
+        - global_teardown(): Will be called after ALL test-cases.
+                             Will be called if any execution before fails.
+
+    :file: setup.pytest
+
+    :author:
+        - Felix Wohlfrom <felix.2.wohlfrom@continental-corporation.com>
+"""
+
+
+# standard Python import area
+import time
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts and global_params) AS BELOW.
+#        FOR PROPER ERROR REPORTING AND PARAMETER CONTROL
+from contest_verify.verify import contest_asserts
+from ptf.ptf_utils.global_params import *
+from ptf.tools_utils.canoe import canoe
+from ptf.tools_utils.goepel import g_api_defines
+from ptf.tools_utils.goepel.goepel_can import GoepelCan
+from ptf.tools_utils.goepel.goepel_io import GoepelIO
+from ptf.tools_utils.goepel.goepel_lvds import GoepelLVDS
+
+
+def global_setup():
+    """
+    This method will be called before ALL test-cases are executed.
+
+    You can set global variables with :func:`set_global_parameter`.
+    Will skip execution of tests if this method fails.
+    """
+    initialize_goepel()
+    initialize_can()
+
+
+def global_teardown():
+    """
+    This method will be called after ALL test-cases are executed.
+
+    You can access global variables with :func:`get_parameter`.
+    Guaranteed to be called, even if any test or global setup fails.
+    """
+    g_lvds = get_parameter("g_lvds")
+    canoe_app = get_parameter("canoe_app")
+
+    print("Disconnect from LVDS1")
+    g_lvds.close_interface()
+
+    print("Cleanup canoe")
+    canoe_app.stop_simulation()
+    canoe_app.close()
+
+
+def setup():
+    """
+    This method will be called before EACH test-case is executed.
+
+    You can set local variables just available for the next test-case
+    using :func:`set_local_parameter`.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Will skip execution of test if this method fails.
+    Skipped if global setup fails.
+    """
+    print("Start capturing")
+    g_lvds = get_parameter("g_lvds")
+    g_lvds.start_capturing()
+
+
+def teardown():
+    """
+    This method will be called after EACH testcase is executed.
+
+    You can access global variables with :func:`get_parameter`.
+
+    Guaranteed to be called, even if the test or setup fails.
+    Skipped if global setup fails.
+    """
+    print("Stop capturing")
+    g_lvds = get_parameter("g_lvds")
+    g_lvds.stop_capturing()
+
+
+def initialize_goepel():
+    """
+    Initializes the goepel card.
+    """
+    print("Init CAN ...")
+    g_can = GoepelCan()
+    g_can.init_interface(can_fd_baud_rate=1000000)
+
+    print("Enable CAN-UART Gateway ...")
+    g_can.init_uart_gateway(
+        g_api_defines.G_CAN__UART_GATEWAY__INIT__CMD_FLAG__LENGTH_INCLUSIVE_LENGTH_BYTE,
+        512,
+        1000,
+        g_api_defines.G_CAN__UART_GATEWAY__UART_INSTANCE_TYPE__LVDS_CONTROL_CHANNEL,
+        0,
+        g_api_defines.G_CAN__UART_GATEWAY__UART_PARITY__EVEN,
+        1000000
+    )
+
+    g_io = GoepelIO("IO1")
+    g_io.init_interface(g_api_defines.G_IO__INIT_INTERFACE__CMD_FLAG__RESET_TRIGGERS)
+    g_io.trigger_source_set(
+        g_api_defines.G_IO__TRIGGER__OUTPUT_TYPE__UART_RX,
+        1,
+        g_api_defines.G_IO__TRIGGER__SOURCE_TYPE__LVDS_0_SER_DES_GPIO,
+        6 + 1  # Use source number 6 and start counting at 1
+    )
+    g_io.trigger_source_set(
+        g_api_defines.G_IO__TRIGGER__OUTPUT_TYPE__LVDS_0_SER_DES_GPIO,
+        5 + 1,  # Use Output number 5 and start counting at 1
+        g_api_defines.G_IO__TRIGGER__SOURCE_TYPE__UART_TX,
+        1
+    )
+
+    g_lvds = GoepelLVDS("LVDS1")
+    g_lvds.set_ser_des_gpio_ioc_pin_config(
+        g_api_defines.G_LVDS__SER_DES_GPIO__IOC_PIN_CONFIG__SET__CMD_FLAG__SET_OUTPUT_TYPE,
+        5,
+        g_api_defines.G_LVDS__SER_DES_GPIO__IOC_OUTPUT_TYPE__OPEN_DRAIN,
+        g_api_defines.G_LVDS__SER_DES_GPIO__IOC_OUTPUT_MOD__NO_CHANGE
+    )
+    g_lvds.set_ser_des_gpio_ioc_pin_config(
+        g_api_defines.G_LVDS__SER_DES_GPIO__IOC_PIN_CONFIG__SET__CMD_FLAG__NONE,
+        6,
+        g_api_defines.G_LVDS__SER_DES_GPIO__IOC_OUTPUT_TYPE__DISABLED,
+        g_api_defines.G_LVDS__SER_DES_GPIO__IOC_OUTPUT_MOD__NO_CHANGE
+    )
+
+    print("Loading configuration files for lvds device and image serializer ...")
+    try:
+        g_lvds.configure_by_file("6222_RVS231_1920x1080_Conti.xml")
+    # In our rvs231 this might fail on the first start. Therefore we ignore errors here.
+    except contest_asserts.PtfFailError as error:
+        print("Ignoring the following error:")
+        print(error)
+        # Reconnect, since the connection was closed during error handling
+        g_lvds = GoepelLVDS("LVDS1")
+
+    g_lvds.send_i2c_from_file(
+        "MAX9296_95_Cfg_for_RVS231_1920x1080_30fps_4Lanes_RGB888_Camera_mit_Reset.txt")
+
+    print("Checking lock state")
+    contest_asserts.verify(g_lvds.get_lock_state(), True, "Unexpected lock state")
+
+    # Make lvds device accessible for other components
+    set_global_parameter("g_lvds", g_lvds)
+
+
+def initialize_can():
+    """
+    Initialize canoe simulation
+    """
+    print("Configuring CAN")
+    canoe_app = canoe.Canoe()
+    canoe_app.open_cfg(
+        "D:\\restbus_simulations\\rvs231\\canoe_RVS_omar_30082019_1030\\"
+        "CANoe\\RVC_HSVL_System_test.cfg")
+    canoe_app.start_simulation()
+    canoe_app.send_diag_cmd("10 03", "RVC223")
+    canoe_app.send_diag_cmd("31 01 03 02 01", "RVC223")
+
+    # Give the camera some time to wake up properly
+    time.sleep(2)
+
+    # Make canoe accessible for other components
+    set_global_parameter("canoe_app", canoe_app)

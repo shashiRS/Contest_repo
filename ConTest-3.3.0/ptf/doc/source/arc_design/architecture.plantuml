@@ -1,0 +1,71 @@
+
+@startuml{architecture.png}
+top to bottom direction
+
+node "Main [1]" as main {
+    node "Module Checker" <<check_module>> as module_checker
+    node "Arg Parser" <<arg_parser>> as arg
+}
+
+node "GUI Controller [2]" as gui {
+    node "GUI States" <<ui_states>> as ui_states
+    node "Main GUI Ctrl" <<ui_controller>> as ui_ctrl
+    node "Configurator" as conf
+}
+
+node "Data Creator [3]" <<data_creator>> as data
+
+node "Core [4]" as core {
+    node "Params" <<global_params>> as params
+    node "Test Runner" <<test_runner>> as runner
+    node "Status Watcher" <<watcher>> as watcher
+    node "Reporter modules" <<reporter>> as reporter
+}
+
+node "Tests Suite [5]" as suite {
+    node "Setup" <<setup.pytest>> as setup
+    node "Test Scripts" <<swt_my_tests.pytest>> as tests
+}
+
+node "Verify Utils [6]" <<verify_utils>> as verify
+node "Tools Utils [7]" <<tools_utils>> as tools
+
+main -down-> gui: Provide user args
+main <-down-> core: In auto mode after preparing data
+ui_ctrl -up-> ui_states: GUI State Change
+ui_ctrl -up-> conf: Configure Paths
+ui_ctrl <-> data: For preparing data
+main <-down-> data: For preparing data (in auto mode)
+
+ui_ctrl -> runner: Run Tests
+
+runner -> watcher: Status Signals
+runner <-> params: get or clear variables
+runner <-> suite: control test execution
+
+watcher -up-> ui_ctrl: Status Signals
+watcher -> reporter: Update reports
+
+suite -up-> params: get or set variables
+suite <-down-> tools: use tools APIs
+suite <-down-> verify: error handling
+
+runner <-> verify: error handling
+
+setup <-> tests: use of global variables
+
+skinparam node {
+    backgroundColor<<check_module>> Orange
+    backgroundColor<<arg_parser>> Orange
+    backgroundColor<<tools_utils>> LightGreen
+    backgroundColor<<verify_utils>> LightGreen
+    backgroundColor<<ui_controller>> Orange
+    backgroundColor<<data_creator>> YellowGreen
+    backgroundColor<<ui_states>> Orange
+    backgroundColor<<test_runner>> Orange
+    backgroundColor<<setup.pytest>> Orange
+    backgroundColor<<swt_my_tests.pytest>> Orange
+    backgroundColor<<report>> Orange
+}
+
+@enduml

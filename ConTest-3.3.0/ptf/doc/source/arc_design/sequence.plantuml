@@ -1,0 +1,128 @@
+
+@startuml{seq.png}
+
+actor "User\nOr\nJenkins" as user
+participant "Main" as main
+participant "UI\nController" as ui_ctrl
+participant "Configurator" as conf
+participant "ConTest Data\nCreator" as contest_data
+participant "Test Suite\n<<setup.pytest,swt_xxx.pytest>>" as test
+participant "Test Runner\n<<test_runner>>" as runner
+participant "Watcher\n<<watcher>>" as watcher
+participant "Utils\n<<canoe,t32,report,verify etc.>>" as utils
+
+box "GUI" #Aquamarine
+	participant ui_ctrl
+	participant conf
+end box
+box "Data Creator" #LightGrey
+	participant contest_data
+end box
+box "Core" #GhostWhite
+	participant runner
+	participant watcher
+end box
+box "Tests" #LightBlue
+	participant test
+end box
+box "Tools" #LightGreen
+	participant utils
+end box
+
+
+user -[#blue]> main: Start
+activate main
+rnote over main
+	Check modules
+	and args
+end rnote
+
+== Initializing UI Content ==
+
+main -> ui_ctrl: Pass args
+activate ui_ctrl
+rnote over ui_ctrl
+	Make UI
+	connections
+end rnote
+
+ui_ctrl -> conf: ConTest Selected
+activate conf
+conf -> ui_ctrl: Loaded/Created cfg
+deactivate conf
+ui_ctrl -> contest_data: Request data
+activate contest_data
+rnote over contest_data
+	Prepare data
+end rnote
+
+contest_data -> ui_ctrl: Test data
+rnote over ui_ctrl
+	Update UI with data
+	Wait for Run Tests
+end rnote
+
+user -[#blue]> ui_ctrl: Run Tests
+ui_ctrl -> contest_data: Prepare Tests
+contest_data <-> test: Fetch Objects\n(Setup-Teardowns,\nTest Cases)
+activate test
+rnote over contest_data
+	Create dictionary with
+	all grabbed objects
+end rnote
+
+contest_data -> ui_ctrl: Tests data (based on ui selections)
+
+== Start Test Execution ==
+ui_ctrl -> runner: Run tests (test data)
+activate runner
+rnote over runner
+	Wrap test cases with
+	Setup-Teardown
+end rnote
+
+runner -> watcher: Initialize
+activate watcher
+
+runner <-> test: global_setup()
+test <-> utils: Use Utils (Create variables, Use tools APIs etc.)
+activate utils
+loop Over all selected tests
+
+    test <-> utils: Use tool utilities all time
+    runner <-> test: setup()
+    runner <-> test: execute()
+    runner <-> test: teardown()
+    watcher -> ui_ctrl: Send signals to UI (test status, execution time)
+    rnote over watcher
+        Generate reports
+        (TXT, HTML)
+    end rnote
+end
+runner <-> test: global_teardown()
+deactivate test
+rnote over runner
+    Generate overall reports
+    (JSON, XML)
+end rnote
+
+== Wrap Up ==
+runner <-> utils: Close tools connections (if required)
+
+runner -> ui_ctrl: Overall status
+deactivate watcher
+deactivate runner
+
+rnote over ui_ctrl
+    Update UI with overall
+    data
+end rnote
+ui_ctrl -> main: End
+
+deactivate utils
+deactivate contest_data
+deactivate ui_ctrl
+user <-[#blue] main: End
+deactivate main
+
+@enduml

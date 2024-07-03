@@ -1,0 +1,26 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+
+variables
+{
+  
+}
+
+testcase simple_pass()
+{
+  testStepPass("" ," simple pass" ,"" );
+}
+
+testcase simple_fail()
+{
+  testStepFail("" ," simple fail" ,"" );
+}
+
+void MainTest ()
+{
+  simple_fail ();
+}
+

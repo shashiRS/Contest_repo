@@ -1,0 +1,79 @@
+"""
+    This file contains the (global_)setup and (global_)teardown methods.
+    Copyright 2018 Continental Corporation
+    This file contains up to four methods that will be called by the test framework:
+        - global_setup(): Will be called before ALL testcases
+        - setup(): Will be called before EACH testcase
+        - teardown(): Will be called after EACH testcase. Will also be called if testcase fails.
+        - global_teardown(): Will be called after ALL testcases.
+                             Will be called if any execution before fails.
+    :file: setup_custom.pytest
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+
+from ptf.ptf_utils.global_params import *
+from contest_verify.verify import contest_expects, contest_asserts, contest_warn
+
+
+def global_setup():
+    """
+    This method will be called before ALL testcases are executed.
+    You can set global variables with :func:`set_global_parameter`.
+    Will skip execution of tests if this method fails.
+    """
+    print("TEST: executing standard global_setup from setup_custom")
+
+
+def global_teardown():
+    """
+    This method will be called after ALL testcases are executed.
+    Guaranteed to be called, even if any test or global setup fails.
+    """
+    print("TEST: executing standard global_teardown from setup_custom")
+
+
+def setup():
+    """
+    This method will be called before EACH testcase is executed.
+    You can set global variables with :func:`set_global_parameter` and local variables just
+    available for the next testcase using :func:`set_local_parameter`.
+    Will skip execution of test if this method fails.
+    Skipped if global setup fails.
+    """
+    print("TEST: executing standard setup from setup_custom")
+
+
+def teardown():
+    """
+    This method will be called after EACH testcase is executed.
+    Guaranteed to be called, even if the test or setup fails.
+    Skipped if global setup fails.
+    """
+    print("TEST: executing standard teardown from setup_custom")
+
+
+def my_setup_fail_expects():
+    print("TEST: executing my_setup_fail_expects from setup_custom")
+    contest_expects.fail("fail 1 in my_setup_fail_expects")
+    print("TEST: continue executing my_setup_fail_expects from setup_custom")
+    contest_expects.fail("fail 2 in my_setup_fail_expects")
+
+
+def my_setup_fail_assert():
+    print("TEST: executing my_setup_fail_assert from setup_custom")
+    contest_asserts.fail("force failure in my_setup_fail_assert")
+
+
+def my_setup_warn():
+    print("TEST: executing my_setup_warn from setup_custom")
+    contest_warn.warn("Just dummy warning")
+
+
+def my_setup_pass():
+    print("TEST: executing my_setup_pass from setup_custom")
+
+
+def my_teardown():
+    print("TEST: executing my_teardown from setup_custom")

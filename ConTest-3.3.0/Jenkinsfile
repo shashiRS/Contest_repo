@@ -1,0 +1,229 @@
+#!/usr/bin/env groovy
+// CIP Jenkins library provides access to convenience functions for the CIP infrastructure
+@Library('cip_jenkins_lib') _
+import com.continental.adcu.agileci.api.model.InstanceType
+
+windowsLabel = 'windows'
+artifactoryInstance = Artifactory.server 'eu-https'
+podLabel = "contest-${env.BRANCH_NAME}-${env.BUILD_NUMBER}".replaceAll('/','-')
+
+void startLinuxPod() {
+    launchCustomPod(
+        'c-adas-cip-docker-v.eu.artifactory.conti.de/build/bricks_doc:2022.06.30', //docker image used for the execution
+        podLabel, //pod Label
+        'aws-eks', // Kubernetes Cloud as specified in Jenkins
+        InstanceType.CPU,  //Instance type available in Kubernetes (REG, MEMORY, CPU, GPU, DEFAULT)
+        1, // number of vcpus requested (has to match available vcpus of instances)
+        1, // memory in GB requested (has to match available memory of instances)
+        0,  // retention period of this pod (keeps pod available for future jobs)
+        {
+            linuxTest()
+        }   // closure with commands executed on the pod
+    )
+}
+
+void linuxTest() {
+    stage('checkout_linux') {
+        checkout scm
+    }
+    withEnv([
+        "PIP_HOST=eu.artifactory.conti.de",
+        "PIP_MIRROR=https://eu.artifactory.conti.de/artifactory/api/pypi/c_adas_cip_pypi_v/simple",
+        "PIP_INDEX_URL=https://eu.artifactory.conti.de/artifactory/api/pypi/c_adas_cip_pypi_v/simple",
+        "PIP_TRUSTED_HOST=eu.artifactory.conti.de"
+    ]){
+        stage('init_linux') {
+            sh 'python3 -m venv ${WORKSPACE}/venv'
+            sh '''#!/bin/bash -ex
+            source ${WORKSPACE}/venv/bin/activate
+            pip3 install --upgrade pip
+
+            # Also install pytest for xml output
+            pip3 install pytest==6.1.2
+
+            # Installing pytest_mock used in unittest
+            pip3 install pytest-mock==3.3.1
+
+            pip3 install pytest-runner==5.2
+            pip3 install pycodestyle==2.5.0
+            pip3 install pylint==2.3.0
+
+            cd ${WORKSPACE}
+            ./install_pip_user_dependencies.sh
+            '''
+        }
+        stage('acceptance_test_linux') {
+            sh '''#!/bin/bash -ex
+            source ${WORKSPACE}/venv/bin/activate
+            python --version
+            python ${WORKSPACE}/main.py --check-pip-mods
+            '''
+        }
+        stage('verification_linux') {
+            parallel pylint: {
+                sh '''#!/bin/bash -ex
+                source ${WORKSPACE}/venv/bin/activate
+                bash -x ${WORKSPACE}/code_analyzer/check_pylint.sh | tee pylint.log
+                '''
+                pylint = scanForIssues blameDisabled: true, tool: pyLint(pattern: 'pylint.log')
+            },
+            pycodestyle: {
+                sh '''#!/bin/bash -ex
+                source ${WORKSPACE}/venv/bin/activate
+                ${WORKSPACE}/code_analyzer/check_pycodestyle.sh | tee pycodestyle.log || true
+                '''
+                pycodestyle = scanForIssues blameDisabled: true, tool: pep8(pattern: 'pycodestyle.log')
+            },
+            build_check_linux: {
+                sh '''#!/bin/bash -ex
+                source ${WORKSPACE}/venv/bin/activate
+                python -m compileall -x venv .
+                '''
+            },
+            tests_linux: {
+                sh '''#!/bin/bash -x
+                source ${WORKSPACE}/venv/bin/activate
+
+                pytest --junitxml=${WORKSPACE}/test_result.xml ptf/tests --ignore=ptf/tests/system_and_integration_test
+
+                # Exit code of 1 means test execution was successful, but testcases failed.
+                # This will be handled by junit result plugin in jenkins. All other cases should
+                # use default behaviour (continue on success, fail on any other error)
+                EXIT_CODE=$?
+                if [[ ${EXIT_CODE} != 0 ]] && [[ ${EXIT_CODE} != 1 ]]; then
+                    exit ${EXIT_CODE}
+                fi
+
+                # Run tests in jenkins folder. Here we don't need any framebuffer.
+                pytest --junitxml=${WORKSPACE}/jenkins_test_result.xml jenkins/tests
+                EXIT_CODE=$?
+                if [[ ${EXIT_CODE} != 0 ]] && [[ ${EXIT_CODE} != 1 ]]; then
+                    exit ${EXIT_CODE}
+                fi
+
+                exit 0
+                '''
+
+                junit 'test_result.xml'
+                junit 'jenkins_test_result.xml'
+            }
+        }
+        stage('analysis') {
+            publishIssues id:'pylint', name: 'Pylint', referenceJobName: 'contest/master',
+                // TODO: Change the threshold to 1 once contest source is in single folder, not in root directory
+                issues: [pylint], qualityGates: [[threshold: 2, type: 'NEW', unstable: true]]
+
+            publishIssues id:'pycodestyle', name: 'Codestyle', referenceJobName: 'contest/master',
+                issues: [pycodestyle], qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+        }
+    }
+}
+
+/**
+ * These tests are executed on a windows machine.
+ */
+void windowsTest() {
+    node(windowsLabel) {
+        stage('checkout_win') {
+            checkout scm
+        }
+        stage('setup python 3.9.12 venv') {
+            withCredentials([usernamePassword(credentialsId: 'uic91112', passwordVariable: 'password', usernameVariable: 'USER')])
+            {
+                def downloadSpec = """
+                {
+                    "files": [
+                        {
+                            "pattern": "c_adas_cip_toolchain_generic_v/Tools_external/Development_Framework/python/Windows/3.9.12.zip",
+                            "target": "${WORKSPACE}/../python/python-3.9.12/",
+                            "explode": "true",
+                            "flat": "true"
+                        }
+                    ]
+                }
+                """
+                echo "Downloading with spec: $downloadSpec"
+                artifactoryInstance.download spec: downloadSpec
+                powershell """
+                ${WORKSPACE}\\..\\python\\python-3.9.12\\3.9.12\\python.exe -m venv venv
+                """
+            }
+        }
+        stage('python version check') {
+            powershell """.\\venv\\Scripts\\Activate.ps1
+            python --version
+            """
+        }
+        stage('init_win') {
+            powershell """.\\venv\\Scripts\\Activate.ps1
+            python -m pip install --upgrade pip
+
+            # also install pytest for xml output
+            pip install pytest==6.1.2
+
+            # installing pytest_mock used in unittest
+            pip install pytest-mock==3.3.1
+
+            pip install pytest-runner==5.2
+            pip install pycodestyle==2.5.0
+            pip install pylint==2.3.0
+            # installing pywin32 for running unit tests on windows platform, this is done because the installation
+            # of pywin32 in utils scripts is not fully proofed due to problems in pywin32 known installation issue
+            pip install pywin32==303
+
+            .\\install_pip_user_dependencies.bat jenkins
+            """
+        }
+        stage('acceptance_test_win') {
+            powershell """.\\venv\\Scripts\\Activate.ps1
+            python ${WORKSPACE}/main.py --check-pip-mods
+            """
+        }
+        stage('verification_win') {
+            build_check_win: {
+                powershell """.\\venv\\Scripts\\Activate.ps1
+                python -m compileall -x "(venv|tasis)" .
+                """
+            }
+            tests_win: {
+                powershell """.\\venv\\Scripts\\Activate.ps1
+                \$env:PYTHONPATH = \"\$env:PYTHONPATH;\$env:WORKSPACE\\ptf\\ptf_utils\"
+                pytest --junitxml=test_result.xml .\\ptf\\tests --ignore=.\\ptf\\tests\\system_and_integration_test
+                pytest --junitxml=jenkins_test_result.xml .\\jenkins\\tests
+                """
+                junit 'test_result.xml'
+                junit 'jenkins_test_result.xml'
+            }
+        }
+        if (isReleaseBuild()) {
+            stage('upload_doc') {
+                withCredentials([usernamePassword(credentialsId: 'doc_service', usernameVariable: 'HTD_USER', passwordVariable: 'HTD_PASS')]) {
+                    powershell """.\\venv\\Scripts\\Activate.ps1
+                    python -m pip install sphinx==5.0.0 sphinx-rtd-theme==0.5.2 Jinja2==3.0.3
+                    python upload_doc_to_htd.py -d
+                    """
+                }
+            }
+        }
+    }
+}
+
+def isReleaseBuild() {
+    return env.TAG_NAME
+}
+
+/**
+ *  Main function responsible for calling all other steps.
+ */
+void main(){
+    // Execute the stages in parallel
+    parallel linux: {
+        startLinuxPod()
+    },
+    windows: {
+        windowsTest()
+    }
+}
+
+// Start pipeline execution
+main()

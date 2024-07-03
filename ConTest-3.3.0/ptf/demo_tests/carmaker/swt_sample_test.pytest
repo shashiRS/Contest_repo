@@ -1,0 +1,129 @@
+"""
+    Copyright 2021 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for CarMaker tool.
+
+    :author:
+        - Praveenkumar G K  <praveenkumar.gomathi.kaliamoorthi@continental-corporation.com>
+"""
+
+from ptf.ptf_utils.report import DETAILS, VERIFIES, TESTCASE, TESTTAG, TESTSTEP, EXPECTED
+from ptf.ptf_utils.global_params import get_parameter
+from ptf.ptf_utils.parameterized import parameterized
+from contest_verify.verify import contest_asserts
+
+
+def SWT_CARMAKER_DEMO_TESTv1():
+    DETAILS("Sample to test case to show CarMaker APIs")
+    DETAILS("In this test case following actions are performed:")
+    DETAILS("- a scenario will be loaded in carmaker")
+    DETAILS("- a signal value will be changed")
+    DETAILS("- simulation allowed to run with max speed")
+
+    VERIFIES("CarMakerAPIs")
+
+    TESTTAG("hil")
+
+    TESTCASE()
+
+    TESTSTEP("Fetching carmaker class instance created in 'global_setup'")
+    EXPECTED("Carmaker class instance grabbed successfully")
+    cm_app = get_parameter("carmaker")
+    TESTSTEP("Loading a test run of carmaker")
+    EXPECTED("CarMaker started and test run loaded successfully")
+    cm_app.set_sim_speed("real")
+    cm_app.load_test_run(path_to_test_run=r"Examples\BasicFunctions\Driver\Overtaking")
+
+    TESTSTEP("Writing a quantity example")
+    EXPECTED("Quantity written successfully")
+    print("Reading Time: {}".format(cm_app.read("Time")))
+    cm_app.write_with_checking_tolerance("DM.Steer.Ang", 0.1, 100, tolerance=0.01)
+    print("Reading Time: {}".format(cm_app.read("Time")))
+    print("Reading DM.Steer.Ang:1: {}".format(cm_app.read("DM.Steer.Ang")))
+    print("Reading DM.Steer.Ang:2: {}".format(cm_app.read("DM.Steer.Ang")))
+    print("Reading Time: {}".format(cm_app.read("Time")))
+    print("Reading DM.Brake:1: {}".format(cm_app.read("DM.Brake")))
+    print("Reading DM.Brake:2: {}".format(cm_app.read("DM.Brake")))
+    print("Reading Time: {}".format(cm_app.read("Time")))
+    print("Reading DM.Steer.AngAcc:1: {}".format(cm_app.read("DM.Steer.AngAcc")))
+    print("Reading DM.Steer.AngAcc:2: {}".format(cm_app.read("DM.Steer.AngAcc")))
+    print(cm_app.read_quantities(["Time", "DM.Steer.Ang", "DM.Steer.AngAcc"]))
+
+    TESTSTEP("Set simulation speed to max")
+    EXPECTED("CarMaker simulation set to max")
+    cm_app.set_sim_speed("max")
+
+    TESTSTEP("Simulate the loaded test run")
+    EXPECTED("CarMaker simulation completed without any error")
+    cm_app.simulate()
+
+
+@parameterized([0.1, 0.2, 0.3])
+def SWT_CARMAKER_DEMO_PARAMETERIZED_TESTv1(val):
+    DETAILS("Sample to test case to show CarMaker APIs")
+    DETAILS("In this test case following actions are performed:")
+    DETAILS("- a scenario will be loaded in carmaker")
+    DETAILS("- a signal value will be changed")
+    DETAILS("- simulation allowed to run with max speed")
+
+    VERIFIES("CarMakerAPIs")
+
+    TESTTAG("hil")
+
+    TESTCASE()
+
+    TESTSTEP("Fetching carmaker class instance created in 'global_setup'")
+    EXPECTED("Carmaker class instance grabbed successfully")
+    cm_app = get_parameter("carmaker")
+
+    TESTSTEP("Loading a test run of carmaker")
+    EXPECTED("CarMaker started and test run loaded successfully")
+    cm_app.load_test_run(path_to_test_run=r"Examples\BasicFunctions\Driver\Overtaking")
+
+    TESTSTEP("Writing a quantity example")
+    EXPECTED("Quantity written successfully")
+    cm_app.write_with_checking_tolerance("DM.Steer.Ang", val, 100, tolerance=0.01)
+
+    TESTSTEP("Set simulation speed to max")
+    EXPECTED("CarMaker simulation set to max")
+    cm_app.set_sim_speed("max")
+
+    TESTSTEP("Simulate the loaded test run")
+    EXPECTED("CarMaker simulation completed without any error")
+    cm_app.simulate(result_path="D:\\recording\\")
+
+def SWT_SIMPLE_START_STOP_SIMv1():
+    DETAILS("Sample to start and stop simulation CarMaker APIs")
+    DETAILS("In this test case following actions are performed:")
+    DETAILS("- Start Simulation")
+    DETAILS("- checking Simulation started.")
+    DETAILS("- stop Simulation")
+
+    VERIFIES("CarMakerAPIs")
+
+    TESTTAG("hil")
+
+    TESTCASE()
+
+    TESTSTEP("Fetching carmaker class instance created in 'global_setup'")
+    EXPECTED("Carmaker class instance grabbed successfully")
+    cm_app = get_parameter("carmaker")
+
+    TESTSTEP("Loading a test run of carmaker")
+    EXPECTED("CarMaker started and test run loaded successfully")
+    cm_app.load_test_run(path_to_test_run=r"Examples\BasicFunctions\Driver\Overtaking")
+
+    cm_app.set_sim_speed("real")
+
+    TESTSTEP("To start simulation.")
+    cm_app.start_sim()
+    cm_app.set_named_value(name="speed", value=15.2)
+    EXPECTED("Checking simulation running.")
+    contest_asserts.verify(cm_app.get_sim_status(), "running", "Simulation is not running!")
+
+    TESTSTEP("To stop simulation.")
+    cm_app.stop_sim()
+

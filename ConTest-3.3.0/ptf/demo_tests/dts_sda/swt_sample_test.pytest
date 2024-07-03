@@ -1,0 +1,63 @@
+"""
+    Copyright 2023 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        Demo test for DTS tool based on SDA API interface.
+
+    :author:
+        - Ganga Prabhakar G <ganga.prabhakar.guntamukkala@continental-corporation.com>
+"""
+
+
+# standard Python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts and global_params) AS BELOW.
+#        FOR PROPER ERROR REPORTING AND PARAMETER CONTROL
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_SAMPLE_DIAG_TESTv1():
+    DETAILS("Sample test for DTS SDA execute service")
+    DETAILS("This Sample test case is specific to ARS540 project")
+    PRECONDITION("Interface is established")
+
+    VERIFIES("L3_SW_")
+
+    TESTTAG("hil")
+    TESTCASE()
+    dts_app = get_parameter("dts")
+    TESTSTEP("reading a DataByIdentifier 'SoftwareVersion_Read'")
+    EXPECTED("Response expected: Software version read successfully")
+
+    # Executing service only by the service name. This is in case of sending some read service.
+    response = dts_app.execute_service_by_name(service_name="SoftwareVersion_Read")
+    print(response)
+
+    # Executing service by using service name and also raw request information.
+    response = dts_app.execute_service_by_name(service_name="FaultMem_ClearDTC", raw_request="14 16 44 00")
+    print(response)
+
+
+def SWT_SAMPLE_FLASH_TESTv1():
+    DETAILS("Sample test for DTS SDA flashing")
+    DETAILS("This Sample test case is specific to ARS540 project")
+    PRECONDITION("Interface is established")
+
+    VERIFIES("L3_SW_")
+
+    TESTTAG("hil")
+    TESTCASE()
+    dts_app = get_parameter("dts")
+    TESTSTEP("Performing flashing operation")
+    EXPECTED("Response expected: Flashing is successful")
+
+    flash_file = r"D:\SW\ARS540DP14_SW_MLC60_2_R07_V23.28.63\06_MONACO\0009024675_001_232863.smr-f"
+    result = dts_app.execute_flashing(flash_session="0009024675_001_232863", flash_file=flash_file)
+
+    print(result)
+

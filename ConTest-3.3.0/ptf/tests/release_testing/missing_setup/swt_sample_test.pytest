@@ -1,0 +1,41 @@
+"""
+    Copyright 2023 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        Script containing test to check the use-case when setup.pytest file is missing
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+# standard Python import area
+
+
+# PTF or custom import area
+# NOTE : ALWAYS IMPORT (ptf_expects, ptf_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from ptf.verify_utils import ptf_asserts
+from ptf.verify_utils import ptf_expects
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_SAMPLE_TESTv1():
+    DETAILS("Fill With Details")
+    DETAILS("Fill With Details")
+
+    PRECONDITION("Fill in precondition")
+
+    VERIFIES("Mention requirement satisfied by this test case")
+
+    TESTTAG("sil")
+    TESTTAG("hil")
+    TESTTAG("integration")
+    TESTTAG("blackbox")
+
+    TESTSTEP("Mention test step")
+    EXPECTED("Mention expectation of test step")
+    print("TEST: Hello World from missing setup release test")
+

@@ -1,0 +1,15 @@
+# Valid configuration without setup file or filter
+
+# Example file to be copied to your project into conf/contest.yml file.
+# ATTENTION: Please modify according to your needs, usually this file won't fit.
+
+# The base location, relative to the repository root directory.
+# By default, the repository root directory will be used.
+replace_base_location: tests/integration
+
+# Stage specific configuration
+stage:
+  # Executed on each commit.
+  each:
+    # The configuration file to use for this stage.
+    config: conf/contest_config.ini

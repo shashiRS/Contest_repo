@@ -1,0 +1,19 @@
+
+@startuml{main.png}
+
+state Main {
+    ModulesChecker: Check if all required Python\nmodules are installed\n[main]
+    ArgParser: Parser and handle user args\n[main]
+    TestRunner: Core module responsible for tests\nexecution and report generation
+    UiController: Module GUI actions handler
+
+    ModulesChecker -down-> ArgParser: [2]
+    ArgParser -down-> TestRunner: Prepare test data and\npass it to test runner in auto mode [3]
+    ArgParser -down-> UiController: Pass args to UI Controller [3]
+
+
+}
+
+[*] -down-> Main : User started ConTest with\nor without args [1]
+
+@enduml

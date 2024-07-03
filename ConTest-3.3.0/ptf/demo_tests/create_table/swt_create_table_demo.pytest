@@ -1,0 +1,108 @@
+"""
+    Copyright 2023 Continental Corporation
+
+    :file: swt_create_table_demo.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        Script containing demo tests for creating table
+
+    :author:
+        - Shubham Abhay Deshpande<shubham.abhay.2.deshpande@continental-corporation.com>
+"""
+
+# standard python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter, add_file_hyperlink_to_html_report
+
+
+def SWT_CREATE_NEW_TABLEv1():
+    DETAILS("Sample test to create a new table")
+
+    PRECONDITION("None")
+
+    TESTTAG("new_table")
+
+    TESTSTEP("Getting values created in 'global_setup' function")
+    EXPECTED("Values fetched without an error")
+    create_table = get_parameter("table_obj")
+    save_loc = get_parameter("save_loc")
+
+    TESTSTEP("Creating a new table at specified location in specified file format.")
+    EXPECTED("New tabel created")
+    create_table.new_table(
+        table_name='table_1',
+        location=save_loc,
+        row_data={'r1': [1, 2], 'r2': [3, 4]},
+        column_name=['c1', 'c2'],
+        saving_format="html")
+
+    TESTSTEP("Running test for printing the table")
+    EXPECTED("Table printed based on given table name")
+    create_table.print_table('table_1')
+
+
+def SWT_ADD_ROWS_TO_EXISTING_TABLEv1():
+    DETAILS("Sample test to create a new table and then add rows into it")
+
+    PRECONDITION("None")
+
+    TESTTAG("add_row")
+
+    TESTSTEP("Getting values created in 'global_setup' function")
+    EXPECTED("Values fetched without an error")
+    create_table = get_parameter("table_obj")
+    save_loc = get_parameter("save_loc")
+
+    TESTSTEP("Creating a new table at specified location in specified file format.")
+    EXPECTED("New tabel created")
+    create_table.new_table(
+        table_name='table_2',
+        location=save_loc,
+        row_data={'r1': [1, 2], 'r2': [3, 4]},
+        column_name=['c1', 'c2'],
+        saving_format="csv")
+
+    TESTSTEP("Adding new rows to existing table")
+    EXPECTED("Added new data to existing table")
+    create_table.add_row(table_name='table_2', add_row_data={'r3': [5, 6], 'r4': [7, 8]})
+
+
+def SWT_FETCH_EXISTING_TABLE_DATAv1():
+    DETAILS("Sample test to create a new table and then grab its data")
+
+    PRECONDITION("None")
+
+    TESTTAG("fetch_table")
+
+    TESTSTEP("Getting values created in 'global_setup' function")
+    EXPECTED("Values fetched without an error")
+    create_table = get_parameter("table_obj")
+    save_loc = get_parameter("save_loc")
+
+    TESTSTEP("Creating a new table at specified location in specified file format")
+    EXPECTED("New tabel created")
+    create_table.new_table(
+        table_name='table_3',
+        location=save_loc,
+        row_data={'r1': [1, 2], 'r2': [3, 4]},
+        column_name=['c1', 'c2'],
+        saving_format="csv")
+
+    TESTSTEP("Getting table based on the name of provided by user")
+    EXPECTED("Table collected from the name")
+    table_data = create_table.get_table('table_3')
+    print("=" * 100)
+    print("Table '{}' dataframe: {}".format('table_3', table_data['df']))
+    print("Table '{}' directory: {}".format('table_3', table_data['dir']))
+    print("Table '{}' save format: {}".format('table_3', table_data['save_format']))
+    print("Table '{}' location: {}".format('table_3', table_data['loc']))
+    print("=" * 100)
+
+    TESTSTEP("Linking table to test case html report")
+    EXPECTED("Table linked successfully")
+    add_file_hyperlink_to_html_report(table_data['loc'])

@@ -1,0 +1,138 @@
+
+
+from contest_verify.verify import contest_asserts
+from ptf.ptf_utils.report import DETAILS, PRECONDITION, VERIFIES, TESTTAG, TESTSTEP, EXPECTED, TESTCASE
+from ptf.ptf_utils.global_params import get_parameter
+
+def SWT_RVS_TRACE32_READ_ARRAY():
+    DETAILS("This is an example test case for reading a complete array via")
+    DETAILS(" Lauterbach debugger.")
+    DETAILS("NOTE: This test will only run on RVS231 HW others can take these tests as examples")
+    PRECONDITION("Fill in precondition")
+
+    VERIFIES("L3_SW_READ_ARRAY")
+
+    TESTTAG("hil")
+
+    print("\n[Test Description : Test Case for reading array via Lauterbach debugger]\n")
+
+    debug = get_parameter("t32")
+
+    TESTSTEP("Reading 'EE_cortex_mx_stack_1' array from target")
+    EXPECTED("Array read without any error")
+    array = debug.read_array('EE_cortex_mx_stack_1')
+    print("Array 'EE_cortex_mx_stack_1' read successfully")
+
+    TESTSTEP("Reading 'EE_cortex_mx_stack_1[100]' via 'read_variable' method")
+    TESTSTEP(" and comparing with value read via 'read_int_array' method")
+    EXPECTED("Both values shall be same")
+    contest_asserts.verify(
+        debug.read_variable('EE_cortex_mx_stack_1[100]'),
+        array['Values'][100],
+        'EE_cortex_mx_stack_1[100] value mismatch')
+    print("'EE_cortex_mx_stack_1[100]' value verified")
+
+    TESTSTEP("Reading 'CVCFRM_circQLockedBuffer' array from target")
+    EXPECTED("Array read without any error")
+    array = debug.read_array('CVCFRM_circQLockedBuffer')
+    print("Array 'CVCFRM_circQLockedBuffer' read successfully")
+
+    TESTSTEP("Reading 'CVCFRM_circQLockedBuffer[2]' via 'read_variable'")
+    TESTSTEP(" method and comparing with value read via 'read_int_array'")
+    TESTSTEP(" method")
+    EXPECTED("Both values shall be same")
+    contest_asserts.verify(
+        debug.read_variable('CVCFRM_circQLockedBuffer[2]'),
+        array['Values'][2],
+        'CVCFRM_circQLockedBuffer[2] value mismatch')
+    print("'CVCFRM_circQLockedBuffer[2]' value verified")
+
+
+def SWT_RVS_TRACE32_READING_VARIABLESv1():
+    DETAILS("Test case for reading variables via Trace32.")
+    DETAILS("")
+    DETAILS("This is just an example test case for explaining the procedure")
+    DETAILS(" for reading a variable.")
+    DETAILS("The reading of variables is done using an API call which sends")
+    DETAILS("command for reading variable and write result on Trace32 message")
+    DETAILS(" area.")
+    DETAILS("The response in message area is then read by test framework and")
+    DETAILS(" read value is returned.")
+    PRECONDITION("Fill in precondition")
+
+    VERIFIES("L3_SW_READING_VARIABLES")
+
+    TESTTAG("hil")
+
+    print("\n[Test Description : Test Case for reading random variables via Trace32]\n")
+
+    debug = get_parameter("t32")
+
+    read_var_dict = {
+        'gTunerState.state': int,
+        'gMediaBufferIdx': int,
+        'gSensorState.state': int,
+        'gSensorState.slaveAddr': int,
+        'gSensorState.dataWidth': int,
+        'gTimeSub.s': int,
+        'gTimeSub.ns': int,
+        'gMetaData[0]': int
+    }
+
+    TESTSTEP("Reading some random variables from different files.")
+    EXPECTED("All variables are read properly")
+    for variable_expression, variable_type in read_var_dict.items():
+        value = variable_type(debug.read_variable(variable_expression))
+        print(variable_expression + ' = ' + str(value))
+
+
+def SWT_RVS_TRACE32_WRITING_VARIABLEv1():
+    DETAILS("Test case for writing variables via Trace32.")
+    DETAILS("")
+    DETAILS("This is just an example test case for explaining the procedure")
+    DETAILS(" for writing a variable.")
+    DETAILS("The sequence of this test is as follow:")
+    DETAILS("1. Read value of a random variable")
+    DETAILS("2. Update variable value by adding a number to it using")
+    DETAILS(" 'write_variable' test method")
+    DETAILS("3. Verify that updated value is written into the variable which")
+    DETAILS(" is done inside 'write_variable' test method")
+    PRECONDITION("Fill in precondition")
+    VERIFIES("L3_SW_WRITING_VARIABLE")
+
+    TESTTAG("hil")
+
+    print("\n[Test Description : Test Case for writing a value to random variable via Trace32]\n")
+
+    debug = get_parameter("t32")
+
+    variable = 'gTimeSub.s'
+
+    TESTSTEP("Reading the value of intended variable")
+    EXPECTED("Variable value is read successfully")
+    print("Reading value for " + variable)
+    before_writing_val = int(debug.read_variable(variable))
+    print(variable + ' = ' + str(before_writing_val))
+
+    TESTSTEP("Updating value of intended variable i.e readValue + 5")
+    EXPECTED("The updated value is correctly writing to variable address")
+    DETAILS("The check for reading back variable value after update is done")
+    DETAILS(" inside 'write_variable' method")
+    print("Writing new value (readValue + 5) to " + variable)
+    debug.write_variable(variable, before_writing_val + 5)
+
+    TESTSTEP("Reading the value of intended variable again just for printing")
+    EXPECTED("Variable value is read successfully")
+    print("Reading value for " + variable + "after value update done by 'write_variable' method")
+    after_writing_val = debug.read_variable(variable)
+    print(variable + ' = ' + after_writing_val)
+
+def SWT_RVS_TRACE32_WRITING_ARRAYv1():
+    DETAILS("Test case for writing array via Trace32.")
+    TESTTAG("hil")
+    VERIFIES("L3_SW_WRITING_ARRAY")
+    PRECONDITION("Fill in precondition if any")
+    debug = get_parameter("t32")
+    TESTSTEP("writing of array values 'EE_cortex_mx_stack_1[3..5]' = (1, 2, 3)")
+    EXPECTED("Array values 'EE_cortex_mx_stack_1[3..5]' = (1, 2, 3) are written successfully")
+    debug.write_array('EE_cortex_mx_stack_1', (3, 5), (1, 2, 3), var_format='e')

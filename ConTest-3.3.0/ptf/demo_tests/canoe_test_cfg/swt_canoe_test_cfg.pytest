@@ -1,0 +1,211 @@
+"""
+    Copyright 2022 Continental Corporation
+
+    :file: swt_canoe_test_cfg.pytest
+    :platform: Windows
+    :synopsis:
+        File containing demo test(s) for CANoe test configuration control APIs
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+
+def SWT_ADD_REMOVE_TEST_CFGSv1():
+    DETAILS("An example test case to show the usage of CANoe APIs to add and remove test cfgs")
+
+    PRECONDITION("A working CANoe configuration")
+
+    VERIFIES("L3_SW_ADD_REMOVE_TEST_CFGS")
+
+    TESTTAG("test_cfg")
+
+    TESTSTEP("Grabbing CANoe variables created in global setup")
+    EXPECTED("Variables grabbed")
+    canoe_app = get_parameter("canoe")
+
+    TESTSTEP("Print names of all existing test cfgs")
+    EXPECTED("Test cfgs names printed successfully")
+    print(canoe_app.get_all_test_cfg_names())
+
+    TESTSTEP("Stopping simulation as test cfgs cannot be added or removed while running simulation")
+    EXPECTED("Simulation stopped successfully")
+    canoe_app.stop_simulation()
+
+    TESTSTEP("Adding a new test cfg 'sample_cfg'")
+    EXPECTED("Test cfg added successfully")
+    canoe_app.add_test_cfg(test_cfg_name="sample_cfg")
+
+    TESTSTEP("Print names of all existing test cfgs")
+    EXPECTED("Test cfgs names printed successfully")
+    print(canoe_app.get_all_test_cfg_names())
+
+    TESTSTEP("Removing newly added test cfg 'sample_cfg'")
+    EXPECTED("Test cfg removed successfully")
+    canoe_app.remove_test_cfg(test_cfg_name="sample_cfg")
+
+    TESTSTEP("Print names of all existing test cfgs")
+    EXPECTED("Test cfgs names printed successfully")
+    print(canoe_app.get_all_test_cfg_names())
+
+
+def SWT_ADD_REMOVE_TEST_UNITS_IN_TEST_CFGv1():
+    DETAILS("An example test case to show the usage of CANoe APIs to add and remove test unit")
+
+    PRECONDITION("A working CANoe configuration")
+
+    VERIFIES("L3_SW_ADD_REMOVE_TEST_UNITS_IN_TEST_CFG")
+
+    TESTTAG("test_cfg")
+
+    TESTSTEP("Grabbing CANoe variables created in global setup")
+    EXPECTED("Variables grabbed")
+    canoe_app = get_parameter("canoe")
+
+    TESTSTEP("Stopping simulation as test unit cannot be added or removed while running simulation")
+    EXPECTED("Simulation stopped successfully")
+    canoe_app.stop_simulation()
+
+    test_cfg = "Test_Configuration_Sample"
+
+    TESTSTEP("Removing all existing test units")
+    EXPECTED("Test units removed successfully")
+    canoe_app.remove_all_test_units(test_cfg_name=test_cfg)
+
+    TESTSTEP("Adding a new test unit 'HSI_TestUnit'")
+    EXPECTED("Test unit added successfully")
+    canoe_app.add_test_unit(test_cfg_name=test_cfg, vtuexe_file_path=get_parameter("hsi_vtuexe"))
+
+    TESTSTEP("Adding a new test unit 'Volage_TestUnit'")
+    EXPECTED("Test unit added successfully")
+    canoe_app.add_test_unit(
+        test_cfg_name=test_cfg, vtuexe_file_path=get_parameter("voltage_vtuexe"))
+
+    TESTSTEP("Print names of all existing test units in a test cfg")
+    EXPECTED("Test units names printed successfully")
+    print(canoe_app.get_all_test_unit_names_in_test_cfg(test_cfg_name=test_cfg))
+
+    TESTSTEP("Removing an existing test unit 'HSI_TestUnit'")
+    EXPECTED("Test unit removed successfully")
+    canoe_app.remove_test_unit(
+        test_cfg_name=test_cfg, test_unit_name="HSI_TestUnit", ignore_non_existence=False)
+
+    TESTSTEP("Print names of all existing test units in a test cfg")
+    EXPECTED("Test units names printed successfully")
+    print(canoe_app.get_all_test_unit_names_in_test_cfg(test_cfg_name=test_cfg))
+
+    TESTSTEP("Adding a new test unit 'HSI_TestUnit'")
+    EXPECTED("Test unit added successfully")
+    canoe_app.add_test_unit(test_cfg_name=test_cfg, vtuexe_file_path=get_parameter("hsi_vtuexe"))
+
+    TESTSTEP("Print names of all existing test units in a test cfg")
+    EXPECTED("Test units names printed successfully")
+    print(canoe_app.get_all_test_unit_names_in_test_cfg(test_cfg_name=test_cfg))
+
+
+def SWT_SELECTION_CTRL_TEST_CFGv1():
+    DETAILS("An example test case to show the usage of CANoe APIs for enabling and disabling")
+    DETAILS("test fixture(s) and test case(s) in test configuration")
+
+    PRECONDITION("A working CANoe configuration")
+
+    VERIFIES("L3_SW_SELECTION_CTRL_TEST_CFG")
+
+    TESTTAG("test_cfg")
+
+    TESTSTEP("Grabbing CANoe variables created in global setup")
+    EXPECTED("Variables grabbed")
+    canoe_app = get_parameter("canoe")
+
+    test_cfg = "Test_Configuration_Sample"
+
+    TESTSTEP("Disabling test fixtures in a test configuration")
+    EXPECTED("Test fixtures disabled successfully")
+    canoe_app.disable_test_fixtures_in_test_cfg(
+        test_cfg_name=test_cfg, fixture_list=["Voltage", "HSI"])
+
+    TESTSTEP("Enabling test fixtures in a test configuration")
+    EXPECTED("Test fixtures enabled successfully")
+    canoe_app.enable_test_fixtures_in_test_cfg(test_cfg_name=test_cfg, fixture_list=["HSI"])
+
+    TESTSTEP("Disabling test cases in a test configuration")
+    EXPECTED("Test cases disabled successfully")
+    canoe_app.disable_test_cases_in_test_cfg(
+        test_cfg_name=test_cfg, test_cases_list=["Voltage_Sample_Test_2", "Voltage_Sample_Test_5"])
+
+    TESTSTEP("Enabling test cases in a test configuration")
+    EXPECTED("Test cases enabled successfully")
+    canoe_app.enable_test_cases_in_test_cfg(
+        test_cfg_name=test_cfg, test_cases_list=["Voltage_Sample_Test_1", "Voltage_Sample_Test_4"])
+
+
+def SWT_RUN_TEST_CFGv1():
+    DETAILS("An example test case to show the usage of CANoe API to run a test configuration")
+
+    PRECONDITION("A working CANoe configuration")
+
+    VERIFIES("L3_SW_RUN_TEST_CFG")
+
+    TESTTAG("test_cfg")
+
+    TESTSTEP("Grabbing CANoe variables created in global setup")
+    EXPECTED("Variables grabbed")
+    canoe_app = get_parameter("canoe")
+
+    TESTSTEP("Running test configuration")
+    EXPECTED("Test configuration ran successfully")
+    canoe_app.run_test_cfg(cfg_name="Test_Configuration_Sample", verify=True)
+
+
+def SWT_MULTIPLE_TEST_CFGS_RUNv1():
+    DETAILS("An example test case to show the usage of CANoe API to run multiple test cfgs")
+
+    PRECONDITION("A working CANoe configuration")
+
+    VERIFIES("L3_SW_MULTIPLE_TEST_CFGS_RUN")
+
+    TESTTAG("test_cfg")
+
+    TESTSTEP("Grabbing CANoe variables created in global setup")
+    EXPECTED("Variables grabbed")
+    canoe_app = get_parameter("canoe")
+
+    TESTSTEP("Stopping simulation as test cfgs cannot be added or removed while running simulation")
+    EXPECTED("Simulation stopped successfully")
+    canoe_app.stop_simulation()
+
+    TESTSTEP("Adding a new test cfg 'sample_cfg'")
+    EXPECTED("Test cfg added successfully")
+    canoe_app.add_test_cfg(test_cfg_name="hsi")
+
+    TESTSTEP("Adding a new test cfg 'sample_cfg_1'")
+    EXPECTED("Test cfg added successfully")
+    canoe_app.add_test_cfg(test_cfg_name="voltage")
+
+    TESTSTEP("Adding a new test unit 'HSI_TestUnit'")
+    EXPECTED("Test unit added successfully")
+    canoe_app.add_test_unit(
+        test_cfg_name="hsi", vtuexe_file_path=get_parameter("hsi_vtuexe"))
+
+    TESTSTEP("Adding a new test unit 'Volage_TestUnit'")
+    EXPECTED("Test unit added successfully")
+    canoe_app.add_test_unit(
+        test_cfg_name="voltage", vtuexe_file_path=get_parameter("voltage_vtuexe"))
+
+    canoe_app.start_simulation()
+
+    TESTSTEP("Running list of test configurations")
+    EXPECTED("Test configurations ran successfully")
+    result = canoe_app.run_test_cfgs(cfg_names_list=["hsi", "Test_Configuration_Sample"])
+    print(result)
+
+    TESTSTEP("Running all existing test configurations")
+    EXPECTED("Test configurations ran successfully")
+    result = canoe_app.run_test_cfgs()
+    print(result)
+

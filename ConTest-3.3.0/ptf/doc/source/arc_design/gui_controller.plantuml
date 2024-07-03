@@ -1,0 +1,35 @@
+
+@startuml{gui_controller.png}
+
+state UI_Controller {
+
+    state Initialize {
+        Initialize_PyQt: Initialize PyQt and \ncontrolling variables\n[ui_controller]
+        UI_Connections: Connect UI components\n(buttons actions etc.)\n[ui_controller]
+        Initial_State: Take UI to initial state\n[ui_states]
+    }
+
+    state Configurator {
+        Create_Or_Load: Load a config file\nor create one
+    }
+
+    Wait_For_Actions: Wait for user actions\n(request data from data creator,\nsearch tests, multiple runs,\ntests selection, Run Tests etc.)
+    PrepareTests: Save GUI options and selected tests for test runner stage
+
+
+    [*] -> Initialize: User args [1]
+    Initialize_PyQt -> UI_Connections: [2]
+    UI_Connections -> Initial_State: [3]
+    Initialize -right-> Initialize: Error
+
+    Initialize -down-> Configurator: ConTest started [4]
+    Configurator -down-> Configurator: Error
+    Configurator -down-> Wait_For_Actions: [5]
+    Wait_For_Actions -down-> Wait_For_Actions: Error
+    Wait_For_Actions -down-> PrepareTests: Run Tests Pressed [6]
+    PrepareTests -down-> PrepareTests: Error
+
+    PrepareTests -down-> [*] : Trigger Test Runner [7]
+}
+
+@enduml

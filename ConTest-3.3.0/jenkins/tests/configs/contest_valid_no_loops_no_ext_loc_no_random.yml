@@ -1,0 +1,42 @@
+# Full valid configuration containing data for all possible values
+
+# Example file to be copied to your project into conf/contest.yml file.
+# ATTENTION: Please modify according to your needs, usually this file won't fit.
+
+# The base location, relative to the repository root directory.
+# By default, the repository root directory will be used.
+replace_base_location: tests/integration
+
+# Stage specific configuration
+stage:
+  # Executed on each commit.
+  each:
+    # The configuration file to use for this stage.
+    config: conf/contest_config.ini
+
+    # Optional: Use a specific setup file for this stage. Path is relative to ptf tests path in
+    # your ConTest configuration. By default, setup.pytest in the project
+    # Not used in this demo.
+    setup_file: setup.pytest
+
+    # Optional: Test case filter to use for this stage.
+    # See contest documentation for available values.
+    # Multiple filters can be applied in a single configuration.
+    # If no filter is defined, the testcases defined in the configuration file are used.
+    filter:
+      - type: "tag"
+        value: "each hil sil"
+
+    # Optional: Rest port nuber for client for this stage
+    # Start Contest with rest client. A Rest Client is provided with port number.
+    # The port must be used equal to rest server port, which is running independently on same machine.
+    rest_port: 5555
+
+    # Optional: Time stamp for logging enable/disable during this stage
+    # Timestamp (on or off) for logging. Default is 'on'
+    time_stamp: "off"
+
+    # Optional: Unselected testcase to be executed for this stage
+    # If this flag is given, unselected tests will be executed.
+    # User selected tests will be excluded from test run
+    reverse_selection: True

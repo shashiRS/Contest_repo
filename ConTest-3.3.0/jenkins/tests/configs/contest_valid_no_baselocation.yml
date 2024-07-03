@@ -1,0 +1,26 @@
+# Valid configuration without base location
+
+# Example file to be copied to your project into conf/contest.yml file.
+# ATTENTION: Please modify according to your needs, usually this file won't fit.
+
+# Stage specific configuration
+stage:
+  # Executed on each commit.
+  each:
+    # The configuration file to use for this stage.
+    config: conf/contest_config.ini
+
+    # Optional: Use a specific setup file for this stage. Path is relative to ptf tests path in
+    # your ConTest configuration. By default, setup.pytest in the project
+    # Not used in this demo.
+    setup_file: setup.pytest
+
+    # Optional: Test case filter to use for this stage.
+    # See contest documentation for available values.
+    # Multiple filters can be applied in a single configuration.
+    # If no filter is defined, the testcases defined in the configuration file are used.
+    filter:
+      - type: "tag"
+        value: "each"
+      - type: "tag"
+        value: "sil"

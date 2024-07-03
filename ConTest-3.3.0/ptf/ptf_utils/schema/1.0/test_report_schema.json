@@ -1,0 +1,228 @@
+{
+  "id": "https://cip-config.cmo.conti.de/v2/configuration/contest/json_report_schema/1.0/schemas/test_report_schema.json",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "ConTest json test report schema",
+  "properties": {
+    "summary": {
+      "type": "object",
+      "description": "Summary for test(s) execution.",
+      "properties": {
+        "Runtime": {
+          "type": "number",
+          "description": "Total Runtime in minutes and data type is float"
+        },
+        "Total_Tests": {
+          "type": "integer",
+          "description": "Total number of test cases executed including setup and teardown functions which are not the real test cases and can be ignored"
+        },
+        "Failed_Tests": {
+          "type": "integer",
+          "description": "Number of failed test case(s)"
+        },
+        "Passed_Tests": {
+          "type": "integer",
+          "description": "Number of passed test case(s)"
+        },
+        "Ignored_Tests": {
+          "type": "integer",
+          "description": "Number of ignored python test case(s)"
+        },
+        "Missing_Tests": {
+          "type": "integer",
+          "description": "Number of missing test cases with respect to current loaded config"
+        },
+        "Test_Run_Result": {
+          "type": "boolean",
+          "description": "Overall test run result"
+        },
+        "Test_Environment": {
+          "type": "string",
+          "description": "ConTest with its version used to execute the test cases"
+        },
+        "Machine": {
+          "type": "string",
+          "description": "computer name"
+        },
+        "User": {
+          "type": "string",
+          "description": "user id"
+        },
+        "Reporting_Parameters": {
+          "type": "object",
+          "description": "contains reporting parameters keys and its values. It will be empty if user did not use ConTest 'set_reporting_parameter' API"
+        }
+      },
+      "required": [
+        "Runtime",
+        "Total_Tests",
+        "Failed_Tests",
+        "Passed_Tests",
+        "Ignored_Tests",
+        "Missing_Tests",
+        "Test_Run_Result",
+        "Test_Environment",
+        "Machine",
+        "User",
+        "Reporting_Parameters"
+      ]
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "test_execution": {
+            "type": "array",
+            "description": "list of the test execution steps captured from test case (for python and cmm test types only).",
+            "items": [
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "test_type": {
+            "type": "string",
+            "enum": ["capl", "python", "cmm"],
+            "description": "type of the test case i.e. python test or lauterbach script (cmm) or capl test module."
+          },
+          "test_details": {
+            "type": "array",
+            "description": "list of the test description captured from test case (for python and cmm test types only).",
+            "items": [
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "precondition": {
+            "type": "array",
+            "description": "list of the test precondition captured from test case (for python and cmm test types only).",
+            "items": [
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "test_name": {
+            "type": "string",
+            "description": "name of the test case in python (ConTest) test scripts or CANoe Test Module or CMM test script"
+          },
+          "test_duration": {
+            "type": "number",
+            "description": "time (data type is float in milliseconds) taken to run current test case (python, cmm or capl)"
+          },
+          "test_date": {
+            "type": "string",
+            "description": "date and time (Day Date HH:MM:SEC YR)"
+          },
+          "test_status": {
+            "$ref": "#/$defs/result"
+          },
+          "test_verifies": {
+            "type": "array",
+            "description": "requirement/design/architecture id verified by the test case (for python and cmm test types only).",
+            "items": [
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "test_tags": {
+            "type": "array",
+            "description": "test tags available in-case of python and cmm test types only",
+            "items": [
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "canoe_test_case_details": {
+            "type": "array",
+            "description": "contains list of canoe test module(s) execution data with dictionary elements containing data of each test module (it will be null in-case of cmm test type)",
+            "items": {
+              "type": "object",
+              "description": "test module execution data dictionary. test module may contain multiple test cases execution information",
+              "patternProperties": {
+                "^[A-Za-z0-9_\\s]+$": {
+                  "type": "array",
+                  "description": "list containing dictionary elements for each test case execution information linked to a test module",
+                  "items": {
+                    "type": "object",
+                    "description": "dictionary containing test case execution data",
+                    "properties": {
+                      "test_case_name": {
+                        "type": "string",
+                        "description": "name of the CAPL test case"
+                      },
+                      "uuid": {
+                        "type": "string",
+                        "description": "to handle duplicate test case name in the CANoe CAPL/XML test module, uuid will be added"
+                      },
+                      "path_to_test_module": {
+                        "type": "string",
+                        "description": "path to the CANoe test module. it can be with file extension of .can, .xml and .vxt"
+                      },
+                      "path_to_test_script": {
+                        "type": "array",
+                        "description": "path to test script can be list of files, 'test_case_name' entry will be present in one of the file",
+                        "items": [
+                          {
+                            "type": "string"
+                          }
+                        ]
+                      },
+                      "test_case_duration": {
+                        "type": "null",
+                        "description": "duration of test case execution. it will be null always since this information is not given by CANoe automation interface but maybe in future it will be provided"
+                      },
+                      "test_status": {
+                        "$ref": "#/$defs/result"
+                      }
+                    },
+                    "required": [
+                      "test_case_name",
+                      "uuid",
+                      "path_to_test_module",
+                      "path_to_test_script",
+                      "test_case_duration",
+                      "test_status"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "test_failure": {
+            "type": ["string", "null"],
+            "description": "error string in-case of test case failure, it will be null in case of success"
+          }
+        },
+        "required": [
+          "test_execution",
+          "test_type",
+          "test_details",
+          "precondition",
+          "test_name",
+          "test_duration",
+          "test_date",
+          "test_status",
+          "test_verifies",
+          "test_tags",
+          "canoe_test_case_details",
+          "test_failure"
+        ]
+      }
+    }
+  },
+  "required": [
+    "summary",
+    "tests"
+  ],
+  "$defs": {
+    "result": {
+      "type": "string",
+      "enum": ["PASSED", "FAILED", "SKIPPED"]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+"""
+    Copyright 2019 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows
+    :synopsis:
+        This file contains sample test(s) for ZenZefi utility
+
+    :author:
+        - Felix Wohlfrom <felix.2.wohlfrom@continental-corporation.com
+"""
+
+
+# standard Python import area
+import base64
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.global_params import get_parameter
+
+
+def SWT_SAMPLE_ZENZEFI_TESTv1():
+    DETAILS("Sample test for zenzefi utility")
+    DETAILS("It will login and logout at the ZenZefi web service")
+
+    PRECONDITION("ZenZefi installed and running.")
+
+    VERIFIES("L3_SW_CHECK_ZENZEFI")
+
+    TESTTAG("hil")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing zenzefi utility object via global variable")
+    EXPECTED("Object grabbed successfully")
+    zenzefi = get_parameter("zenzefi")
+
+    TESTSTEP("Reading ZenZefi Version")
+    EXPECTED("Reading ZenZefi version successful")
+
+    zenzefi.read_version()
+
+    # Below is an example which needs to be adapted by user based on zenzefi and ecu details
+
+    # Request cert_id and target_ecu from ECU...
+    cert_data = zenzefi.request_diag_certificate(
+                cert_id="80 DD 45 58 CC 84 CC 0A C1 64 D5 18 EC A6 45 06 5B 96 14 36",
+                target_ecu="LRR_GEN6",
+                user_role=1
+                )
+
+    # Send certificateData to ECU...
+    proof = zenzefi.check_ownership(
+        cert_id="80 DD 45 58 CC 84 CC 0A C1 64 D5 18 EC A6 45 06 5B 96 14 36",
+        ecu_challenge=
+        "00 00 00 20 D7 12 80 BF D1 57 9D FA A0 E1 34"
+        " 74 DE 36 1B B1 F1 8B 75 9E 3D 5A 0D A6 EB A5 BF D9 73 77 2C C7 00 00 00 00",
+        serial_number=cert_data["serial_num"]
+    )
+
+    print(proof)

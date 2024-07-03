@@ -1,0 +1,215 @@
+"""
+    Copyright 2023 Continental Corporation
+    :file: swt_custom_decorator.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        Script for demo tests about custom_setup decorator usage
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+
+# standard library imports
+import inspect
+
+# ConTest related imports
+from ptf.ptf_utils.decorator.custom_setup import custom_setup
+from ptf.ptf_utils.decorator.prioritization import priority, Priority
+from ptf.ptf_utils.parameterized import parameterized
+from contest_verify.verify import contest_asserts, contest_expects, contest_warn
+from ptf.ptf_utils.report import *
+
+
+@custom_setup(setup="my_setup_fail_expects", teardown="my_teardown")
+def SWT_SETUP_EXPECT_ERRv1():
+    DETAILS("Sample test case to show normal test case along-with the usage of @custom_setup decorator and contest_asserts")
+    DETAILS("In custom setup some errors will be raised")
+    DETAILS("The overall result of this test in JSON, HTML & TXT report shall be FAILED")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_SETUP_EXPECT_ERR")
+
+    TESTSTEP("Raising assertion")
+    EXPECTED("Assertion raised successfully")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+    contest_asserts.fail("force failure in test")
+
+
+@custom_setup(setup="my_setup_fail_assert", teardown="my_teardown")
+def SWT_SETUP_ASSERT_ERRv1():
+    DETAILS("Sample test case to show normal test case along-with the usage of @custom_setup decorator and contest_asserts")
+    DETAILS("In custom setup some errors will be raised")
+    DETAILS("The overall result of this test in JSON, HTML & TXT report shall be FAILED")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_SETUP_ASSERT_ERR")
+
+    TESTSTEP("Raising assertion")
+    EXPECTED("Assertion raised successfully")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+    contest_asserts.fail("force failure in test")
+
+
+@custom_setup(setup="my_setup_warn", teardown="my_teardown")
+def SWT_SETUP_WARNv1():
+    DETAILS("Sample normal test case along-with the usage of @custom_setup decorator and contest_warn")
+    DETAILS("In custom setup some warning(s) will be logged")
+    DETAILS("The overall result of this test in JSON, HTML & TXT report shall be INCONCLUSIVE")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_SETUP_WARN")
+
+    TESTTAG("warn")
+
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+
+
+@custom_setup(setup="my_setup_pass", teardown="my_teardown")
+def SWT_SETUP_PASSv1():
+    DETAILS("Sample test case to show normal test case along-with the usage of @custom_setup decorator")
+    DETAILS("In custom setup no errors or warnings shall occur")
+    DETAILS("The overall result of this test in JSON, HTML & TXT report shall be PASS")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_SETUP_PASS")
+
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+
+
+@custom_setup(setup="my_setup_pass")
+def SWT_SETUP_PASS_WO_TEARDOWNv1():
+    DETAILS("Sample test case to show normal test case along-with the usage of @custom_setup decorator")
+    DETAILS("In custom setup no errors or warnings shall occur")
+    DETAILS("The overall result of this test in JSON, HTML & TXT report shall be PASS")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_SETUP_PASS")
+
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+
+
+@custom_setup(setup="my_setup_pass", teardown="my_teardown")
+def SWT_EXPECTSv1():
+    DETAILS("Sample test case to show normal test case along-with the usage of @custom_setup decorator and contest_expects")
+    DETAILS("In custom setup no errors or warnings shall occur")
+    DETAILS("The overall result of this test in JSON, HTML & TXT report shall be FAILED as errors are inside test")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_EXPECTS")
+
+    TESTSTEP("Raising some custom expects exceptions")
+    EXPECTED("Exception raised successfully")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+    contest_expects.fail(f"fail 1 in {func_name}")
+    print("TEST: continue executing {}".format(func_name))
+    contest_expects.fail(f"fail 2 in {func_name}")
+
+
+@custom_setup(setup="my_setup_fail_assert", teardown="my_teardown")
+@parameterized(['hello', 'abc'])
+def SWT_PARAM_SETUP_ASSERTv1(text='ravi'):
+    DETAILS("Sample test case to show normal parameterized test case along-with the usage of @custom_setup decorator")
+    DETAILS("In custom setup some errors will be raised")
+    DETAILS("The overall result of this test (for all params) in JSON, HTML & TXT report shall be FAILED")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_PARAM_TEST")
+
+    TESTSTEP("Checking params")
+    EXPECTED("Params check successful")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+    contest_asserts.verify(text, "hello", "Error in {} value".format(text))
+
+
+@custom_setup(setup="my_setup_fail_assert")
+@parameterized(['hello', 'abc'])
+def SWT_PARAM_SETUP_ASSERT_WO_TEARDOWNv1(text='ravi'):
+    DETAILS("Sample test case to show normal parameterized test case along-with the usage of @custom_setup decorator")
+    DETAILS("In custom setup some errors will be raised")
+    DETAILS("The overall result of this test (for all params) in JSON, HTML & TXT report shall be FAILED")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_PARAM_TEST")
+
+    TESTSTEP("Checking params")
+    EXPECTED("Params check successful")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+    contest_asserts.verify(text, "hello", "Error in {} value".format(text))
+
+
+@parameterized(['hello', 'abc'], params_names=("hello", "abc"))
+def SWT_NORMAL_PARAM_TEST_1v1(text='ravi'):
+    DETAILS("Sample test case to show normal parameterized test case")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_PARAM_TEST_1")
+
+    TESTSTEP("Checking params")
+    EXPECTED("Params check successful")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+    contest_asserts.verify(text, "abc", "Error in {} value".format(text))
+
+
+def SWT_NORMAL_TEST_PASSv1():
+    DETAILS("Sample test case to show normal test passing")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_NORMAL_TEST_PASS")
+
+    TESTTAG("pass")
+
+    TESTSTEP("Printing some message")
+    EXPECTED("Message printed successfully")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+
+
+def SWT_NORMAL_TEST_FAILv1():
+    DETAILS("Sample test case to show normal assertion failure")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_NORMAL_TEST_FAIL")
+
+    TESTTAG("fail")
+
+    TESTSTEP("Forcing an assertion")
+    EXPECTED("Assertion raised successfully")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+    contest_asserts.fail(f"force failure in {func_name}")
+
+
+def SWT_NORMAL_WARNv1():
+    DETAILS("Sample test case to show the usage of 'contest_warn.warn' API")
+
+    PRECONDITION("NA")
+
+    VERIFIES("L3_SW_WARN")
+
+    TESTTAG("warn")
+
+    TESTSTEP("Logging a custom warning")
+    EXPECTED("Warning logged successfully")
+    func_name = inspect.currentframe().f_code.co_name
+    print("TEST: executing {}".format(func_name))
+    contest_warn.warn("Warning from test SWT_WARNv1")

@@ -1,0 +1,13 @@
+# github actions requirements
+requests
+pandas
+pyqt5==5.15.1
+
+# Linting
+black==23.10.0
+flake8==6.1.0
+flake8-pyproject==1.2.3
+pylint==3.0.1
+
+# ConTest related packages to be installed
+contest_verify

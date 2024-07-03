@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="/resources">
+    <file>gui_images/pass_icon.png</file>
+    <file>gui_images/no_status_icon.png</file>
+    <file>gui_images/fail_icon.png</file>
+    <file>gui_images/msg_err_icon.png</file>
+    <file>gui_images/msg_icon_trans.png</file>
+    <file>gui_images/msg_info_icon.png</file>
+    <file>gui_images/msg_warn_icon.png</file>
+    <file>gui_images/reload_icon.png</file>
+    <file>gui_images/logo_icon.png</file>
+    <file>gui_images/run_icon.png</file>
+    <file>gui_images/stop_icon.png</file>
+  </qresource>
+</RCC>

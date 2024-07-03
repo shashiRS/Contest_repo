@@ -1,0 +1,27 @@
+
+@startuml{utils.png}
+
+node "Automated Tools Utils [tools_utils]" as utils {
+    node "Feature for CANoe\nAutomation" <<canoe>> as canoe
+    node "Feature for Lauterbach\nAutomation" <<t32>> as t32
+    node "Feature for Goepel\nAutomation" <<goepel>> as goepel
+    node "Feature for RTA\nAutomation" <<rta>> as rta
+}
+
+node "Verify Utils" <<verify_utils>> as verify
+node "Test Suite" <<.pytest(s)>> as tests
+
+utils <-> verify: Error handling and verification
+utils <-> tests: Tests can use tools all the time
+
+skinparam node {
+    backgroundColor<<canoe>> LightGreen
+    backgroundColor<<t32>> LightGreen
+    backgroundColor<<goepel>> LightGreen
+    backgroundColor<<rta>> LightGreen
+    backgroundColor<<verify_utils>> LightGreen
+    backgroundColor<<.pytest(s)>> Orange
+}
+
+
+@enduml

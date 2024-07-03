@@ -1,0 +1,65 @@
+"""
+    Copyright 2019 Continental Corporation
+
+    :file: swt_sample_test.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        This file contains sample test(s) for the gude powercontrol utility
+
+    :author:
+        - Felix Wohlfrom <felix.2.wohlfrom@continental-corporation.com>
+"""
+
+
+# standard Python import area
+
+
+# ConTest or custom import area
+# NOTE : ALWAYS IMPORT (contest_expects, contest_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from ptf.ptf_utils.global_params import get_parameter
+from contest_verify.verify import contest_asserts
+from ptf.ptf_utils.report import DETAILS, PRECONDITION, VERIFIES, TESTTAG, TESTSTEP, EXPECTED, TESTCASE
+
+
+def SWT_SAMPLE_POWER_CONTROL_TESTv1():
+    DETAILS("Sample test for powercontrol utility")
+    DETAILS("This test case is written for Gude Power Control 8210")
+    DETAILS("Make sure that the power control is reachable via network on 192.168.0.2")
+
+    PRECONDITION("Fill in precondition")
+
+    VERIFIES("L3_SW_CHECK_POWERCTRL")
+
+    TESTTAG("hil")
+
+    TESTCASE()
+
+    TESTSTEP("Grabbing powercontrol utility object via global variable")
+    EXPECTED("Object grabbed successfully")
+    powercontrol = get_parameter("powercontrol")
+
+    TESTSTEP("Reading status of all ports of powercontrol")
+    EXPECTED("Status read successful")
+    status = powercontrol.get_state()
+    print("Port status: ", status)
+
+    TESTSTEP("Reading status of only port 2")
+    EXPECTED("Status read successful")
+    status = powercontrol.get_state(2)
+    print("Port status: ", status)
+
+    TESTSTEP("Set status of only port 2, enable port")
+    EXPECTED("Status set successful")
+    powercontrol.set_state(2, 1)
+
+    TESTSTEP("Set status of port 1, 3 and 4 to enabled")
+    EXPECTED("Status set successful")
+    powercontrol.set_state(ports=[1, None, 1, 1])
+
+    TESTSTEP("Disable all ports")
+    EXPECTED("All ports disabled")
+    powercontrol.set_all(0)
+    status = powercontrol.get_state()
+    for port_num, value in enumerate(status):
+        contest_asserts.verify(value, 0, "Did not disable port {}".format(port_num + 1))

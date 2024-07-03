@@ -1,0 +1,71 @@
+"""
+    Copyright 2023 Continental Corporation
+
+    :file: swt_execution_flow.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        Script containing tests checking execution flow of tests
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+# standard Python import area
+import sys
+
+# custom import area
+from contest_verify.verify import contest_asserts
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.parameterized import parameterized
+from ptf.ptf_utils.decorator.skip import skip_if
+
+
+def SWT_NORMAL_TEST_PASSv1():
+    print(f"TEST: Executing {SWT_NORMAL_TEST_PASSv1.__name__}")
+
+
+def SWT_NORMAL_TEST_FAILv1():
+    print(f"TEST: Executing {SWT_NORMAL_TEST_FAILv1.__name__}")
+    contest_asserts.fail(f"TEST: Forced failure from {SWT_NORMAL_TEST_FAILv1.__name__}")
+
+
+@skip_if(1 == 1, reason="TEST: skipped SWT_SKIPv1 as 1 == 1")
+def SWT_SKIPv1():
+    print(f"TEST: Executing {SWT_SKIPv1.__name__}")
+
+
+@skip_if(1 == 2, reason="TEST: skipped SWT_NO_SKIPv1 as 1 == 2 oops")
+def SWT_NO_SKIPv1():
+    print(f"TEST: Executing {SWT_NO_SKIPv1.__name__}")
+
+
+@parameterized(
+    params=[("pass"), ("fail")],
+    stop_on_first_failure=False,
+    print_full_parameters=True,
+    params_names=("pass", "fail")
+)
+def SWT_NORMAL_PARAM_TESTv1(a):
+    print(f"TEST: Executing SWT_NORMAL_PARAM_TESTv1(index: {a})")
+
+
+@skip_if(1 == 1, reason="TEST: skipped SWT_NORMAL_PARAM_TEST_SKIPv1 as 1 == 1")
+@parameterized(
+    params=[("pass"), ("fail")],
+    stop_on_first_failure=False,
+    print_full_parameters=True,
+    params_names=("pass", "fail")
+)
+def SWT_NORMAL_PARAM_TEST_SKIPv1(a):
+    print(f"TEST: Executing SWT_NORMAL_PARAM_TEST_SKIPv1(index: {a})")
+
+
+@skip_if(1 == 2, reason="TEST: skipped SWT_NORMAL_PARAM_TEST_NO_SKIPv1 as 1 == 2 oops")
+@parameterized(
+    params=[("pass"), ("fail")],
+    stop_on_first_failure=False,
+    print_full_parameters=True,
+    params_names=("pass", "fail")
+)
+def SWT_NORMAL_PARAM_TEST_NO_SKIPv1(a):
+    print(f"TEST: Executing SWT_NORMAL_PARAM_TEST_NO_SKIPv1(index: {a})")

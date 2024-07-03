@@ -1,0 +1,173 @@
+"""
+    Copyright 2023 Continental Corporation
+
+    :file: swt_skip_tests.pytest
+    :platform: Windows, Linux
+    :synopsis:
+        File containing demo test(s) for the usage of `skip_if` decorator
+
+    :author:
+        - M. Shan Ur Rehman <Muhammad.Shan.ur.Rehman@continental-corporation.com>
+"""
+
+# standard Python import area
+import sys
+
+# PTF or custom import area
+# NOTE : ALWAYS IMPORT (ptf_expects, ptf_asserts, report and get_parameter) AS BELOW.
+#        FOR PROPER DOCUMENTATION AND ERROR REPORTING
+from ptf.verify_utils import ptf_asserts
+from ptf.verify_utils import ptf_expects
+from ptf.ptf_utils.report import *
+from ptf.ptf_utils.parameterized import parameterized
+from ptf.ptf_utils.decorator.skip import skip_if
+from ptf.ptf_utils.decorator.custom_setup import custom_setup
+import common_funcs
+
+
+def SWT_NORMAL_TESTv1():
+    DETAILS("This test is a normal test without any decorator usage")
+
+    PRECONDITION("no_precondition")
+
+    VERIFIES("NORMAL_TESTS")
+
+    TESTTAG("normal_test")
+    TESTTAG("custom_setup")
+
+    TESTSTEP("Just print hellp world")
+    EXPECTED("hello world printed")
+    print("TEST: Hello World")
+
+
+@skip_if(sys.platform == 'linux', reason="This test shall only run on windows platform")
+@custom_setup(setup="skip_linux_setup", teardown="skip_linux_teardown")
+def SWT_SKIP_ON_LINUX_VIA_STATEMENT_TESTv1():
+    DETAILS("This test execution shall only happen on windows platform and shall be skipped on Linux platform")
+    DETAILS("The skip condition shall be given via statement")
+
+    PRECONDITION("no_precondition")
+
+    VERIFIES("SKIP_LINUX")
+
+    TESTTAG("skip_linux")
+    TESTTAG("custom_setup")
+
+    TESTSTEP("Check if test is running on windows platform")
+    EXPECTED("Test running on windows platform only")
+    ptf_asserts.verify(sys.platform, "win32", "Running on non windows platform")
+    print("TEST: Running on '{}' platform".format(sys.platform))
+
+
+@custom_setup(setup="skip_win_setup", teardown="skip_win_teardown")
+@skip_if(sys.platform == 'win32', reason="This test shall only run on linux platform")
+def SWT_SKIP_ON_WINDOWS_VIA_STATEMENT_TESTv1():
+    DETAILS("This test execution shall only happen on linux platform and shall be skipped on windows platform")
+    DETAILS("The skip condition shall be given via statement")
+
+    PRECONDITION("no_precondition")
+
+    VERIFIES("SKIP_WIN")
+
+    TESTTAG("skip_win")
+    TESTTAG("custom_setup")
+
+    TESTSTEP("Check if test is running on linux platform")
+    EXPECTED("Test running on linux platform only")
+    ptf_asserts.verify(sys.platform, "linux", "Running on non linux platform")
+    print("TEST: Running on '{}' platform".format(sys.platform))
+
+
+@skip_if(common_funcs.check_linux_platforms(), reason="This test shall only run on windows platform")
+@custom_setup(teardown="skip_linux_teardown")
+def SWT_SKIP_ON_LINUX_VIA_FUNC_TESTv1():
+    DETAILS("This test execution shall only happen on windows platform and shall be skipped on Linux platform")
+    DETAILS("The skip condition shall be given via function")
+
+    PRECONDITION("no_precondition")
+
+    VERIFIES("SKIP_LINUX")
+
+    TESTTAG("skip_linux")
+    TESTTAG("custom_setup")
+
+    TESTSTEP("Check if test is running on windows platform")
+    EXPECTED("Test running on windows platform only")
+    ptf_asserts.verify(sys.platform, "win32", "Running on non windows platform")
+    print("TEST: Running on '{}' platform".format(sys.platform))
+
+
+@skip_if(common_funcs.check_windows_platforms(), reason="This test shall only run on linux platform")
+@custom_setup(setup="skip_win_setup")
+def SWT_SKIP_ON_WINDOWS_VIA_FUNC_TESTv1():
+    DETAILS("This test execution shall only happen on linux platform and shall be skipped on windows platform")
+    DETAILS("The skip condition shall be given via function")
+
+    PRECONDITION("no_precondition")
+
+    VERIFIES("SKIP_WIN")
+
+    TESTTAG("skip_win")
+    TESTTAG("custom_setup")
+
+    TESTSTEP("Check if test is running on linux platform")
+    EXPECTED("Test running on linux platform only")
+    ptf_asserts.verify(sys.platform, "linux", "Running on non linux platform")
+    print("TEST: Running on '{}' platform".format(sys.platform))
+
+
+@skip_if(common_funcs.cat_is_sick(sick_status=False), reason="Our cats are sick")
+@custom_setup(setup="cats_setup")
+@parameterized(
+    params=[
+        "British Longhair",
+        "American Shorthair",
+        "Scottish Fold",
+    ],
+    stop_on_first_failure=False,
+    print_full_parameters=True,
+    params_names=("british", "american", "scotish")
+)
+def SWT_CATS_BREEDS_HEALTHYv1(cat_breed):
+    DETAILS("A parameterized test to print different cat breeds names only if our cats are healthy")
+
+    PRECONDITION("no_precondition")
+
+    VERIFIES("CATS")
+
+    TESTTAG("cats")
+    TESTTAG("custom_setup")
+
+    TESTSTEP("Printing different cat breeds")
+    EXPECTED("Cat breeds printed")
+    print("You might want to check '{}' cat breed online".format(cat_breed))
+    print("TEST: cat breeds printed")
+
+
+
+@parameterized(
+    params=[
+        "British Longhair",
+        "American Shorthair",
+        "Scottish Fold",
+    ],
+    stop_on_first_failure=False,
+    print_full_parameters=True,
+    params_names=("british", "american", "scotish")
+)
+@skip_if(common_funcs.cat_is_sick(sick_status=True), reason="Our cats are sick")
+@custom_setup(setup="cats_setup", teardown="cats_teardown")
+def SWT_CATS_BREEDS_SICKv1(cat_breed):
+    DETAILS("A parameterized test to print different cat breeds names only if our cats are healthy")
+
+    PRECONDITION("no_precondition")
+
+    VERIFIES("CATS")
+
+    TESTTAG("cats")
+    TESTTAG("custom_setup")
+
+    TESTSTEP("Printing different cat breeds")
+    EXPECTED("Cat breeds printed")
+    print("You might want to check '{}' cat breed online".format(cat_breed))
+    print("TEST: cat breeds printed")

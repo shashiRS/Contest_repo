@@ -1,0 +1,178 @@
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_test_generator_dialog(object):
+    def setupUi(self, test_generator_dialog):
+        test_generator_dialog.setObjectName("test_generator_dialog")
+        test_generator_dialog.resize(887, 200)
+        self.gridLayout_2 = QtWidgets.QGridLayout(test_generator_dialog)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.test_generator_input = QtWidgets.QGroupBox(test_generator_dialog)
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
+        self.test_generator_input.setFont(font)
+        self.test_generator_input.setObjectName("test_generator_input")
+        self.gridLayout = QtWidgets.QGridLayout(self.test_generator_input)
+        self.gridLayout.setObjectName("gridLayout")
+        self.template_line_edit = QtWidgets.QLineEdit(self.test_generator_input)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        font.setBold(False)
+        font.setWeight(50)
+        self.template_line_edit.setFont(font)
+        self.template_line_edit.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.template_line_edit.setText("")
+        self.template_line_edit.setReadOnly(True)
+        self.template_line_edit.setObjectName("template_line_edit")
+        self.gridLayout.addWidget(self.template_line_edit, 0, 1, 1, 2)
+        self.template_button = QtWidgets.QPushButton(self.test_generator_input)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        font.setBold(False)
+        font.setWeight(50)
+        self.template_button.setFont(font)
+        self.template_button.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.template_button.setObjectName("template_button")
+        self.gridLayout.addWidget(self.template_button, 0, 0, 1, 1)
+        self.generate_csv_button = QtWidgets.QPushButton(self.test_generator_input)
+        self.generate_csv_button.setEnabled(True)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
+        self.generate_csv_button.setFont(font)
+        self.generate_csv_button.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.generate_csv_button.setStyleSheet("background-color: rgb(39, 174, 96);")
+        self.generate_csv_button.setObjectName("generate_csv_button")
+        self.gridLayout.addWidget(self.generate_csv_button, 3, 0, 1, 1)
+        self.pytest_line_edit = QtWidgets.QLineEdit(self.test_generator_input)
+        self.pytest_line_edit.setEnabled(True)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        font.setBold(False)
+        font.setWeight(50)
+        self.pytest_line_edit.setFont(font)
+        self.pytest_line_edit.setFocusPolicy(QtCore.Qt.ClickFocus)
+        self.pytest_line_edit.setText("")
+        self.pytest_line_edit.setReadOnly(False)
+        self.pytest_line_edit.setClearButtonEnabled(False)
+        self.pytest_line_edit.setObjectName("pytest_line_edit")
+        self.gridLayout.addWidget(self.pytest_line_edit, 4, 1, 1, 2)
+        self.csv_line_edit = QtWidgets.QLineEdit(self.test_generator_input)
+        self.csv_line_edit.setEnabled(True)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        font.setBold(False)
+        font.setWeight(50)
+        self.csv_line_edit.setFont(font)
+        self.csv_line_edit.setFocusPolicy(QtCore.Qt.ClickFocus)
+        self.csv_line_edit.setReadOnly(False)
+        self.csv_line_edit.setObjectName("csv_line_edit")
+        self.gridLayout.addWidget(self.csv_line_edit, 1, 1, 1, 2)
+        self.test_addition_checkbox = QtWidgets.QCheckBox(self.test_generator_input)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.test_addition_checkbox.setFont(font)
+        self.test_addition_checkbox.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.test_addition_checkbox.setObjectName("test_addition_checkbox")
+        self.gridLayout.addWidget(self.test_addition_checkbox, 3, 1, 1, 1)
+        self.csv_file_button = QtWidgets.QPushButton(self.test_generator_input)
+        self.csv_file_button.setEnabled(True)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        font.setBold(False)
+        font.setWeight(50)
+        self.csv_file_button.setFont(font)
+        self.csv_file_button.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.csv_file_button.setObjectName("csv_file_button")
+        self.gridLayout.addWidget(self.csv_file_button, 1, 0, 1, 1)
+        self.generate_tests_button = QtWidgets.QPushButton(self.test_generator_input)
+        self.generate_tests_button.setEnabled(True)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
+        self.generate_tests_button.setFont(font)
+        self.generate_tests_button.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.generate_tests_button.setStyleSheet("background-color: rgb(39, 174, 96);")
+        self.generate_tests_button.setObjectName("generate_tests_button")
+        self.gridLayout.addWidget(self.generate_tests_button, 4, 0, 1, 1)
+        self.num_of_tests_spinbox = QtWidgets.QSpinBox(self.test_generator_input)
+        self.num_of_tests_spinbox.setEnabled(False)
+        self.num_of_tests_spinbox.setMaximumSize(QtCore.QSize(160, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.num_of_tests_spinbox.setFont(font)
+        self.num_of_tests_spinbox.setMinimum(1)
+        self.num_of_tests_spinbox.setMaximum(9999)
+        self.num_of_tests_spinbox.setObjectName("num_of_tests_spinbox")
+        self.gridLayout.addWidget(self.num_of_tests_spinbox, 3, 2, 1, 1)
+        self.template_button.raise_()
+        self.template_line_edit.raise_()
+        self.csv_line_edit.raise_()
+        self.csv_file_button.raise_()
+        self.generate_csv_button.raise_()
+        self.generate_tests_button.raise_()
+        self.pytest_line_edit.raise_()
+        self.test_addition_checkbox.raise_()
+        self.num_of_tests_spinbox.raise_()
+        self.gridLayout_2.addWidget(self.test_generator_input, 0, 0, 1, 1)
+
+        self.retranslateUi(test_generator_dialog)
+        QtCore.QMetaObject.connectSlotsByName(test_generator_dialog)
+
+    def retranslateUi(self, test_generator_dialog):
+        _translate = QtCore.QCoreApplication.translate
+        test_generator_dialog.setWindowTitle(_translate("test_generator_dialog", "Tests Generator"))
+        self.test_generator_input.setTitle(_translate("test_generator_dialog", "Inputs for Tests Generation"))
+        self.template_line_edit.setToolTip(_translate("test_generator_dialog", "<html><head/><body><p>Name of selected template file.</p></body></html>"))
+        self.template_line_edit.setPlaceholderText(_translate("test_generator_dialog", "Selected Test Template "))
+        self.template_button.setToolTip(_translate("test_generator_dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Click to select template file (.tpl)</p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This file shall contain template of test case with markers to be filled in csv file.</p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Markers shall be mentioned as <span style=\" font-weight:600;\">${marker_name} </span>in template file.</p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Following template contains 4 markers (test_name, requirement, num_1, num_2, result):</p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">def SWT_${test_name}v1__each():</p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    DETAILS(&quot;${test_name} verification&quot;)</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> </p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">     VERIFIES(&quot;${requirement}&quot;)</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> </p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">     TESTTAG(&quot;hil&quot;)</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">     </p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">     TESTCASE()</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">     TESTSTEP(&quot;Test for adding numbers ${num_1} and ${num_2}&quot;)</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">     EXPECTED(&quot;Result shall be ${result}&quot;)</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">     ptf_asserts.verify(${num_1} + ${num_2}, ${result}, &quot;${num_1} + ${num_2} != ${result}&quot;)</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.template_button.setText(_translate("test_generator_dialog", "Select Template"))
+        self.generate_csv_button.setToolTip(_translate("test_generator_dialog", "<html><head/><body><p>Click to generate/update csv file containing markers names (as columns) and no. of tests (as rows).</p></body></html>"))
+        self.generate_csv_button.setText(_translate("test_generator_dialog", "Update/Generate CSV"))
+        self.pytest_line_edit.setToolTip(_translate("test_generator_dialog", "<html><head/><body><p>Enter name of the test script in which test cases need to be created.</p></body></html>"))
+        self.pytest_line_edit.setPlaceholderText(_translate("test_generator_dialog", "Enter Name of Test Script to be created (swt_<name>.pytest)"))
+        self.csv_line_edit.setToolTip(_translate("test_generator_dialog", "<html><head/><body><p>Enter name of a new csv file in which markers data can be added. </p></body></html>"))
+        self.csv_line_edit.setPlaceholderText(_translate("test_generator_dialog", "Enter New Marker CSV File Name (e.g. marker_filler.csv)"))
+        self.test_addition_checkbox.setToolTip(_translate("test_generator_dialog", "<html><head/><body><p>Select if you want to add test case rows in csv file.</p></body></html>"))
+        self.test_addition_checkbox.setText(_translate("test_generator_dialog", "Add Tests"))
+        self.csv_file_button.setToolTip(_translate("test_generator_dialog", "<html><head/><body><p>Click to select an existing csv file which contains markers data.</p></body></html>"))
+        self.csv_file_button.setText(_translate("test_generator_dialog", "Select CSV File"))
+        self.generate_tests_button.setToolTip(_translate("test_generator_dialog", "<html><head/><body><p>Click to generate test cases.</p></body></html>"))
+        self.generate_tests_button.setText(_translate("test_generator_dialog", "Generate Tests"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    test_generator_dialog = QtWidgets.QDialog()
+    ui = Ui_test_generator_dialog()
+    ui.setupUi(test_generator_dialog)
+    test_generator_dialog.show()
+    sys.exit(app.exec_())
