@@ -51,7 +51,7 @@ def global_setup():
     project_folder  = cm_app.get_project_path()
     print(project_folder)
     
-    cm_app.set_project_dir("D:\\FFL_Closed_loop\\mf_sil\\tests\\SIL\\CarMaker")
+    cm_app.set_project_dir("D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\mf_sil\\tests\\SIL\\CarMaker")
     
     time.sleep(2)
 
