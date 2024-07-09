@@ -55,7 +55,7 @@ def SWT_SAMPLE_TESTv1(Test_run, n2):
     cm_app.load_test_run(path_to_test_run=n2)
 
     cm_app.start_sim()
-    time.sleep(5)
+    time.sleep(80)
     print("Waiting 5 secs.........")
     #cm_app.simulate()
     #print("Simulating......")
