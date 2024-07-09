@@ -1,3 +1,3 @@
-#TEST_RUN = r"D:\TATA\mf_sil\tests\SIL\CarMaker\Data\TestRun\ReverseAssist"
-TESTRUN_CHECK_01 = r"ReverseAssist\01_RA_SCurve_20m_DynObj"
-TESTRUN_CHECK_02 = r"ReverseAssist\02_RA_SCurve_50m_NoDynObj"
+#TEST_RUN = r"AP\06_Regression\MoCo_Functional_Testing\AUPSim_UC_ParRight_ST-1_04_02_B_SI_ExtendedEndTime"
+TESTRUN_CHECK_01 = r"AP\06_Regression\MoCo_Functional_Testing\AUPSim_UC_ParRight_ST-1_04_02_B_SI_ExtendedEndTime"
+TESTRUN_CHECK_02 = r"AP\06_Regression\MoCo_Functional_Testing\AUPSim_UC_PerpLeft_ST-2_04_04_F_SI_FirstSteerAccur"
