@@ -25,12 +25,24 @@ from ptf.ptf_utils.parameterized import parameterized
 import paths
 import time
 
-@parameterized([
-    ("CHECK_01_TESTv1", paths.TESTRUN_CHECK_01),
-    ("CHECK_02_TESTv1", paths.TESTRUN_CHECK_02),
-])
+#@parameterized([
+#    ("CHECK_01_TESTv1", paths.TESTRUN_CHECK_01),
+#    ("CHECK_02_TESTv1", paths.TESTRUN_CHECK_02),
+#])
 
+import os
+
+# Get all test run names from the directory
+TEST_RUN_DIR = r"D:\JenkinsServer_Main\workspace\FFL_CL_Simulation\package\tests\SIL\CarMaker\Data\TestRun\LVMD"
+test_runs = [(f"TEST_{i+1}", os.path.join(TEST_RUN_DIR, file)) for i, file in enumerate(os.listdir(TEST_RUN_DIR))]
+
+@parameterized(test_runs)
 def SWT_SAMPLE_TESTv1(Test_run, n2):
+    #cm_app = get_parameter("carmaker")
+    #cm_app.load_test_run(path_to_test_run=n2)
+
+
+    #def SWT_SAMPLE_TESTv1(Test_run, n2):
     DETAILS("This is FFL Closed Loop testing")
     DETAILS("Complete simulation process with contest")
 
@@ -46,6 +58,8 @@ def SWT_SAMPLE_TESTv1(Test_run, n2):
     TESTSTEP("Fetching carmaker class instance created in 'global_setup'")
     EXPECTED("Carmaker class instance grabbed successfully")
     cm_app = get_parameter("carmaker")
+    
+
     TESTSTEP("Loading a test run of carmaker")
     EXPECTED("CarMaker started and test run loaded successfully")
 
@@ -53,6 +67,7 @@ def SWT_SAMPLE_TESTv1(Test_run, n2):
 
     time.sleep(3)
     cm_app.load_test_run(path_to_test_run=n2)
+    #cm_app.load_test_run(path_to_test_run="D:\JenkinsServer_Main\workspace\FFL_CL_Simulation\package\tests\SIL\CarMaker\Data\TestRun\LVMD\")
 
     cm_app.start_sim()
     time.sleep(80)
