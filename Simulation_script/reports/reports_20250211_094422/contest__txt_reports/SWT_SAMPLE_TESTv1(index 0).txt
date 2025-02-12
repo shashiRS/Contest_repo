@@ -1,0 +1,33 @@
+[ConTest PARAMETERIZED 09:45:08,718] Running with parameters: {'Test_run': 'TEST_1', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS_DF_Calculate_Minimum_Forward_Disctance_wrt_Ego_1300639'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-09:45:08.718327] Checking the .erg genefrated or not
+
+
+[TESTSTEP-09:45:08.718327] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-09:45:08.718327] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-09:45:08.718327] Loading a test run of carmaker
+[EXPECTED-09:45:08.718327] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 09:45:11,719] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS_DF_Calculate_Minimum_Forward_Disctance_wrt_Ego_1300639
+[ConTest CarMaker 3.0.2 09:45:13,721] Waiting for Status idle
+[ConTest CarMaker 3.0.2 09:45:13,723] Status idle detected
+[ConTest CarMaker 3.0.2 09:45:14,724] Simulation started.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 60159.461975097656 msec
+[PASSED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+

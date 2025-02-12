@@ -1,0 +1,33 @@
+[ConTest TEST_RUNNER 09:43:42,879] Starting Tests Execution
+
+============================== begin global_setup =============================
+
+<contest_carmaker.carmaker.carmaker_utils.CarMaker object at 0x000001310B6C2FD0>
+********************Hello World!*******************
+[ConTest CarMaker 3.0.2 09:43:59,198] Command to start CarMaker: C:\LegacyApp\IPG\carmaker\win64-8.1.1\GUI\HIL.exe -cmdport 2327 -apphost localhost
+[ConTest TEST_RUNNER 09:44:08,326] unsupported operand type(s) for *: 'NoneType' and 'int'
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\test_runner.py", line 786, in run
+    test_function()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest", line 51, in global_setup
+    cm_app.start_carmaker(cm_exe_path="C:\LegacyApp\IPG\carmaker\win64-8.1.1\GUI\HIL.exe")
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_carmaker\carmaker\carmaker_utils.py", line 141, in start_carmaker
+    if not self.cm_gui_running():
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_carmaker\carmaker\carmaker_utils.py", line 185, in cm_gui_running
+    .communicate()[0]
+     ^^^^^^^^^^^^^
+  File "D:\JenkinsServer_Main\workspace\Contest_download\3.11.2\3.11.2\Lib\subprocess.py", line 1194, in communicate
+    stdout = self.stdout.read()
+             ^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\test_runner.py", line 832, in run
+    watcher_runner.test_finished()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\test_watcher.py", line 464, in test_finished
+    "test_duration": testcase.run_time * 1000,
+                     ~~~~~~~~~~~~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'

@@ -1,0 +1,77 @@
+
+============================== begin global_setup =============================
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\test_runner.py", line 788, in run
+    test_function()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest", line 40, in global_setup
+    cm_app = carmaker_utils.CarMaker()
+NameError: name 'carmaker_utils' is not defined
+
+Executed in 0.0 msec
+[FAILED]
+
+=============================== end global_setup ==============================
+
+
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 16:02:05,854] Running with parameters: []
+--> Testcase failed with Failure(s):  Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function
+
+Executed in 23.374557495117188 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+
+Executed in 30.296802520751953 msec
+[FAILED]
+
+============================ end SWT_SAMPLE_TESTv1 ============================
+
+
+============================ begin global_teardown ============================
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\test_runner.py", line 788, in run
+    test_function()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest", line 70, in global_teardown
+    cm_app = get_parameter("carmaker")
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\global_params.py", line 294, in get_parameter
+    raise KeyError(
+KeyError: "Key 'carmaker' is not found in global, local or report parameter list. Please check if you have created this key in global or local setups."
+
+Executed in 3.5734176635742188 msec
+[FAILED]
+
+============================= end global_teardown =============================
+
+
+==================== TEST REPORT LOG ======================
+[Total Tests]        : 3
+[Running Tests]      : 3
+[Passed Tests]       : 0
+[Inconclusive Tests] : 0
+[Skipped Tests]      : 0
+[Failed Tests]       : 3
+[Ignored Tests]      : 0
+[Missing Tests]      : 0
+[Machine Name]       : NA
+[User Name]          : uig44320
+
+[Failing Tests] :
+                 global_setup
+                 SWT_SAMPLE_TESTv1(index: 0)
+                 global_teardown
+
+[Execution Time]  : 0.02726147174835205 mins
+
+[TimeStamp]  : Mon Feb 10 16:02:06 2025
+
+[TestEnvironment] : ConTest_v3.5.0 
+============================================================
+

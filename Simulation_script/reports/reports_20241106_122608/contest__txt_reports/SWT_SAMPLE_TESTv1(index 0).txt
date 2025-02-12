@@ -1,0 +1,8 @@
+[ConTest PARAMETERIZED 12:28:20,536] Running with parameters: {'Test_run': 'CHECK_01_TESTv1', 'n2': 'AP\\06_Regression\\MoCo_Functional_Testing\\AUPSim_UC_ParRight_ST-1_04_02_B_SI_ExtendedEndTime'}
+--> Testcase failed with Failure(s):  Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function
+
+Executed in 16.529083251953125 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+

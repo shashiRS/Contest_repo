@@ -1,0 +1,34 @@
+[ConTest PARAMETERIZED 15:58:32,371] Running with parameters: {'Test_run': 'TEST_2', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Visual_Warning_For_VRU_1300654'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-15:58:32.371009] Checking the .erg genefrated or not
+
+
+[TESTSTEP-15:58:32.371009] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-15:58:32.371009] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-15:58:32.371009] Loading a test run of carmaker
+[EXPECTED-15:58:32.372079] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 15:58:35,372] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Visual_Warning_For_VRU_1300654
+[ConTest CarMaker 3.0.2 15:58:37,374] Waiting for Status idle
+[ConTest CarMaker 3.0.2 15:58:37,375] Status idle detected
+[ConTest CarMaker 3.0.2 15:58:38,376] Simulation started.
+Waiting 5 secs.........
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 86008.86917114258 msec
+[PASSED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 1) =======================
+

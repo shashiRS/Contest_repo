@@ -1,0 +1,141 @@
+[ConTest TEST_RUNNER 16:02:57,447] Starting Tests Execution
+
+============================== begin global_setup =============================
+
+<contest_carmaker.carmaker.carmaker_utils.CarMaker object at 0x00000209127BA890>
+********************Hello World!*******************
+[ConTest CarMaker 3.0.2 16:03:16,123] Command to start CarMaker: C:\LegacyApp\IPG\carmaker\win64-8.1.1\GUI\HIL.exe -cmdport 2327 -apphost localhost
+[ConTest CarMaker 3.0.2 16:03:34,620] CarMaker GUI instance started successfully
+[ConTest CarMaker 3.0.2 16:03:37,625] Project Path: D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+[ConTest CarMaker 3.0.2 16:03:37,627] Selecting Project D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+[ConTest CarMaker 3.0.2 16:03:44,704] Waiting for Status idle
+[ConTest CarMaker 3.0.2 16:03:46,207] Status idle detected
+[ConTest CarMaker 3.0.2 16:03:46,207] CarMaker Started and Connected
+
+Executed in 51760.55645942688 msec
+[PASSED]
+
+=============================== end global_setup ==============================
+
+
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 16:03:49,727] Running with parameters: {'Test_run': 'TEST_1', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Audio_Warning_For_VRU_1300658'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-16:03:49.727543] Checking the .erg genefrated or not
+
+
+[TESTSTEP-16:03:49.728540] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-16:03:49.728540] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-16:03:49.728540] Loading a test run of carmaker
+[EXPECTED-16:03:49.728540] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 16:03:52,729] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Audio_Warning_For_VRU_1300658
+[ConTest CarMaker 3.0.2 16:03:54,730] Waiting for Status idle
+[ConTest CarMaker 3.0.2 16:03:54,732] Status idle detected
+[ConTest CarMaker 3.0.2 16:03:55,733] Simulation started.
+Waiting 5 secs.........
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 86018.0356502533 msec
+[PASSED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 1) ======================
+
+[ConTest PARAMETERIZED 16:05:15,752] Running with parameters: {'Test_run': 'TEST_2', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Visual_Warning_For_VRU_1300654'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-16:05:15.752005] Checking the .erg genefrated or not
+
+
+[TESTSTEP-16:05:15.752005] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-16:05:15.752005] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-16:05:15.752005] Loading a test run of carmaker
+[EXPECTED-16:05:15.752005] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 16:05:18,753] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Visual_Warning_For_VRU_1300654
+[ConTest CarMaker 3.0.2 16:05:20,755] Waiting for Status idle
+[ConTest CarMaker 3.0.2 16:05:20,757] Status idle detected
+[ConTest CarMaker 3.0.2 16:05:21,758] Simulation started.
+Waiting 5 secs.........
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 86010.33568382263 msec
+[PASSED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 1) =======================
+
+
+Executed in 172052.24418640137 msec
+[PASSED]
+
+============================ end SWT_SAMPLE_TESTv1 ============================
+
+
+============================ begin global_teardown ============================
+
+[ConTest CarMaker 3.0.2 16:06:42,272] Application Stopped
+[ConTest CarMaker 3.0.2 16:06:42,272] Exiting CarMaker
+[ConTest CarMaker 3.0.2 16:06:42,272] CarMaker disconnecting Telnet Connection
+
+Executed in 3.2720565795898438 msec
+[PASSED]
+
+============================= end global_teardown =============================
+
+
+==================== TEST REPORT LOG ======================
+[Total Tests]        : 4
+[Running Tests]      : 4
+[Passed Tests]       : 4
+[Inconclusive Tests] : 0
+[Skipped Tests]      : 0
+[Failed Tests]       : 0
+[Ignored Tests]      : 0
+[Missing Tests]      : 0
+[Machine Name]       : NA
+[User Name]          : uig44320
+
+[Passed Tests] :
+                 global_setup
+                 SWT_SAMPLE_TESTv1(index: 0)
+                 SWT_SAMPLE_TESTv1(index: 1)
+                 global_teardown
+
+[Execution Time]  : 3.7555131038029987 mins
+
+[TimeStamp]  : Tue Feb 11 16:06:42 2025
+
+[TestEnvironment] : ConTest_v4.1.0
+============================================================
+

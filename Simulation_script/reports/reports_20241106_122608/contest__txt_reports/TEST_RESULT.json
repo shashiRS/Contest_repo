@@ -1,0 +1,110 @@
+{
+    "$schema": "https://cip-config.cmo.conti.de/v2/configuration/contest/json_report_schema/1.0/schemas/test_report_schema.json",
+    "summary": {
+        "Runtime": 2.2113332549730935,
+        "Total_Tests": 4,
+        "Failed_Tests": 4,
+        "Passed_Tests": 0,
+        "Inconclusive_Tests": 0,
+        "Skipped_Tests": 0,
+        "Ignored_Tests": 0,
+        "Missing_Tests": 0,
+        "Test_Run_Result": false,
+        "Test_Environment": "ConTest_v3.3.0 ",
+        "Machine": "OZD3524W",
+        "User": "uig44320",
+        "Reporting_Parameters": {}
+    },
+    "tests": [
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "global_setup",
+            "test_duration": 131062.28137016296,
+            "test_date": "Wed Nov  6 12:26:08 2024",
+            "test_status": "FAILED",
+            "test_verifies": [],
+            "automates_id": [],
+            "test_tags": [],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": "telnet connection to CarMaker gui is not established. Error: [WinError 10061] No connection could be made because the target machine actively refused it. \n\t-->  File \"D:\\JenkinsServer_Main\\workspace\\Contest_download\\Simulation_script\\setup.pytest\" line 48",
+            "test_skip_reason": null
+        },
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "SWT_SAMPLE_TESTv1(index: 0)",
+            "test_duration": 16.529083251953125,
+            "test_date": "Wed Nov  6 12:28:20 2024",
+            "test_status": "FAILED",
+            "test_verifies": [
+                "Mention requirement satisfied by this test case"
+            ],
+            "automates_id": [],
+            "test_tags": [
+                "blackbox",
+                "hil",
+                "integration",
+                "parameterized",
+                "python",
+                "sil"
+            ],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": "Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function",
+            "test_skip_reason": null
+        },
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "SWT_SAMPLE_TESTv1(index: 1)",
+            "test_duration": 2.9320716857910156,
+            "test_date": "Wed Nov  6 12:28:20 2024",
+            "test_status": "FAILED",
+            "test_verifies": [
+                "Mention requirement satisfied by this test case"
+            ],
+            "automates_id": [],
+            "test_tags": [
+                "blackbox",
+                "hil",
+                "integration",
+                "parameterized",
+                "python",
+                "sil"
+            ],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function",
+            "test_skip_reason": null
+        },
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "global_teardown",
+            "test_duration": 6.052970886230469,
+            "test_date": "Wed Nov  6 12:28:21 2024",
+            "test_status": "FAILED",
+            "test_verifies": [],
+            "automates_id": [],
+            "test_tags": [],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": "Might be telnet connection not established, user trying to send appl  commands. \n\t-->  File \"D:\\JenkinsServer_Main\\workspace\\Contest_download\\Simulation_script\\setup.pytest\" line 71",
+            "test_skip_reason": null
+        }
+    ]
+}

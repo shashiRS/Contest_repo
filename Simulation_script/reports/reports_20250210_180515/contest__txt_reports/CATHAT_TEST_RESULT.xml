@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catHat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="heatSWTestFrameworkLog_v050.xsd">
+    <testBases/>
+    <testEnvironments>
+        <testEnvironmentGroup name="">
+        </testEnvironmentGroup>
+    </testEnvironments>
+    <testData>
+    <!-- files -->
+    </testData>
+    <testObjects>
+    <!-- files -->
+    </testObjects>
+    <testPlans>
+    </testPlans>
+    <testrun>
+        <docInfo>
+            <properties>
+                <property name="uig44320" value="uig44320"/>
+            </properties>
+            <overview>
+                <origin> </origin>
+                <title> </title>
+                <revisionLabel> </revisionLabel>
+                <createdAt> </createdAt>
+                <docStatus> </docStatus>
+                <organization>"Continental ADC GmbH"</organization>
+                <creationResponsible> </creationResponsible>
+                <approver> </approver>
+                <history> </history>
+            </overview>
+            <scope> ""
+            </scope>
+        </docInfo>
+        <testsuites name="ConTest_v4.1.0">
+            <testsuite name="ConTest_v4.1.0" tests="1">
+                <properties>
+                    <property name="Tester" value="uig44320"/>
+                    <property name="InformOnMail" value="uig44320@continental.com"/>
+                </properties>
+                <references>
+                    <testBaseRef> </testBaseRef>
+                    <testObjectRef> </testObjectRef>
+                    <testPlanRef> </testPlanRef>
+                    <testEnvironmentRef> </testEnvironmentRef>
+                    <testDataRef> </testDataRef>
+                </references>
+                <testsuiteResult tests="1" failures="1" errors="0"
+                            hostname="uig44320" skipped="0"  duration="48.019775390625"
+                            timestampStart="2025-02-10T12:35:16">
+                    <properties>
+                        <property name="Tester" value="uig44320"/>
+                        <property name="InformOnMail" value="uig44320@continental.com"/>
+                    </properties>
+                </testsuiteResult>
+                
+                <testcase classname="ConTest_v4.1.0" name="SWT_SAMPLE_TESTv1(index: 0)">
+                    <testcaseResult verdict="failed" duration="0.004873037338256836"
+                        timestampStart="2025-02-10T12:36:03">
+                        <properties>
+                            <property name="Tester" value="uig44320"/>
+                            <property name="InformOnMail" value="uig44320@continental.com"/>
+                        </properties>
+                    </testcaseResult>
+                    <attributes>
+                        <isRegression>no</isRegression>
+                        <isDestructive>no</isDestructive>
+                        <priority>0</priority>
+                        <estimatedExecutionTime>0</estimatedExecutionTime>
+                    </attributes>
+                    traceability id = 'Mention requirement satisfied by this test case' /
+                    <description>""</description>
+                    <testSteps name="SWT_SAMPLE_TESTv1(index: 0)">
+                        <step id="">
+                            <description>""</description>
+                            <expectedResults>""</expectedResults>
+                            <observedResults verdict="failed"
+                             timestampStart="2025-02-10T12:36:03" timestampEnd="2025-02-10T12:36:03">
+                                    <system-out>"
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 18:06:03,133] Running with parameters: []
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 249, in __execute_test
+    self.__run_test(func, param)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 357, in __run_test
+    func(*param)
+TypeError: SWT_SAMPLE_TESTv1() missing 2 required positional arguments: 'test_name' and 'test_run_path'
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 4.873037338256836 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+"
+                                    </system-out>
+                            </observedResults>
+                        </step>
+                        <properties>
+                            <property name="heppy-cli::etmReadOnly::DatabaseId"
+                            value=""/>
+                        </properties>
+                    </testSteps>
+                </testcase>
+                <history>
+                <HistoryEntry date=""/>
+                </history>
+                <glossary>
+                <term name=""/>
+                </glossary>
+            </testsuite>
+        </testsuites>
+   </testrun>
+</catHat>
+    

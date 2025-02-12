@@ -1,0 +1,23 @@
+[ConTest PARAMETERIZED 18:06:03,133] Running with parameters: []
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 249, in __execute_test
+    self.__run_test(func, param)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 357, in __run_test
+    func(*param)
+TypeError: SWT_SAMPLE_TESTv1() missing 2 required positional arguments: 'test_name' and 'test_run_path'
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 4.873037338256836 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+

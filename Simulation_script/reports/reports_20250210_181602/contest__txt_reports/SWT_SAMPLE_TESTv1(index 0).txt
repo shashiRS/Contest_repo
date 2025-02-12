@@ -1,0 +1,8 @@
+[ConTest PARAMETERIZED 18:16:03,941] Running with parameters: []
+--> Testcase failed with Failure(s):  Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function
+
+Executed in 24.31178092956543 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+

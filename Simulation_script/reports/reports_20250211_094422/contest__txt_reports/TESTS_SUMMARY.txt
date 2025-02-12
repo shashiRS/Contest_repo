@@ -1,0 +1,85 @@
+[ConTest TEST_RUNNER 09:44:23,131] Starting Tests Execution
+
+============================== begin global_setup =============================
+
+<contest_carmaker.carmaker.carmaker_utils.CarMaker object at 0x000001BE07812890>
+********************Hello World!*******************
+[ConTest CarMaker 3.0.2 09:44:38,556] Command to start CarMaker: C:\LegacyApp\IPG\carmaker\win64-8.1.1\GUI\HIL.exe -cmdport 2327 -apphost localhost
+[ConTest CarMaker 3.0.2 09:44:53,750] CarMaker GUI instance started successfully
+[ConTest CarMaker 3.0.2 09:44:56,753] Project Path: D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+[ConTest CarMaker 3.0.2 09:44:56,754] Selecting Project D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+[ConTest CarMaker 3.0.2 09:45:03,825] Waiting for Status idle
+[ConTest CarMaker 3.0.2 09:45:05,202] Status idle detected
+[ConTest CarMaker 3.0.2 09:45:05,202] CarMaker Started and Connected
+
+Executed in 45071.29526138306 msec
+[PASSED]
+
+=============================== end global_setup ==============================
+
+
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 09:45:08,718] Running with parameters: {'Test_run': 'TEST_1', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS_DF_Calculate_Minimum_Forward_Disctance_wrt_Ego_1300639'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-09:45:08.718327] Checking the .erg genefrated or not
+
+
+[TESTSTEP-09:45:08.718327] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-09:45:08.718327] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-09:45:08.718327] Loading a test run of carmaker
+[EXPECTED-09:45:08.718327] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 09:45:11,719] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS_DF_Calculate_Minimum_Forward_Disctance_wrt_Ego_1300639
+[ConTest CarMaker 3.0.2 09:45:13,721] Waiting for Status idle
+[ConTest CarMaker 3.0.2 09:45:13,723] Status idle detected
+[ConTest CarMaker 3.0.2 09:45:14,724] Simulation started.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 60159.461975097656 msec
+[PASSED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+[ConTest TEST_RUNNER 09:46:08,878] unsupported operand type(s) for *: 'NoneType' and 'int'
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\test_runner.py", line 777, in run
+    test_function(watcher_runner, global_setup_success)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\test_runner.py", line 100, in wrapper
+    return test_to_wrap(
+           ^^^^^^^^^^^^^
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 145, in parameterized_runner
+    self.__execute_test(
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 249, in __execute_test
+    self.__run_test(func, param)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 359, in __run_test
+    func(**param)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\swt_sample_test.pytest", line 73, in SWT_SAMPLE_TESTv1
+    time.sleep(80)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\test_runner.py", line 832, in run
+    watcher_runner.test_finished()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\test_watcher.py", line 464, in test_finished
+    "test_duration": testcase.run_time * 1000,
+                     ~~~~~~~~~~~~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'

@@ -1,0 +1,130 @@
+{
+    "$schema": "https://cip-config.cmo.conti.de/v2/configuration/contest/json_report_schema/1.0/schemas/test_report_schema.json",
+    "summary": {
+        "Runtime": 3.764386554559072,
+        "Total_Tests": 4,
+        "Failed_Tests": 0,
+        "Passed_Tests": 4,
+        "Inconclusive_Tests": 0,
+        "Skipped_Tests": 0,
+        "Ignored_Tests": 0,
+        "Missing_Tests": 0,
+        "Test_Run_Result": true,
+        "Test_Environment": "ConTest_v4.1.0",
+        "Machine": "NA",
+        "User": "uig44320",
+        "Reporting_Parameters": {}
+    },
+    "tests": [
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "global_setup",
+            "test_duration": 52288.33031654358,
+            "test_date": "Tue Feb 11 15:21:13 2025",
+            "test_status": "PASSED",
+            "test_verifies": [],
+            "automates_id": [],
+            "test_tags": [],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": null,
+            "test_skip_reason": null
+        },
+        {
+            "test_execution": [
+                " Test Step-15:22:06.080780: Fetching carmaker class instance created in 'global_setup'",
+                " Expected-15:22:06.080780: Carmaker class instance grabbed successfully",
+                " Test Step-15:22:06.080780: Loading a test run of carmaker",
+                " Expected-15:22:06.080780: CarMaker started and test run loaded successfully"
+            ],
+            "test_type": "python",
+            "test_details": [
+                "This is FFL Closed Loop testing",
+                "Complete simulation process with contest"
+            ],
+            "precondition": [
+                "Checking the .erg genefrated or not"
+            ],
+            "test_name": "SWT_SAMPLE_TESTv1(index: 0)",
+            "test_duration": 86018.76473426819,
+            "test_date": "Tue Feb 11 15:22:06 2025",
+            "test_status": "PASSED",
+            "test_verifies": [
+                "Mention requirement satisfied by this test case"
+            ],
+            "automates_id": [],
+            "test_tags": [
+                "blackbox",
+                "hil",
+                "integration",
+                "parameterized",
+                "python",
+                "sil"
+            ],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": null,
+            "test_skip_reason": null
+        },
+        {
+            "test_execution": [
+                " Test Step-15:23:32.106759: Fetching carmaker class instance created in 'global_setup'",
+                " Expected-15:23:32.106759: Carmaker class instance grabbed successfully",
+                " Test Step-15:23:32.106759: Loading a test run of carmaker",
+                " Expected-15:23:32.106759: CarMaker started and test run loaded successfully"
+            ],
+            "test_type": "python",
+            "test_details": [
+                "This is FFL Closed Loop testing",
+                "Complete simulation process with contest"
+            ],
+            "precondition": [
+                "Checking the .erg genefrated or not"
+            ],
+            "test_name": "SWT_SAMPLE_TESTv1(index: 1)",
+            "test_duration": 86008.07785987854,
+            "test_date": "Tue Feb 11 15:23:32 2025",
+            "test_status": "PASSED",
+            "test_verifies": [
+                "Mention requirement satisfied by this test case"
+            ],
+            "automates_id": [],
+            "test_tags": [
+                "blackbox",
+                "hil",
+                "integration",
+                "parameterized",
+                "python",
+                "sil"
+            ],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": null,
+            "test_skip_reason": null
+        },
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "global_teardown",
+            "test_duration": 5.016565322875977,
+            "test_date": "Tue Feb 11 15:24:58 2025",
+            "test_status": "PASSED",
+            "test_verifies": [],
+            "automates_id": [],
+            "test_tags": [],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": null,
+            "test_skip_reason": null
+        }
+    ]
+}

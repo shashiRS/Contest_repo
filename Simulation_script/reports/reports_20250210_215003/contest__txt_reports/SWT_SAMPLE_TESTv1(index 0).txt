@@ -1,0 +1,35 @@
+[ConTest PARAMETERIZED 21:50:44,515] Running with parameters: {'Test_run': 'TEST_1', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS_DF_Calculate_Minimum_Forward_Disctance_wrt_Ego_1300639'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-21:50:44.515968] Checking the .erg genefrated or not
+
+
+[TESTSTEP-21:50:44.515968] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-21:50:44.515968] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-21:50:44.515968] Loading a test run of carmaker
+[EXPECTED-21:50:44.515968] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 21:50:47,524] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS_DF_Calculate_Minimum_Forward_Disctance_wrt_Ego_1300639
+[ConTest CarMaker 3.0.2 21:50:49,566] Waiting for Status idle
+[ConTest CarMaker 3.0.2 21:50:49,568] Status idle detected
+[ConTest CarMaker 3.0.2 21:50:50,572] Simulation started.
+[ConTest UIM 21:51:44,514] Packages information fetched.
+Waiting 5 secs.........
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 86070.87182998657 msec
+[PASSED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+

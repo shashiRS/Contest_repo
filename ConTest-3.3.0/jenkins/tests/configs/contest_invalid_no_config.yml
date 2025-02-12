@@ -1,7 +1,0 @@
-# Configuration without "config" tag in stage 'each'. This should fail.
-
-# Stage specific configuration
-stage:
-  # Executed on each commit.
-  each:
-    # No configuration here.

@@ -1,0 +1,48 @@
+[ConTest PARAMETERIZED 21:55:02,718] Running with parameters: {'Test_run': 'TEST_4', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS_DF_Dynamic_object_classification_Tar_Truck_2044450'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-21:55:02.734475] Checking the .erg genefrated or not
+
+
+[TESTSTEP-21:55:02.734475] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-21:55:02.734475] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-21:55:02.734475] Loading a test run of carmaker
+[EXPECTED-21:55:02.734475] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 21:55:05,737] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS_DF_Dynamic_object_classification_Tar_Truck_2044450
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 249, in __execute_test
+    self.__run_test(func, param)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 359, in __run_test
+    func(**param)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\swt_sample_test.pytest", line 69, in SWT_SAMPLE_TESTv1
+    cm_app.load_test_run(path_to_test_run=n2)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_carmaker\carmaker\carmaker_utils.py", line 278, in load_test_run
+    self.tcl_cmd("PopupCtrl timeout 0", wait_for_response=wait_for_response_secs)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_carmaker\carmaker\carmaker_utils.py", line 236, in tcl_cmd
+    (self._tn.read_until("O*END*".encode("ascii"), timeout=self.TN_LONG_WAIT_RESP_S))
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\JenkinsServer_Main\workspace\Contest_download\3.11.2\3.11.2\Lib\telnetlib.py", line 332, in read_until
+    return self.read_very_lazy()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\JenkinsServer_Main\workspace\Contest_download\3.11.2\3.11.2\Lib\telnetlib.py", line 408, in read_very_lazy
+    raise EOFError('telnet connection closed')
+EOFError: telnet connection closed
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 4031.3618183135986 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 3) =======================
+

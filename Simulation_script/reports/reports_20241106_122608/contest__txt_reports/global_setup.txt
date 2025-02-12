@@ -1,0 +1,11 @@
+<contest_carmaker.carmaker.carmaker_utils.CarMaker object at 0x00000208027A6E20>
+********************Hello World!*******************
+[ConTest CarMaker 3.0.2 12:28:15,887] Running CarMaker instance detected
+--> Testcase failed with Failure(s):  telnet connection to CarMaker gui is not established. Error: [WinError 10061] No connection could be made because the target machine actively refused it. 
+	-->  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest" line 48
+
+Executed in 131062.28137016296 msec
+[FAILED]
+
+=============================== end global_setup ==============================
+

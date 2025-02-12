@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catHat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="heatSWTestFrameworkLog_v050.xsd">
+    <testBases/>
+    <testEnvironments>
+        <testEnvironmentGroup name="">
+        </testEnvironmentGroup>
+    </testEnvironments>
+    <testData>
+    <!-- files -->
+    </testData>
+    <testObjects>
+    <!-- files -->
+    </testObjects>
+    <testPlans>
+    </testPlans>
+    <testrun>
+        <docInfo>
+            <properties>
+                <property name="uig44320" value="uig44320"/>
+            </properties>
+            <overview>
+                <origin> </origin>
+                <title> </title>
+                <revisionLabel> </revisionLabel>
+                <createdAt> </createdAt>
+                <docStatus> </docStatus>
+                <organization>"Continental ADC GmbH"</organization>
+                <creationResponsible> </creationResponsible>
+                <approver> </approver>
+                <history> </history>
+            </overview>
+            <scope> ""
+            </scope>
+        </docInfo>
+        <testsuites name="ConTest_v4.1.0">
+            <testsuite name="ConTest_v4.1.0" tests="2">
+                <properties>
+                    <property name="Tester" value="uig44320"/>
+                    <property name="InformOnMail" value="uig44320@continental.com"/>
+                </properties>
+                <references>
+                    <testBaseRef> </testBaseRef>
+                    <testObjectRef> </testObjectRef>
+                    <testPlanRef> </testPlanRef>
+                    <testEnvironmentRef> </testEnvironmentRef>
+                    <testDataRef> </testDataRef>
+                </references>
+                <testsuiteResult tests="2" failures="0" errors="0"
+                            hostname="uig44320" skipped="0"  duration="225.38460659980774"
+                            timestampStart="2025-02-11T10:32:57">
+                    <properties>
+                        <property name="Tester" value="uig44320"/>
+                        <property name="InformOnMail" value="uig44320@continental.com"/>
+                    </properties>
+                </testsuiteResult>
+                
+                <testcase classname="ConTest_v4.1.0" name="SWT_SAMPLE_TESTv1(index: 0)">
+                    <testcaseResult verdict="passed" duration="86.0180356502533"
+                        timestampStart="2025-02-11T10:33:49">
+                        <properties>
+                            <property name="Tester" value="uig44320"/>
+                            <property name="InformOnMail" value="uig44320@continental.com"/>
+                        </properties>
+                    </testcaseResult>
+                    <attributes>
+                        <isRegression>no</isRegression>
+                        <isDestructive>no</isDestructive>
+                        <priority>0</priority>
+                        <estimatedExecutionTime>0</estimatedExecutionTime>
+                    </attributes>
+                    traceability id = 'Mention requirement satisfied by this test case' /
+                    <description>"This is FFL Closed Loop testingComplete simulation process with contest"</description>
+                    <testSteps name="SWT_SAMPLE_TESTv1(index: 0)">
+                        <step id="">
+                            <description>" Test Step-16:03:49.728540: Fetching carmaker class instance created in 'global_setup' Test Step-16:03:49.728540: Loading a test run of carmaker"</description>
+                            <expectedResults>" Expected-16:03:49.728540: Carmaker class instance grabbed successfully Expected-16:03:49.728540: CarMaker started and test run loaded successfully"</expectedResults>
+                            <observedResults verdict="passed"
+                             timestampStart="2025-02-11T10:33:49" timestampEnd="2025-02-11T10:35:15">
+                                    <system-out>"
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 16:03:49,727] Running with parameters: {'Test_run': 'TEST_1', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Audio_Warning_For_VRU_1300658'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-16:03:49.727543] Checking the .erg genefrated or not
+
+
+[TESTSTEP-16:03:49.728540] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-16:03:49.728540] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-16:03:49.728540] Loading a test run of carmaker
+[EXPECTED-16:03:49.728540] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 16:03:52,729] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Audio_Warning_For_VRU_1300658
+[ConTest CarMaker 3.0.2 16:03:54,730] Waiting for Status idle
+[ConTest CarMaker 3.0.2 16:03:54,732] Status idle detected
+[ConTest CarMaker 3.0.2 16:03:55,733] Simulation started.
+Waiting 5 secs.........
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 86018.0356502533 msec
+[PASSED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+"
+                                    </system-out>
+                            </observedResults>
+                        </step>
+                        <properties>
+                            <property name="heppy-cli::etmReadOnly::DatabaseId"
+                            value=""/>
+                        </properties>
+                    </testSteps>
+                </testcase>
+                <testcase classname="ConTest_v4.1.0" name="SWT_SAMPLE_TESTv1(index: 1)">
+                    <testcaseResult verdict="passed" duration="86.01033568382263"
+                        timestampStart="2025-02-11T10:35:15">
+                        <properties>
+                            <property name="Tester" value="uig44320"/>
+                            <property name="InformOnMail" value="uig44320@continental.com"/>
+                        </properties>
+                    </testcaseResult>
+                    <attributes>
+                        <isRegression>no</isRegression>
+                        <isDestructive>no</isDestructive>
+                        <priority>0</priority>
+                        <estimatedExecutionTime>0</estimatedExecutionTime>
+                    </attributes>
+                    traceability id = 'Mention requirement satisfied by this test case' /
+                    <description>"This is FFL Closed Loop testingComplete simulation process with contest"</description>
+                    <testSteps name="SWT_SAMPLE_TESTv1(index: 1)">
+                        <step id="">
+                            <description>" Test Step-16:05:15.752005: Fetching carmaker class instance created in 'global_setup' Test Step-16:05:15.752005: Loading a test run of carmaker"</description>
+                            <expectedResults>" Expected-16:05:15.752005: Carmaker class instance grabbed successfully Expected-16:05:15.752005: CarMaker started and test run loaded successfully"</expectedResults>
+                            <observedResults verdict="passed"
+                             timestampStart="2025-02-11T10:35:15" timestampEnd="2025-02-11T10:36:41">
+                                    <system-out>"
+====================== begin SWT_SAMPLE_TESTv1(index: 1) ======================
+
+[ConTest PARAMETERIZED 16:05:15,752] Running with parameters: {'Test_run': 'TEST_2', 'n2': 'D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker\\Data\\TestRun\\LVMD\\SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Visual_Warning_For_VRU_1300654'}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[PRECONDITION-16:05:15.752005] Checking the .erg genefrated or not
+
+
+[TESTSTEP-16:05:15.752005] Fetching carmaker class instance created in 'global_setup'
+[EXPECTED-16:05:15.752005] Carmaker class instance grabbed successfully
+
+
+[TESTSTEP-16:05:15.752005] Loading a test run of carmaker
+[EXPECTED-16:05:15.752005] CarMaker started and test run loaded successfully
+Waiting 5 secs.
+[ConTest CarMaker 3.0.2 16:05:18,753] Loading TestRun D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker/Data/TestRun/LVMD/SWRT_ABS__DF_LVMD_Disable_Of_LVMD_Visual_Warning_For_VRU_1300654
+[ConTest CarMaker 3.0.2 16:05:20,755] Waiting for Status idle
+[ConTest CarMaker 3.0.2 16:05:20,757] Status idle detected
+[ConTest CarMaker 3.0.2 16:05:21,758] Simulation started.
+Waiting 5 secs.........
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 86010.33568382263 msec
+[PASSED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 1) =======================
+
+"
+                                    </system-out>
+                            </observedResults>
+                        </step>
+                        <properties>
+                            <property name="heppy-cli::etmReadOnly::DatabaseId"
+                            value=""/>
+                        </properties>
+                    </testSteps>
+                </testcase>
+                <history>
+                <HistoryEntry date=""/>
+                </history>
+                <glossary>
+                <term name=""/>
+                </glossary>
+            </testsuite>
+        </testsuites>
+   </testrun>
+</catHat>
+    

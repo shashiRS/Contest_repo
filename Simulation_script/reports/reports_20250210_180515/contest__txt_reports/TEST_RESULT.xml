@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="ConTest_v4.1.0" machine="NA" user="uig44320" failures="1" skipped="0" tests="2" time="47.97308015823364"><testcase classname="Tests" name="global_setup" time="46.35072588920593"><system-out>
+============================== begin global_setup =============================
+
+&lt;contest_carmaker.carmaker.carmaker_utils.CarMaker object at 0x000001DE8FCE5E50&gt;
+********************Hello World!*******************
+[ConTest CarMaker 3.0.2 18:05:30,953] Command to start CarMaker: C:\LegacyApp\IPG\carmaker\win64-8.1.1\GUI\HIL.exe -cmdport 2327 -apphost localhost
+[ConTest CarMaker 3.0.2 18:05:45,827] CarMaker GUI instance started successfully
+[ConTest CarMaker 3.0.2 18:05:48,841] Project Path: D:/FFL_Closed_loop/mf_sil/tests/SIL/CarMaker
+D:/FFL_Closed_loop/mf_sil/tests/SIL/CarMaker
+[ConTest CarMaker 3.0.2 18:05:48,841] Selecting Project D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+[ConTest CarMaker 3.0.2 18:05:56,014] Waiting for Status idle
+[ConTest CarMaker 3.0.2 18:05:59,612] Status idle detected
+[ConTest CarMaker 3.0.2 18:05:59,612] CarMaker Started and Connected
+
+Executed in 46350.72588920593 msec
+[PASSED]
+
+=============================== end global_setup ==============================
+
+</system-out></testcase><testcase classname="Tests" name="SWT_SAMPLE_TESTv1(index: 0)" time="0.004873037338256836"><error message="SWT_SAMPLE_TESTv1() missing 2 required positional arguments: 'test_name' and 'test_run_path'" /><system-out>
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 18:06:03,133] Running with parameters: []
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard setup 'setup' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 249, in __execute_test
+    self.__run_test(func, param)
+  File "D:\JenkinsServer_Main\workspace\Contest_download\contest_py311\Lib\site-packages\contest_tool\contest_core\parameterized.py", line 357, in __run_test
+    func(*param)
+TypeError: SWT_SAMPLE_TESTv1() missing 2 required positional arguments: 'test_name' and 'test_run_path'
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*** running standard teardown 'teardown' from 'D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest'
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Executed in 4.873037338256836 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+</system-out></testcase><testcase classname="Tests" name="global_teardown" time="0.008535146713256836"><system-out>
+Executed in 47.03354835510254 msec
+[FAILED]
+
+============================ end SWT_SAMPLE_TESTv1 ============================
+
+
+============================ begin global_teardown ============================
+
+[ConTest CarMaker 3.0.2 18:06:03,690] Application Stopped
+[ConTest CarMaker 3.0.2 18:06:03,690] Exiting CarMaker
+[ConTest CarMaker 3.0.2 18:06:03,690] CarMaker disconnecting Telnet Connection
+
+Executed in 8.535146713256836 msec
+[PASSED]
+
+============================= end global_teardown =============================
+
+</system-out></testcase></testsuite>

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\test_runner.py", line 788, in run
+    test_function()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest", line 40, in global_setup
+    cm_app = carmaker_utils.CarMaker()
+NameError: name 'carmaker_utils' is not defined
+
+Executed in 0.0 msec
+[FAILED]
+
+=============================== end global_setup ==============================
+

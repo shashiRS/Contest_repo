@@ -1,0 +1,8 @@
+--> Testcase failed with Failure(s):  Might be telnet connection not established, user trying to send appl  commands. 
+	-->  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest" line 71
+
+Executed in 6.052970886230469 msec
+[FAILED]
+
+============================= end global_teardown =============================
+

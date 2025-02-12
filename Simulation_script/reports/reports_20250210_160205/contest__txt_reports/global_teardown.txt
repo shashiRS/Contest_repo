@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\test_runner.py", line 788, in run
+    test_function()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest", line 70, in global_teardown
+    cm_app = get_parameter("carmaker")
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\global_params.py", line 294, in get_parameter
+    raise KeyError(
+KeyError: "Key 'carmaker' is not found in global, local or report parameter list. Please check if you have created this key in global or local setups."
+
+Executed in 3.5734176635742188 msec
+[FAILED]
+
+============================= end global_teardown =============================
+

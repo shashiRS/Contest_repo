@@ -1,0 +1,27 @@
+# Test configuration data
+base_loc_path: D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script
+base_python_ver: 3.8.10
+config_path: D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\testing.ini
+external_loc: []
+python_bit_arch: 64bit
+python_exe_path: C:\Users\uig44320\AppData\Local\Programs\Python\Python38\python.exe
+report_dir: null
+setup_path: D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest
+test_environment: 'ConTest_v3.5.0 '
+timestamp: 'on'
+
+# Test verdict lists
+failed_tests:
+- SWT_SAMPLE_TESTv1
+inconclusive_tests: []
+passed_tests: []
+skipped_tests: []
+unknown_test: []
+
+# Run Options
+randomize: false
+run_mode: manual
+tests_frequency: 1
+
+# Execution Information
+execution_date: '2025-02-10T10:32:07'

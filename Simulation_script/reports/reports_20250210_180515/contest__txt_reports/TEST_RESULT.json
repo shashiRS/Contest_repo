@@ -1,0 +1,83 @@
+{
+    "$schema": "https://cip-config.cmo.conti.de/v2/configuration/contest/json_report_schema/1.0/schemas/test_report_schema.json",
+    "summary": {
+        "Runtime": 0.7993093132972717,
+        "Total_Tests": 3,
+        "Failed_Tests": 1,
+        "Passed_Tests": 2,
+        "Inconclusive_Tests": 0,
+        "Skipped_Tests": 0,
+        "Ignored_Tests": 0,
+        "Missing_Tests": 0,
+        "Test_Run_Result": false,
+        "Test_Environment": "ConTest_v4.1.0",
+        "Machine": "NA",
+        "User": "uig44320",
+        "Reporting_Parameters": {}
+    },
+    "tests": [
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "global_setup",
+            "test_duration": 46350.72588920593,
+            "test_date": "Mon Feb 10 18:05:16 2025",
+            "test_status": "PASSED",
+            "test_verifies": [],
+            "automates_id": [],
+            "test_tags": [],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": null,
+            "test_skip_reason": null
+        },
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "SWT_SAMPLE_TESTv1(index: 0)",
+            "test_duration": 4.873037338256836,
+            "test_date": "Mon Feb 10 18:06:03 2025",
+            "test_status": "FAILED",
+            "test_verifies": [
+                "Mention requirement satisfied by this test case"
+            ],
+            "automates_id": [],
+            "test_tags": [
+                "blackbox",
+                "hil",
+                "integration",
+                "parameterized",
+                "python",
+                "sil"
+            ],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": "SWT_SAMPLE_TESTv1() missing 2 required positional arguments: 'test_name' and 'test_run_path'",
+            "test_skip_reason": null
+        },
+        {
+            "test_execution": [],
+            "test_type": "python",
+            "test_details": [],
+            "precondition": [],
+            "test_name": "global_teardown",
+            "test_duration": 8.535146713256836,
+            "test_date": "Mon Feb 10 18:06:03 2025",
+            "test_status": "PASSED",
+            "test_verifies": [],
+            "automates_id": [],
+            "test_tags": [],
+            "canoe_test_case_details": [],
+            "meta_data_files": [],
+            "test_warnings": [],
+            "test_failure": null,
+            "test_skip_reason": null
+        }
+    ]
+}

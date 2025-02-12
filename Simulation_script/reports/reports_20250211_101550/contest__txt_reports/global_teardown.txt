@@ -1,0 +1,9 @@
+[ConTest CarMaker 3.0.2 10:19:28,364] Application Stopped
+[ConTest CarMaker 3.0.2 10:19:28,364] Exiting CarMaker
+[ConTest CarMaker 3.0.2 10:19:28,365] CarMaker disconnecting Telnet Connection
+
+Executed in 5.2700042724609375 msec
+[PASSED]
+
+============================= end global_teardown =============================
+

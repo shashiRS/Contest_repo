@@ -1,0 +1,2208 @@
+
+	<!DOCTYPE doctype html>
+    <html lang="en">
+        <head>
+            <link href=.\logo_icon.png rel="shortcut icon" type="image/x-icon" />
+            <title>ConTest Report Summary</title>
+            <meta charset="utf-8" />
+            <meta content="width=device-width, initial-scale=1" name="viewport" />
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous"/>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+            <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0" type="text/javascript"></script>
+			<style>
+				* {
+				  box-sizing: border-box;
+				}
+
+				.main {
+                    padding-top: 10px;
+                }
+
+				body {
+                    font-family: -apple-system, sans-serif;
+                    padding: 10px;
+					/*background-color: #eeeeee;*/
+					/*overflow: hidden; /* Hide scrollbars */
+                }
+
+				h5 {
+					font-size: 1rem;
+				}
+
+				.sidenav {
+                    height: 100%;
+                    width: 200px;
+                    position: fixed;
+                    z-index: 1;
+                    top: 0;
+                    left: 0;
+                    background-color: #211f1f;
+                    overflow-x: hidden;
+                }
+
+                .sidenav a {
+                    padding: 12px 10px 8px 12px;
+                    text-decoration: none;
+                    font-size: 18px;
+                    color: #a2a2a2;
+                    display: block;
+                }
+
+                @media screen and (max-height: 450px) {
+                    .sidenav {
+                        padding-top: 15px;
+                    }
+                    .sidenav a {
+                        font-size: 18px;
+                    }
+                }
+
+				.wrimagecard {
+					width: 180px;
+					height: 90px;
+                    margin-top: 0;
+                    margin-bottom: 0.6rem;
+					margin-right: 5px;
+                    border-radius: 5px;
+                    transition: all 0.3s ease;
+                    background-color: #f8f9fa;
+                }
+
+				.enviro-table {
+				  border-collapse: collapse;
+				  width: 90%;
+				  font-size: 12px;
+				}
+
+				.enviro-table td, .enviro-table th {
+				  border: 1px solid #dddddd;
+				  text-align: left;
+				   padding: 3px;
+				   width:30%;
+				}
+
+				.enviro-table tr:nth-child(even) {
+				  background-color: #dddddd;
+				  /*width:%;*/
+				}
+
+				.enviro-table th {
+				  border: 1px solid #dddddd;
+				  text-align: left;
+				   padding: 5px;
+				   background-color: #FACE4C;
+				}
+
+				.card {
+				  background-color: #ffff;
+				  display: flex;
+				  flex-direction: column;
+				  /*place-self: center;*/
+				  border-radius: 4px;
+				  box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+				}
+
+				.card_content {
+				  padding: 1.5rem;
+				  font-family: sans-serif;
+				}
+
+				.header_title {
+				  font-size: 1.5rem;
+				  font-weight: 600;
+				  font-family: sans-serif;
+				  padding-top: 10%;
+				  color: dimgrey;
+				}
+
+				.card_header {
+				  display: flex;
+				  flex-direction: row;
+				  justify-content: space-between;
+				}
+
+				.header_date {
+				  font-size: 1.3rem;
+				  font-family: sans-serif;
+				  padding-left: 5%;
+				  color: darkgray;
+				}
+
+				.total_count {
+				  font-size: 5.3rem;
+				  font-family: sans-serif;
+				  color: black;
+				  padding-top: 8%;
+				}
+
+				.total_count_label {
+				  font-size: 1.3rem;
+				  font-family: sans-serif;
+				  padding-left: 12%;
+				  color: darkgray;
+				}
+
+				/*.chart {
+				  padding: 2.0rem 60;
+				}*/
+
+				.card_footer {
+				  display: flex;
+				  flex-direction: row;
+				  justify-content: space-between;
+				  margin-bottom: 5%;
+				}
+
+				.card_footer-section {
+				  text-align: center;
+				  width: 45%;
+				  /*border-right: 1px solid #ccc;*/
+				}
+
+				.footer-section_data {
+				  font-size: 2.6rem;
+				  font-weight: 900;
+				}
+
+				.outer_chart  {
+					margin-left: 50%;
+					margin-top: -40%;
+					max-height: 43%;
+				}
+
+				.inner_chart {
+					margin-top: 31%;
+					height: 48%;
+					margin-left: 16%;
+					max-width: 75%;
+				}
+
+				@media screen and (max-width: 3560px) {
+					.footer-section_data {
+						font-size: 3.6rem;
+					}
+					.suite_count_section {
+						margin-top: -16%;
+					}
+				}
+
+				@media screen and (max-width: 2442px) {
+					.outer_chart  {
+						margin-top: -40%;
+					}
+					.inner_chart {
+						margin-top: 31%;
+					}
+					.footer-section_data {
+						font-size: 3.4rem;
+					}
+					.suite_count_section {
+						margin-top: -17%;
+					}
+				}
+
+				@media screen and (max-width: 2156px) {
+					.outer_chart  {
+						margin-top: -42%;
+					}
+					.inner_chart {
+						margin-top: 25%;
+					}
+					.suite_count_section {
+						margin-top: -16%;
+					}
+				}
+
+				@media screen and (max-width: 1940px) {
+					.outer_chart  {
+						margin-top: -41%;
+					}
+					.inner_chart {
+						margin-top: 16%;
+					}
+					.footer-section_data {
+						font-size: 2.6rem;
+					}
+					.suite_count_section {
+						margin-top: -11%;
+					}
+				}
+
+				@media screen and (max-width: 1662px) {
+					.outer_chart  {
+						margin-top: -45%;
+					}
+				}
+
+				@media screen and (max-width: 1307px) {
+					.outer_chart  {
+						margin-top: -50%;
+					}
+					.px-4 {
+						padding-left: 1rem!important;
+					}
+				}
+
+				@media screen and (max-width: 1209px) {
+					.outer_chart  {
+						margin-top: -41%;
+					}
+					.px-4 {
+						padding-left: 2.4rem!important;
+					}
+					.inner_chart {
+						margin-top: 0%;
+					}
+
+					.total_count {
+						font-size: 4.3rem;
+					}
+					.total_count_label {
+						font-size: 1.2rem;
+					}
+
+					.header_title {
+						font-size: 1.3rem;
+						padding-top: 10%;
+					}
+				}
+
+				@media screen and (max-width: 1148px) {
+					.outer_chart  {
+						margin-top: -43%;
+					}
+					.header_title {
+						font-size: 1.2rem;
+					}
+
+				}
+
+				@media screen and (max-width: 1076px) {
+					.outer_chart  {
+						margin-top: -52%;
+					}
+					.footer-section__label {
+						font-size: 7pt;
+					}
+					.total_count {
+						padding-top: 13%;
+					}
+				}
+
+				@media screen and (max-width: 1031px) {
+
+					.header_title {
+						padding-top: 10%;
+					}
+				}
+
+				.header {
+				  text-align: center;
+				  display: inline-block;
+				  width: 100%;
+				}
+
+				.header img {
+				  width: 180px;
+				  height: 90px;
+				  /*align: middle;*/
+				  float: left;
+				}
+
+				.header h1 {
+				  font-size: 30px;
+				  text-overflow: ellipsis;
+				  overflow: hidden;
+				  white-space: nowrap;
+				  padding-right: 9em;
+				}
+
+				.copy_links {
+				  background-color: #211f1f;
+				  color: #ffffff;
+				  font-family: courier;
+				  /*padding: 0 12px;*/
+				  cursor: pointer;
+				}
+
+				.collapsible {
+				  color: black;
+				  cursor: pointer;
+				  padding: 5px;
+				  width: 100%;
+				  border: 1px solid white;
+				  text-align: left;
+				  outline: none;
+				  font-size: 12px;
+				  text-overflow: ellipsis;
+				  overflow: hidden;
+				  white-space: nowrap;
+				  -webkit-user-select: text;
+				  -moz-user-select: text;
+				  -ms-user-select: text;
+				  user-select: text;
+				}
+
+				.content {
+				  padding: 0 15px;
+				  font-size: 12px;
+				  max-height: 0;
+				  overflow: hidden;
+				  transition: max-height 0.2s ease-out;
+				  color: white;
+				  background-color: black;
+				}
+
+				table {
+				  font-family: arial, sans-serif;
+				  border-collapse: collapse;
+				  width: 100%;
+				}
+				td, th {
+				  border: 1px solid #dddddd;
+				  text-align: left;
+				  padding: 8px;
+				}
+
+				option:before {
+				  content: "☐ "
+				}
+				option:checked:before {
+				  content: "☑ "
+				}
+
+				ul.no-bullets {
+				  list-style-type: none;
+				  margin: 0;
+				  padding: 0;
+				}
+
+				#execution_date_id{
+					font-size: large;
+				}
+
+				.checkbox-list li input[type="checkbox"] {
+					display: none;
+				}
+
+				.checkbox-list li label {
+					position: relative;
+					padding-left: 25px; /* Adjust as needed */
+					cursor: pointer;
+				}
+
+				.checkbox-list li label::before {
+					content: '\2610'; /* Unicode character for empty checkbox */
+					font-size: 16px; /* Adjust as needed */
+					color: #cacaca; /* Adjust color as needed */
+					position: absolute;
+					left: 0;
+					top: 0;
+					margin-right: 5px; /* Adjust spacing as needed */
+				}
+				.checkbox-list li input[type="checkbox"]:checked + label::before {
+					content: '\2611'; /* Unicode character for checked checkbox */
+						/* Adjust color as needed */
+				}
+				.checkbox-list li input[type="checkbox"]:checked + label {
+					background-color: gray;
+					color: black;
+				}
+				.checkbox-list li input[type="checkbox"]:checked + label::before {
+					color: black;
+				}
+				.checkbox-list li input[type="checkbox"]:checked + label img {
+					filter: invert(0%); /* Invert the image color to make it black */
+				}
+				.checkbox-list li input[type="checkbox"]:checked + label span {
+					color: black;
+					background-color: gray;
+				}
+				#filter option:checked {
+					background-color: gray;
+					color: black;
+				}
+
+				label{
+					padding: 0;
+				}
+
+				.copy_links_label {
+					font-weight: 900;
+					background-color: #211f1f;
+					color: #ffffff;
+					font-family: courier;
+					padding: 0px 10px 0px 10px;
+					margin: 0px 5px 0px 5px;
+					cursor: pointer;
+					font-size: 86%;
+				}
+
+				.horizontal_scrollbar {
+					height:300px;
+					width:350px;
+					border:1px solid #222;
+					/*-webkit-box-shadow:0 0 3px #333;*/
+					margin:0px auto 0;
+					-webkit-box-sizing: border-box;
+					padding:0 14px;
+					overflow:auto;
+					outline: none;
+				}
+					.horizontal_scrollbar::-webkit-scrollbar {
+					height: 10px;
+				}
+					.horizontal_scrollbar::-webkit-scrollbar-track {
+					-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.9);
+					border-radius: 10px;
+				}
+					.horizontal_scrollbar::-webkit-scrollbar-thumb:horizontal {
+					border-radius: 10px;
+					-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.9);
+				}
+					.horizontal_scrollbar::-webkit-scrollbar-thumb:hover {
+					-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.9);
+				}
+
+				.vertical_scrollbar {
+					height:300px;
+					width:350px;
+					border:1px solid #222;
+					#-webkit-box-shadow:0 0 3px #333;
+					margin:0px auto 0;
+					-webkit-box-sizing: border-box;
+					padding:0 14px;
+					overflow:auto;
+					outline: none;
+				}
+				.vertical_scrollbar::-webkit-scrollbar {
+					width: 10px;
+				}
+				.vertical_scrollbar::-webkit-scrollbar-track {
+					-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.9);
+					border-radius: 10px;
+				}
+				.vertical_scrollbar::-webkit-scrollbar-thumb {
+					border-radius: 10px;
+					-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.9);
+				}
+				.vertical_scrollbar::-webkit-scrollbar-thumb:hover {
+					-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.9);
+				}
+
+				.filter-container {
+					display: none;
+				}
+				.filter-header {
+					cursor: pointer;
+					padding: 10px;
+					background-color: #211f1f;
+					color:#5e5e5e;
+					padding-left:60px
+				}
+				.header-content {
+					padding: 10px;
+				}
+				.alert_note {
+					background-color: #ffffff;
+					color: #000000;
+					font-weight: bold;
+					margin: 10px;
+					font-size: 15px;
+					margin-bottom: 0;
+				}
+				.report_count {
+					margin: 10px;
+				}
+				#pass_count {
+					color:#98cc64 ;
+				}
+				#fail_count {
+					color: #fc6766;
+				}
+				#inconclusive_count {
+					color: #FDDA0D;
+				}
+				#skipped_count {
+					color: #6c757d;
+				}
+
+				.link_html, .link_txt{
+					color: #2200cc;
+				}
+
+				.button {
+					align-items: center;
+					border-radius: .22rem;
+					box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+					box-sizing: border-box;
+					color: rgba(0, 0, 0, 0.85);
+					cursor: pointer;
+					display: inline-flex;
+					font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+					font-size: 12px;
+					font-weight: 500;
+					justify-content: center;
+					line-height: 1.20;
+					margin: 0;
+					min-height: 1rem;
+					position: relative;
+					text-decoration: none;
+					transition: all 250ms;
+					user-select: none;
+					-webkit-user-select: none;
+					touch-action: manipulation;
+					vertical-align: baseline;
+					width: auto;
+			  }
+
+			  .button:hover,
+			  .button:focus {
+					border-radius: .22rem;
+					border : '1px solid black';
+					box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+					color: rgba(0, 0, 0, 1);
+			  }
+			  .button:hover {
+					transform: translateY(-2px);
+			  }
+
+			  .button:active {
+					background-color: #fff;
+					border-radius: .22rem;
+					border-color: rgba(0, 0, 0, 0.1);
+					box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+					color: rgba(0, 0, 0, 0.65);
+					/*transform: translateY(0);*/
+			  }
+
+			  .testcase_list_template {
+					width: 100%;
+					min-height: 75vh;
+					max-height: 75vh;
+					overflow-y: scroll;
+					background: #EFF0F1;
+					float: right;
+					margin:0 10px;
+					padding: 10px;
+					font-size: 30px;
+				}
+
+			  .testcase_desc_template{
+					position: sticky;
+					width: 100%;
+					height: 40%;
+					visibility: hidden;
+					overflow-y: scroll;
+					background: #EFF0F1;
+					float: right;
+				    margin: 10px;
+					padding: 10px;
+					font-size: 12px;
+					width: 100%;
+					justify-content: space-between;
+					display: grid;
+					grid-template-areas:
+						"title time close"
+						"description time close"
+						"buttons buttons buttons";
+				}
+
+				section {
+					position: relative;
+				}
+
+				section div.wrapper {
+						display: grid;
+						justify-items: stretch;
+						align-items: stretch;
+						justify-content: space-evenly;
+						grid-template-columns: 50% 50%;
+				}
+
+				section a.handle {
+						position: absolute;
+						top: 0;
+						bottom: 0;
+						left: 50%;
+						width: 5px;
+						transform: translate(-50%, 0%);
+						z-index: 0;
+						background-color: rgb(82, 82, 82);
+						cursor: ew-resize;
+				}
+
+				.task-delete {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						padding: 5px 2px 2px 5px;
+						border-radius: 50%; /* Use 50% for a perfect circle */
+						background-color: rgb(0, 0, 0);
+						font-size: calc(0.5px + 0.9vw);
+						color: #fff;
+						grid-area: close;
+						align-self: self-start;
+						width: 23px; /* Set a fixed width for the circle */
+						height: 23px; /* Set a fixed height for the circle */
+						cursor: pointer; /* Add cursor pointer for better user experience */
+						position: relative;
+						right: 75px;
+				}
+				.task-delete::before {
+					content: '';
+					display: inline-block;
+					height: 100%;
+					vertical-align: middle;
+					margin-right: -0.25em; /* Adjust for better centering */
+				}
+
+				.tc_highlighted {
+					border-radius: 5px;
+					border: 2px solid black;
+				}
+
+				#test_cases_report{
+				margin: 10px 10px;
+				}
+
+            </style>
+        </head>
+    </html>
+<body pass="
+.\pass_icon.png" inconclusive=".\inconclusive_icon.png" skip=".\skip_icon.png" fail=".\fail_icon.png">
+
+	   <div class="loader"></div>
+        <div class="sidenav">
+			<a onclick="openPage('dashboard', this, '', '', '')" href="#dashboard">
+				<img id="wrimagecard" class="wrimagecard" src="./logo.png" style="max-width:98%;" />
+			</a>
+			<a class="tablink" href="#dashboard" id="defaultOpen" onclick="openPage('dashboard', this, 'white', '#565656', 'groove')">
+				<i class="fa fa-pie-chart" id="tablinkicon" style="color:currentcolor; margin:5% 5% 5% 10%"></i> Summary
+			</a>
+			<a class="tablink" href="#report" id="reportTab"
+			onclick="openPage('report_summary', this, 'white', '#565656', 'groove'); executeDataTable('#sm',2)">
+				<i class="fa fa-file-text-o " id="tablinkicon" style="color:currentcolor; margin:5% 5% 5% 10%"></i> Report
+			</a>
+			<a class="tablink" id="tablinks" href="#report" onclick="openPage('report_summary', this, 'white', '#565656', 'groove'); executeDataTable('#sm',3)">
+				<i class="fa fa-filter" id="tablinkicon" style="color:currentcolor; margin:5% 5% 5% 10%"></i> Filter
+			</a>
+			<div id="filters" style="display: none;">
+				<div class="filter-header">
+					<div id="testCaseFilterHeader" class="header-content" onclick="toggleFilter('testCase')">Test Case</div>
+					<div id="testTagFilterHeader" class="header-content" onclick="toggleFilter('testTag')">Test Tag</div>
+				</div>
+				<div id="testCaseFilter" class="filter-container">
+					<form>
+						<label for="" class="copy_links_label">
+							 <!--style="padding:0; font-size: 12px; overflow-x: scroll; width: 95% !important; height: 150px !important; overflow-y: hidden; scrollbar-width: thin !important;"> -->
+							Test Case:
+						</label>
+						<select id="testCaseSelect" class="copy_links horizontal_scrollbar"
+						style="font-size: 12px; width: 95% !important; height: 160px !important; "
+						onchange="show_filter();" multiple="multiple">
+						<option  onclick="show_all_testcase();" value="None"><span >All TCs</span></option>
+						<option  onclick="show_fail_testcase();" value="">Fail TCs</option>
+						<option  onclick="show_pass_testcase();" value="">Pass TCs</option>
+						<option  onclick="show_inconclusive_testcase();" value="">Incl. TCs</option>
+						<option  onclick="show_all_testcase_reqid();" value="">All TCs Req. IDs</option>
+						<option  onclick="show_fail_testcase_reqid();" value="">Fail TCs Req. IDs</option>
+						<option  onclick="show_pass_testcase_reqid();" value="">Pass TCs Req. IDs</option>
+						<option  onclick="show_inconclusive_testcase_reqid();" value="">Incl. TCs Req. IDs</option></select><br>
+						</select><br>
+					</form>
+				</div>
+				<div id="testTagFilter" class="filter-container">
+					<form>
+						<label for="" class="copy_links_label">
+							Test Tags:
+						</label>
+						<select id="filter" class="copy_links vertical_scrollbar"
+						style="font-size: 12px; width: 97% !important; height: 100px !important " onchange="show_filter();" multiple="multiple">
+							<option value="None">None</option>
+						</select>
+						<label class="copy_links_label">Note: For Test Tags: hold ctrl button to select multiple tags</label>
+					</form>
+				</div>
+			</div>
+        </div>
+       <!-- <div class="main col-md-9 ml-sm-auto col-lg-10 px-4" style="height: 100%;"> -->
+	   <div class="main col-md-9 ml-sm-auto col-lg-10 px-4" style="height: 100%;">
+            <div class="tabcontent" id="dashboard" style="display: block;">
+			&nbsp; &nbsp; &nbsp;
+               <div class="row rowcard">
+                    <div class="col-md-6 card" style="max-width: 49%;">
+                      <div style="width:100%;height:600px;text-align: center;">
+                        <div class="card_content">
+                          <div>
+                              <div class="card_header">
+                                <div class="header_title">
+                                  Statistics
+                                </div>
+                              </div>
+                              <div class="card_header">
+                                <span class="header_date" id="execution_date_id"></span>
+                              </div>
+                              <div style="display: flex;">
+                                <span class="total_count" id="total_id" style="padding-left: 19%;"></span>
+                              </div>
+                              <div style="display: flex;">
+                                <span class="total_count_label">TEST CASES</span>
+                              </div>
+                          </div>
+                          <div>
+                              <div class="outer_chart ">
+                                <canvas id="summary_chart" class="inner_chart" style="height: 38%;"></canvas>
+                              </div>
+                          </div>
+                          <div style="margin-top: 23%;position: static;">
+                              <div class="suite_count_section">
+                                  <div class="card_footer">
+                                    <div class="card_footer-section">
+                                      <div class="footer-section_data" style="color:#98cc64"id="passed_id" ></div>
+                                      <div class="footer-section__label">passed</div>
+                                    </div>
+                                    <div class="card_footer-section">
+                                      <div class="footer-section_data" style="color:#fc6766" id="failed_id"></div>
+                                      <div class="footer-section__label">failed</div>
+                                    </div>
+                                    <div class="card_footer-section">
+									  <div class="footer-section_data" style="color:#6c757d"id="skipped_id" ></div>
+                                      <div class="footer-section__label">skipped</div>
+                                    </div>
+                                    <div class="card_footer-section">
+                                      <div class="footer-section_data" style="color:#b13635" id="error_id">0</div>
+                                      <div class="footer-section__label">error</div>
+                                    </div>
+                                    <div class="card_footer-section">
+									  <div class="footer-section_data" style="color:#FDDA0D" id="inconclusive_id"></div>
+                                      <div class="footer-section__label">inconclusive</div>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+						<div class="col-md-6 card" style="margin-left: 0.75%;">
+							<div style="text-align: center;">
+								<div class="card_header">
+									<div class="header_title">
+									  Test Environment
+									</div>
+								</div>
+								<div style="text-align: left;color:red;">
+									<b id="summary_disclaimer"></b>
+								</div>
+								<div style="margin-top: 1%;position: static;">
+								  <table class="enviro-table">
+									   <tr>
+										<td>User</td>
+										<td>uig44320</td>
+
+									  </tr>
+									   <tr>
+										<td>Machine</td>
+										<td>OZD3524W</td>
+
+									  </tr>
+									  </tr>
+									  <tr>
+										<td>ConTest Version</td>
+										
+										<td>ConTest_v3.3.0 </td>
+										
+									  </tr>
+									  <tr>
+										<td>Python Version</td>
+										<td>3.9.9, 64bit</td>
+
+									  </tr>
+									  <tr>
+										<td>Execution Timestamp</td>
+										<td>11/06/2024, 12:28:21, India Standard Time</td>
+
+									  </tr>
+									  <tr>
+										<td>Python Interpreter Path</td>
+										<td>C:\Users\uig44320\AppData\Local\Programs\Python\Python39\python.exe</td>
+									  </tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					<div class="col-md-6 card" style="max-width: 49%;">
+						<div style="width:100%;height:600px;text-align: center;">
+						  <div class="card_content">
+							<div>
+								<div class="card_header">
+								  <div class="header_title">
+									Reporting Parameters:
+								  </div>
+								</div>
+							</div>
+							<div style="margin-top: 12%;position: static;">
+								<div class="suite_count_section">
+									<div class="card_footer">
+										<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>PARAMETER</th>
+      <th>VALUE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>-</th>
+      <td>no entries found</td>
+    </tr>
+  </tbody>
+</table>
+									</div>
+								</div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+		      </div>
+            </div>
+            <div class="tabcontent" id="report_summary" style="display: block; overflow: hidden; ">
+                <div>
+					<div class="header">
+						<h4>ConTest_v3.3.0 </h4>
+					</div>
+					<div class="alert_note" id="alert_note">
+						<strong> NIL </strong>
+					</div>
+					<section>
+						<div class="row">
+							<div class="" style="display: none;">
+								<canvas id="canvas" width='450' height='400' style="position:relative">
+								</canvas>
+							</div>
+						</div>
+						<h2 style="  margin-bottom: 0px;"></h2>
+						<div class="copy">
+							<h4 style="font-weight: bold;margin-top: 3px;" id="report_disclaimer"></h4>
+							<div class="testcase_list" id="testcase_list">
+								<p id="test_cases"></p>
+							</div>
+						</div>
+						<div id="testcase_desc" class="testcase_desc_template">
+							<div class="task-delete" style="position: fixed;" onclick="close_section()">X</div>
+							<p id="test_cases_report"></p>
+						</div>
+					</section>
+				</div>
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			</div>
+		<script>
+			var execution_date_time = String("11/06/2024, 12:28:21, India Standard Time"  )
+			var passed_tests = [];
+			var inconclusive_tests = [];
+			var skip_tests = [];
+			var failed_tests = ['global_setup', 'SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)', 'global_teardown'];
+			var total_tests = (passed_tests.length) + (failed_tests.length) + (inconclusive_tests.length) + (skip_tests.length);
+			var passed_cnt = passed_tests.length;
+			var inconclusive_cnt = inconclusive_tests.length;
+			var fail_cnt = failed_tests.length;
+			var skip_cnt = skip_tests.length;
+			var current_testcase = null;//
+			var view_test_disclaimer = 0;//
+			document.getElementById("execution_date_id").innerHTML = execution_date_time;
+			document.getElementById("total_id").innerHTML = total_tests;
+			document.getElementById("passed_id").innerHTML = passed_cnt;
+			document.getElementById("failed_id").innerHTML = fail_cnt;
+			document.getElementById("skipped_id").innerHTML = skip_cnt;
+			document.getElementById("error_id").innerHTML = "0";
+			document.getElementById("inconclusive_id").innerHTML = inconclusive_cnt;
+			if (view_test_disclaimer == 1) {
+				show_test_disclaimer();
+			}
+			function show_test_disclaimer() {
+				document.getElementById("test_disclaimer").innerHTML = "DISCLAIMER: This test case contains user-induced deviations from its parameter specification and is therefore invalid.";
+			}
+
+			window.onload = function() {
+				alignTotalCount();
+			};
+
+            function alignTotalCount() {
+                arr1 = [1, 2, 3, 4, 5];
+                arr2 = ['19%', '14%', '11%', '7%', '4%'];
+                zipped = arr1.map((x, i) => [x, arr2[i]]);
+                var x = parseInt(9);
+                size = zipped[(x.toString().length)-1][1];
+                document.getElementsByClassName("total_count")[0].style.paddingLeft = `${size}`;
+            }
+
+            function openPage(pageName,elmnt,color,bgcolor,borderstyle) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablink");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].style.color = "";
+                    tablinks[i].style.background = "";
+                    tablinks[i].style.borderRight = "";
+                }
+                document.getElementById(pageName).style.display = "block";
+                elmnt.style.color = color;
+                elmnt.style.background = bgcolor;
+                elmnt.style.borderRight = borderstyle;
+				window.location.hash = pageName
+				path = window.location.hash;
+				if (pageName === 'report_summary') {
+				    show_all();
+				  let tc_template = "";
+				  document.getElementById("test_cases_report").innerHTML = tc_template;
+				  if (current_testcase) {
+					trigger_function(current_testcase)
+					document.getElementById(split_part).classList.add('tc_highlighted')
+					document.getElementById("testcase_desc").style.visibility = 'visible';
+					document.getElementById("testcase_list").style.minHeight = '20%';
+					document.getElementById("testcase_list").style.maxHeight = '35vh';
+					}
+					document.getElementById("testcase_list").classList.add("testcase_list_template");
+					document.getElementById("testcase_list").classList.remove("testcase_list");
+					document.getElementById("testcase_desc").classList.add("testcase_desc_template");
+					document.getElementById("testcase_desc").classList.remove("testcase_desc");
+					document.getElementById("wrapper").classList.remove("wrapper");
+				}
+				close_section();
+            }
+
+
+            $(window).on('load',function(){$('.loader').fadeOut();});
+
+            var ctx = document.getElementById('summary_chart');
+            var summary_chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['PASS', 'FAIL', 'SKIP', 'ERROR', 'INCONCLUSIVE'],
+                    datasets: [{
+                        label: '# of Votes',
+
+                        data: [passed_cnt, fail_cnt, skip_cnt, 0, inconclusive_cnt],
+                        backgroundColor: [
+                            '#98cc64',
+                            '#fc6766',
+                            '#6c757d',
+                            '#aaaaaa',
+                            '#FDDA0D',
+                            '#b13635'
+                        ],
+                        hoverBackgroundColor: [
+                            "#84b356",
+                            "#e35857",
+                            "#4b5157",
+                            "#888888",
+                            "#E4D00A",
+                            '#8d2b2a'
+                        ],
+                        hoverBorderColor: [
+                            '#98cc64',
+                            '#fc6766',
+                            '#6c757d',
+                            '#aaaaaa',
+                            '#FDDA0D',
+                            '#b13635'
+                        ]
+                    }]
+                },
+                options: {
+                  doughnut_chart: true,
+                  legend: {
+                    display: false
+                  },
+                  responsive: true,
+                  cutoutPercentage: 80,
+                  tooltips: {
+                      callbacks: {
+                        title: function(tooltipItem, data) {
+                            return data['labels'][tooltipItem[0]['index']];
+                        },
+                        label: function(tooltipItem, data) {
+                            return ''
+                        },
+                        afterLabel: function(tooltipItem, data) {
+                          var dataset = data['datasets'][0];
+                          var percent = Math.round((dataset['data'][tooltipItem['index']] / dataset["_meta"][0]['total']) * 100)
+                          return percent + '%';
+                        }
+                      },
+                      backgroundColor: '#FFF',
+                      titleFontSize: 16,
+                      titleFontColor: '#555555',
+                      bodyFontColor: '#000',
+                      bodyFontSize: 14,
+                      displayColors: false,
+                      borderColor: '#555555',
+                      borderWidth: 3,
+                      multiKeyBackground: '#555555',
+                      cornerRadius: 3,
+                      caretSize: 15,
+                      caretPadding: 13,
+                      xPadding: 12,
+                      yPadding: 12
+                  }
+                }
+            });
+
+            Chart.pluginService.register({
+                beforeDraw: function(chart) {
+                    if (chart.config.options.doughnut_chart) {
+                        var width = chart.chart.width,
+                            height = chart.chart.height,
+                            ctx = chart.chart.ctx;
+
+                        ctx.restore();
+                        var fontSize = (height / 220).toFixed(2); //144 --> 200
+                        ctx.font = fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+
+                        var passPercent = Math.round((passed_cnt / total_tests) * 100)
+
+                        var text = passPercent + "% Passed",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                  }
+                });
+
+			var MeSeChart = new Chart(MeSeContext, {
+				type: 'horizontalBar',
+				data: MeSeData,
+				options: {
+					legend: {
+						display: false
+					},
+					responsive: true,
+					scales: {
+						yAxes: [{
+							stacked: true
+						}]
+					},
+					tooltips: {
+					backgroundColor: '#FFF',
+					titleFontSize: 10,
+					titleFontColor: '#555555',
+					bodyFontColor: '#000',
+					bodyFontSize: 12,
+					displayColors: false,
+					borderColor: '#555555',
+					borderWidth: 2,
+					multiKeyBackground: '#555555',
+					cornerRadius: 2,
+					caretSize: 5,
+					caretPadding: 5,
+					xPadding: 5,
+					yPadding: 5
+				}
+				}
+			});
+
+		</script>
+		<script>
+			var testcase_col = document.getElementsByClassName("collapsible");
+			var link_txt = document.getElementsByClassName("link_txt");
+			var link_html = document.getElementsByClassName("link_html");
+			var status_icon = document.getElementsByClassName("status_icon");
+			var select = document.getElementById("filter");
+			var pass_icon_path = document.body.getAttribute("pass");
+			var inconclusive_icon_path = document.body.getAttribute("inconclusive");
+			var skip_icon_path = document.body.getAttribute("skip");
+			var fail_icon_path = document.body.getAttribute("fail");
+			var passed_tests = [];
+			var inconclusive_tests = [];
+			var skip_tests = [];
+			var failed_tests = ['global_setup', 'SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)', 'global_teardown'];
+			var test_names = ['global_setup', 'SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)', 'global_teardown'];
+			var pass_print = [];
+			var fail_print = ['telnet connection to CarMaker gui is not established. Error: [WinError 10061] No connection could be made because the target machine actively refused it. \n\t-->  File "D:\\JenkinsServer_Main\\workspace\\Contest_download\\Simulation_script\\setup.pytest" line 48<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name', "Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", 'Might be telnet connection not established, user trying to send appl  commands. \n\t-->  File "D:\\JenkinsServer_Main\\workspace\\Contest_download\\Simulation_script\\setup.pytest" line 71<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name'];
+			var inconclusive_print = [];
+			var log_print = ['telnet connection to CarMaker gui is not established. Error: [WinError 10061] No connection could be made because the target machine actively refused it. \n\t-->  File "D:\\JenkinsServer_Main\\workspace\\Contest_download\\Simulation_script\\setup.pytest" line 48<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name', "Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", 'Might be telnet connection not established, user trying to send appl  commands. \n\t-->  File "D:\\JenkinsServer_Main\\workspace\\Contest_download\\Simulation_script\\setup.pytest" line 71<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name'];
+			var pass_exec_time = [];
+			var fail_exec_time = ['≈ 131062.28 ms', '≈ 16.53 ms', '≈ 2.93 ms', '≈ 6.05 ms'];
+			var view_disclaimer = false;
+			var inconclusive_exec_time = [];
+			var exec_time = ['≈ 131062.28 ms', '≈ 16.53 ms', '≈ 2.93 ms', '≈ 6.05 ms'];
+			var pass_txt_report = [];
+			var fail_txt_report = ['..\\contest__txt_reports\\global_setup', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 0)', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 1)', '..\\contest__txt_reports\\global_teardown'];
+			var inconclusive_txt_report = [];
+			var txt_report = ['..\\contest__txt_reports\\global_setup', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 0)', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 1)', '..\\contest__txt_reports\\global_teardown'];
+			var pass_html_report = [];
+			var fail_html_report = ['.\\global_setup', '.\\SWT_SAMPLE_TESTv1(index 0)', '.\\SWT_SAMPLE_TESTv1(index 1)', '.\\global_teardown'];
+			var inconclusive_html_report = [];
+			var html_report = ['.\\global_setup', '.\\SWT_SAMPLE_TESTv1(index 0)', '.\\SWT_SAMPLE_TESTv1(index 1)', '.\\global_teardown'];
+			var pass_req_id = [];
+			var fail_req_id = ['', 'Mention requirement satisfied by this test case', 'Mention requirement satisfied by this test case', ''];
+			var inconclusive_req_id = [];
+			var req_id = ['', 'Mention requirement satisfied by this test case', 'Mention requirement satisfied by this test case', ''];
+			var fail_s_a_tag = ['automated', 'automated', 'automated', 'automated'];
+			var pass_s_a_tag = [];
+			var inconclusive_s_a_tag = [];
+			var s_a_tag = ['automated', 'automated', 'automated', 'automated'];
+			var tags = {'blackbox': {'test_name': ['SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)'], 'log_print': ["Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name"], 'exec_time': ['≈ 16.53 ms', '≈ 2.93 ms'], 'txt_report': ['..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 0)', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 1)'], 'html_report': ['.\\SWT_SAMPLE_TESTv1(index 0)', '.\\SWT_SAMPLE_TESTv1(index 1)'], 'files': ['', ''], 'req_id': ['Mention requirement satisfied by this test case', 'Mention requirement satisfied by this test case'], 'automates_id': ['', ''], 's_a_tag': ['automated', 'automated']}, 'hil': {'test_name': ['SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)'], 'log_print': ["Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name"], 'exec_time': ['≈ 16.53 ms', '≈ 2.93 ms'], 'txt_report': ['..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 0)', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 1)'], 'html_report': ['.\\SWT_SAMPLE_TESTv1(index 0)', '.\\SWT_SAMPLE_TESTv1(index 1)'], 'files': ['', ''], 'req_id': ['Mention requirement satisfied by this test case', 'Mention requirement satisfied by this test case'], 'automates_id': ['', ''], 's_a_tag': ['automated', 'automated']}, 'integration': {'test_name': ['SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)'], 'log_print': ["Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name"], 'exec_time': ['≈ 16.53 ms', '≈ 2.93 ms'], 'txt_report': ['..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 0)', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 1)'], 'html_report': ['.\\SWT_SAMPLE_TESTv1(index 0)', '.\\SWT_SAMPLE_TESTv1(index 1)'], 'files': ['', ''], 'req_id': ['Mention requirement satisfied by this test case', 'Mention requirement satisfied by this test case'], 'automates_id': ['', ''], 's_a_tag': ['automated', 'automated']}, 'parameterized': {'test_name': ['SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)'], 'log_print': ["Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name"], 'exec_time': ['≈ 16.53 ms', '≈ 2.93 ms'], 'txt_report': ['..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 0)', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 1)'], 'html_report': ['.\\SWT_SAMPLE_TESTv1(index 0)', '.\\SWT_SAMPLE_TESTv1(index 1)'], 'files': ['', ''], 'req_id': ['Mention requirement satisfied by this test case', 'Mention requirement satisfied by this test case'], 'automates_id': ['', ''], 's_a_tag': ['automated', 'automated']}, 'python': {'test_name': ['SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)'], 'log_print': ["Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name"], 'exec_time': ['≈ 16.53 ms', '≈ 2.93 ms'], 'txt_report': ['..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 0)', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 1)'], 'html_report': ['.\\SWT_SAMPLE_TESTv1(index 0)', '.\\SWT_SAMPLE_TESTv1(index 1)'], 'files': ['', ''], 'req_id': ['Mention requirement satisfied by this test case', 'Mention requirement satisfied by this test case'], 'automates_id': ['', ''], 's_a_tag': ['automated', 'automated']}, 'sil': {'test_name': ['SWT_SAMPLE_TESTv1(index: 0)', 'SWT_SAMPLE_TESTv1(index: 1)'], 'log_print': ["Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name", "Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function<br><br>For more detailed report, please go through HTML Report or Text Report<br>ⓘ links to the reports are given next to their respective test case name"], 'exec_time': ['≈ 16.53 ms', '≈ 2.93 ms'], 'txt_report': ['..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 0)', '..\\contest__txt_reports\\SWT_SAMPLE_TESTv1(index 1)'], 'html_report': ['.\\SWT_SAMPLE_TESTv1(index 0)', '.\\SWT_SAMPLE_TESTv1(index 1)'], 'files': ['', ''], 'req_id': ['Mention requirement satisfied by this test case', 'Mention requirement satisfied by this test case'], 'automates_id': ['', ''], 's_a_tag': ['automated', 'automated']}};
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");
+			ctx.lineWidth = 2;
+			ctx.font = '14px verdana';
+			var pie_color = ["#85e082", "#f2f299", "#F1948A", "#778899"];
+			var total_tests = (passed_tests.length) + (failed_tests.length) + (inconclusive_tests.length) + (skip_tests.length);
+			var pass_per =((passed_tests.length)/ total_tests)*100;
+			var inconclusive_per =((inconclusive_tests.length)/ total_tests)*100;
+			var fail_per =((failed_tests.length)/ total_tests)*100;
+			var skip_per =((skip_tests.length)/ total_tests)*100;
+			var pie_data = [pass_per, inconclusive_per, fail_per, skip_per];
+			var cx = 150;
+			var cy = 140;
+			var radius = 130;
+			var i, j, k, l, m, n;       <!-- These variables are used for iteration -->
+			var text = "";
+			var test_report_obj = {test_report:[{'test_environment': 'ConTest_v3.3.0 ', 'show_test_disclaimer': '0', 'test_case_name': 'global_setup', 'execution_time': 131062.28, 'color': 'red', 'status': 'FAILED', 'files': [], 'verified_ids': [], 'automates_ids': [], 'tags': [], 'details': [], 'precondition': [], 'test_case_execution': [], 'test_case_warnings': [], 'test_case_verdict': '<p id="custom_style"><font color="red"><b>[FAILED]</b> <br /><br /> --> Failure : telnet connection to CarMaker gui is not established. Error: [WinError 10061] No connection could be made because the target machine actively refused it. \n\t-->  File "D:\\JenkinsServer_Main\\workspace\\Contest_download\\Simulation_script\\setup.pytest" line 48<br />See Console Output ... </font></p>'}, {'test_environment': 'ConTest_v3.3.0 ', 'show_test_disclaimer': '0', 'test_case_name': 'SWT_SAMPLE_TESTv1(index: 0)', 'execution_time': 16.53, 'color': 'red', 'status': 'FAILED', 'files': [], 'verified_ids': ['Mention requirement satisfied by this test case'], 'automates_ids': [], 'tags': ['blackbox', 'hil', 'integration', 'parameterized', 'python', 'sil'], 'details': [], 'precondition': [], 'test_case_execution': [], 'test_case_warnings': [], 'test_case_verdict': '<p id="custom_style"><font color="red"><b>[FAILED]</b> <br /><br /> --> Failure : Execution of \'SWT_SAMPLE_TESTv1(index: 0)\' did not happen due to failure in \'global_setup\' function<br />See Console Output ... </font></p>'}, {'test_environment': 'ConTest_v3.3.0 ', 'show_test_disclaimer': '0', 'test_case_name': 'SWT_SAMPLE_TESTv1(index: 1)', 'execution_time': 2.93, 'color': 'red', 'status': 'FAILED', 'files': [], 'verified_ids': ['Mention requirement satisfied by this test case'], 'automates_ids': [], 'tags': ['blackbox', 'hil', 'integration', 'parameterized', 'python', 'sil'], 'details': [], 'precondition': [], 'test_case_execution': [], 'test_case_warnings': [], 'test_case_verdict': '<p id="custom_style"><font color="red"><b>[FAILED]</b> <br /><br /> --> Failure : Execution of \'SWT_SAMPLE_TESTv1(index: 1)\' did not happen due to failure in \'global_setup\' function<br />See Console Output ... </font></p>'}, {'test_environment': 'ConTest_v3.3.0 ', 'show_test_disclaimer': '0', 'test_case_name': 'global_teardown', 'execution_time': 6.05, 'color': 'red', 'status': 'FAILED', 'files': [], 'verified_ids': [], 'automates_ids': [], 'tags': [], 'details': [], 'precondition': [], 'test_case_execution': [], 'test_case_warnings': [], 'test_case_verdict': '<p id="custom_style"><font color="red"><b>[FAILED]</b> <br /><br /> --> Failure : Might be telnet connection not established, user trying to send appl  commands. \n\t-->  File "D:\\JenkinsServer_Main\\workspace\\Contest_download\\Simulation_script\\setup.pytest" line 71<br />See Console Output ... </font></p>'}]};
+			var all_testcase_name = ['global_setup', 'SWT_SAMPLE_TESTv1(index 0)', 'SWT_SAMPLE_TESTv1(index 1)', 'global_teardown'];
+			var tst_names = [];
+			var selectedFilterOption
+			var filter_type;
+			var split;
+			var highlit
+			var previousButton = null;
+			var path;
+			var test_all_reqid = []
+			var reqids_all_reqid = []
+			var test_passed_reqid = []
+			var reqids_passed_reqid = []
+			var test_failed_reqid = []
+			var reqids_failed_reqid = []
+			var test_inconcl_reqid = []
+			var reqids_inconcl_reqid = []
+			for (var key in tags) {
+			  var opt = document.createElement("option");
+			  opt.value = key;
+			  opt.innerHTML = key;
+			  select.appendChild(opt);
+			}
+			if (view_disclaimer == 1) {
+				show_disclaimer();
+			}
+			function show_disclaimer() {
+				document.getElementById("summary_disclaimer").innerHTML = "DISCLAIMER: Unofficial Report – contains         non-specified instrumented changes.";
+				document.getElementById("report_disclaimer").innerHTML = "&nbsp;DISCLAIMER: Unofficial Report – contains         non-specified instrumented changes.";
+			}
+
+			window.onload = function() {
+				update_reqid_testcase()
+				show_all();
+				path = window.location.hash;
+					// Check if there's a highlighted button in sessionStorage
+				var highlightedButtonId = sessionStorage.getItem('highlightedButton');
+				if (highlightedButtonId) {
+					var storedButton = document.getElementById(highlightedButtonId);
+					if (storedButton) {
+						storedButton.classList.add('tc_highlighted');
+					}
+				}
+				window.onhashchange = function() {
+						var newHash = window.location.hash.substring(1);
+						if (newHash === '' || newHash === 'dashboard'  ) {
+							location.reload();
+						}
+					};
+				if (window.location.hash.substring(1) === '' || window.location.hash.substring(1) === 'dashboard'){
+					document.getElementById("defaultOpen").click();
+				}
+
+				else if(window.location.hash.substring() === path ) {
+					split = window.location.hash.split('/');
+					split_part = split[1];
+					split_part = decodeURIComponent(split_part);
+					document.getElementById("reportTab").click();
+					highlit = document.getElementById(split_part)
+					highlit.classList.add('tc_highlighted')
+					window.location.hash=path
+					trigger_function(split_part);
+					//previousButton.classList.remove('highlighted');
+				}
+			};
+			function update_reqid_testcase()
+				{
+					for (i = 0; i < test_names.length; i++)
+					{
+						if (req_id[i].length > 0)
+							{
+								test_all_reqid.push(test_names[i]);
+								reqids_all_reqid.push(req_id[i]);
+							}
+					}
+					for (i = 0; i < passed_tests.length; i++)
+					{
+						if (pass_req_id[i].length > 0)
+							{
+								test_passed_reqid.push(passed_tests[i]);
+								reqids_passed_reqid.push(pass_req_id[i]);
+							}
+					}
+					for (i = 0; i < failed_tests.length; i++)
+					{
+						if (fail_req_id[i].length > 0)
+							{
+								test_failed_reqid.push(failed_tests[i]);
+								reqids_failed_reqid.push(fail_req_id[i]);
+							}
+					}
+					for (i = 0; i < inconclusive_tests.length; i++)
+					{
+						if (inconclusive_req_id[i].length > 0)
+							{
+								test_inconcl_reqid.push(inconclusive_tests[i]);
+								reqids_inconcl_reqid.push(inconclusive_req_id[i]);
+							}
+					}
+				}
+			function show_test(tests,req_ids,semi_auto_tags,exe_time,log_prints,txt_rep,html_rep ) {
+			  document.getElementById("test_cases").innerHTML = "";
+			  text = "";
+			  var pie_pass = 0;
+			  var pie_inconclusive = 0;
+			  var pie_skip = 0;
+			  var pie_fail = 0;
+			  var total_filtered = 0;
+			  for (i = 0; i < tests.length; i++) {
+			    let tc_template_text = ""
+					tc_template_text = "<button onclick=\"trigger_function(\'test_names\');\" class=\"collapsible\" id=\"" + tests[i] + "\" style=\"background-color:#85e082;outline:none\">" +
+							"<img class=\"status_icon\" src=\"" + pass_icon_path + "\" alt=\"pass\"" +
+							"style=\"width:18px;height:18px;border:0;\" hspace=\"10\">" + tests[i] +
+							"<div style=\"float:right;padding:0 15px;\">" +
+							"<a target=\"_blank\" rel=\"noopener noreferrer\" class=\"link_txt\"></a></div>" +
+							"<div style=\"float:right;padding:0 15px;\">" +
+							"<a  target=\"\" class=\"link_html\"></a></div>" +
+							"<div style=\"float:right;width:10%;\">" +
+							"</div></button>"
+			     tc_template_text = tc_template_text.replace('test_names',tests[i]);
+				 text += tc_template_text;
+				if (passed_tests.includes(String(tests[i])) == true) {
+					pie_pass++;
+				}
+				else if (inconclusive_tests.includes(String(tests[i])) == true) {
+					pie_inconclusive++;
+				}
+				else if (skip_tests.includes(String(tests[i])) == true) {
+					pie_skip++;
+				}
+				else {
+					pie_fail++;
+				}
+			  }
+			  document.getElementById("test_cases").innerHTML = text;
+			  for (j = 0; j < link_txt.length; j++) {
+				link_txt[j].setAttribute("href",txt_rep[j] + ".txt");
+				link_html[j].setAttribute("href",html_rep[j] + ".html");
+			  }
+			  for (k = 0; (k < tests.length) && (k < testcase_col.length); k++) {
+				if (failed_tests.includes(String(tests[k])) == true) {
+					testcase_col[k].style.backgroundColor = "#F1948A";
+				  status_icon[k].src = fail_icon_path;
+				}
+			  }
+			  for (k = 0; (k < tests.length) && (k < testcase_col.length); k++) {
+				if (inconclusive_tests.includes(String(tests[k])) == true) {
+					testcase_col[k].style.backgroundColor = "#f2f299";
+				  status_icon[k].src = inconclusive_icon_path;
+				}
+			  }
+			  for (k = 0; (k < tests.length) && (k < testcase_col.length); k++) {
+				if (skip_tests.includes(String(tests[k])) == true) {
+					testcase_col[k].style.backgroundColor = "#778899";
+				  status_icon[k].src = skip_icon_path;
+				}
+			  }
+				  }
+			function show_test_reqid(tests,req_ids,semi_auto_tags,exe_time,log_prints,txt_rep,html_rep ) {
+			  document.getElementById("test_cases").innerHTML = "";
+			  text = "";
+			  var pie_pass = 0;
+			  var pie_inconclusive = 0;
+			  var pie_skip = 0;
+			  var pie_fail = 0;
+			  var total_filtered = 0;
+				for (i = 0; i < tests.length; i++) {
+					if (req_ids[i].length > 0)
+					{
+						let tc_template_text = ""
+							tc_template_text = "<button onclick=\"trigger_function(\'test_names\');\" class=\"collapsible\" id=\"" + tests[i] + "\" style=\"background-color:#85e082;outline:none\">" +
+									"<img class=\"status_icon\" src=\"" + pass_icon_path + "\" alt=\"pass\"" +
+									"style=\"width:18px;height:18px;border:0;\" hspace=\"10\">" + tests[i] +
+									"<div style=\"float:right;padding:0 15px;\">" +
+									"<a target=\"_blank\" rel=\"noopener noreferrer\" class=\"link_txt\"></a></div>" +
+									"<div style=\"float:right;padding:0 15px;\">" +
+									"<a  target=\"\" class=\"link_html\"></a></div>" +
+									"<div style=\"float:right;width:10%;\">" +
+									"</div></button>"
+						tc_template_text = tc_template_text.replace('test_names',tests[i]);
+						text += tc_template_text;
+						if (passed_tests.includes(String(tests[i])) == true) {
+							pie_pass++;
+						}
+						else if (inconclusive_tests.includes(String(tests[i])) == true) {
+							pie_inconclusive++;
+						}
+						else if (skip_tests.includes(String(tests[i])) == true) {
+							pie_skip++;
+						}
+						else {
+							pie_fail++;
+						}
+				}
+			  }
+
+			  document.getElementById("test_cases").innerHTML = text;
+			  for (j = 0; j < link_txt.length; j++) {
+				link_txt[j].setAttribute("href",txt_rep[j] + ".txt");
+				link_html[j].setAttribute("href",html_rep[j] + ".html");
+			  }
+			  for (k = 0; (k < tests.length) && (k < testcase_col.length); k++) {
+				if (failed_tests.includes(String(tests[k])) == true) {
+					testcase_col[k].style.backgroundColor = "#F1948A";
+				  status_icon[k].src = fail_icon_path;
+				}
+			  }
+			  for (k = 0; (k < tests.length) && (k < testcase_col.length); k++) {
+				if (inconclusive_tests.includes(String(tests[k])) == true) {
+					testcase_col[k].style.backgroundColor = "#f2f299";
+				  status_icon[k].src = inconclusive_icon_path;
+				}
+			  }
+			  for (k = 0; (k < tests.length) && (k < testcase_col.length); k++) {
+				if (skip_tests.includes(String(tests[k])) == true) {
+					testcase_col[k].style.backgroundColor = "#778899";
+				  status_icon[k].src = skip_icon_path;
+				}
+			  }
+				  }
+
+			function show_filter() {
+			  var filter = select.options[select.selectedIndex].value;
+			  var mul_filter = Array.from(select.selectedOptions).map(option => option.value)
+			  if (filter == "None") {
+				show_all_testcase();
+			  }
+			  else {
+				var tst_name = [];
+				var r_id = [];
+				var ex_tim = [];
+				var log_prnt = [];
+				var txt_rep = [];
+				var html_rep = [];
+				var SA_Tag = [];
+				for (m = 0; m < mul_filter.length; m++) {
+				  for (n = 0; n < tags[mul_filter[m]]["test_name"].length; n++) {
+					if (tst_name.includes(tags[mul_filter[m]]["test_name"][n]) === false) {
+					  tst_name.push(tags[mul_filter[m]]["test_name"][n]);
+					  r_id.push(tags[mul_filter[m]]["req_id"][n]);
+					  ex_tim.push(tags[mul_filter[m]]["exec_time"][n]);
+					  log_prnt.push(tags[mul_filter[m]]["log_print"][n]);
+					  txt_rep.push(tags[mul_filter[m]]["txt_report"][n]);
+					  html_rep.push(tags[mul_filter[m]]["html_report"][n]);
+					  SA_Tag.push(tags[mul_filter[m]]["s_a_tag"][n]);
+					}
+				  }
+				}
+				tst_names = tst_name;
+				selectedFilterOption = mul_filter.join(", ");
+				const count = tst_name.length;
+				show_test(tst_name,r_id,SA_Tag,ex_tim,log_prnt,txt_rep,html_rep);
+				alert_note(`Filter: ${selectedFilterOption}`, count);
+				document.getElementById('copy_icon').style.visibility = 'visible'
+				let tc_template = "";
+				document.getElementById("test_cases_report").innerHTML = tc_template;
+				trigger_function(tst_name[0])
+			  }
+			}
+
+			function draw_pie_chart(data, colors) {
+				let startAngle = 0;
+				for (let i = 0; i < data.length; i++) {
+					var sliceAngle = 2 * Math.PI * data[i] / 100;
+					var endAngle = startAngle + sliceAngle;
+					var midAngle = startAngle + sliceAngle / 2;
+					var x = cx + (radius / 2) * Math.cos(midAngle);
+					var y = cy + (radius / 2) * Math.sin(midAngle);
+					var percent = data[i].toFixed(1) + '%';
+					ctx.beginPath();
+					ctx.moveTo(cx, cy);
+					ctx.fillStyle = colors[i];
+					ctx.arc(cx, cy, radius, startAngle, endAngle, false);
+					ctx.closePath();
+					ctx.fill();
+					ctx.fillStyle = 'black';
+					ctx.fillText(percent, x, y);
+					startAngle = endAngle;
+				}
+			}
+			function draw_legend(pass, inconclusive, fail, skip,  filtered) {
+				var labelX = 300;
+				var labelY = 10;
+				var color_label_size = 20;
+				var data = ["Passed", "Inconclusive", "Failed", "Skipped"];
+				ctx.lineWidth = 2;
+				ctx.font = "14px verdana";
+				ctx.textBaseline = "middle";
+				ctx.clearRect(280, 10, 180, 250);
+				for (var n = 0; n < data.length; n++) {
+					ctx.beginPath();
+					ctx.rect(labelX, labelY, color_label_size, color_label_size);
+					ctx.closePath();
+					ctx.fillStyle = pie_color[n];
+					ctx.fill();
+					ctx.fillStyle = "black";
+					ctx.fillText(data[n], labelX + color_label_size + 10, labelY + color_label_size / 2);
+					labelY += color_label_size + 10;
+				}
+				ctx.fillText('Total:', 300, 180);
+				ctx.fillText('Filtered:', 300, 200);
+				ctx.fillText('Passed:', 300, 220);
+				ctx.fillText('Inconclusive:', 300, 240);
+				ctx.fillText('Skipped Tests:', 300, 260);
+				ctx.fillText('Failed:', 300, 280);
+				ctx.font = "bold 14px verdana";
+				ctx.fillText(total_tests, 410, 180);
+				ctx.fillText(filtered, 410, 200);
+				ctx.fillText(pass, 410, 220);
+				ctx.fillText(inconclusive, 410, 240);
+				ctx.fillText(skip, 410, 260);
+				ctx.fillText(fail, 410, 280);
+			}
+			function openNav()
+			{
+			  document.getElementById("mySidebar").style.width = "250px";
+			  document.getElementById("main").style.marginLeft = "250px";
+			  var openbtn_id = document.getElementById("openbtn_id");
+			  openbtn_id.style.display = "none";
+			}
+			function closeNav()
+			{
+			  document.getElementById("mySidebar").style.width = "0";
+			  document.getElementById("main").style.marginLeft= "0";
+			  var openbtn_id = document.getElementById("openbtn_id");
+			  openbtn_id.style.display = "block";
+			}
+			document.getElementById('tablinks').addEventListener('click', function (event) {
+				event.preventDefault(); // Prevent the default behavior of the anchor tag
+				show_all_testcase()
+
+				var filterDiv = document.getElementById('filters');
+                if (filterDiv.style.display === 'none' ) {
+					filterDiv.style.display = 'block';
+				} else {
+					filterDiv.style.display = 'none';
+				}
+			});
+
+			function close_filter(){
+                var filterDiv = document.getElementById('filters');
+                filterDiv.style.display = 'none';
+				close_section()
+            }
+
+            document.getElementById('reportTab' ).addEventListener('click', function (event) {
+                event.preventDefault();
+                close_filter()
+            });
+
+            document.getElementById('defaultOpen').addEventListener('click', function (event) {
+                event.preventDefault();
+                close_filter()
+            });
+
+			function toggleFilter(filterType) {
+				filter_type = filterType;
+                // Hide all options initially
+                document.querySelectorAll('.filter-container').forEach(option => {
+                  option.style.display = 'none';
+                });
+                // Show the selected filter options
+                const options = document.getElementById(`${filterType}Filter`);
+                options.style.display = 'block';
+                // Move the active filter button to the bottom
+                const filterButtons = document.querySelector('.filter-header');
+                const buttons = Array.from(filterButtons.children);
+                const activeButtonIndex = buttons.findIndex(button => button.getAttribute('onclick') === `toggleFilter('${filterType}')`);
+                filterButtons.appendChild(buttons[activeButtonIndex]);
+                // Ensure the selected filter button is at the bottom
+                buttons.forEach(button => {
+                  if (button.getAttribute('onclick') !== `toggleFilter('${filterType}')`) {
+                    filterButtons.insertBefore(button, options);
+				}
+                  buttons.forEach(button => {
+                    if (button !== buttons[activeButtonIndex]) {
+                        button.style.color = '';  // Set to the default color
+                        button.style.fontWeight = '';
+                        button.style.borderRight = '';
+                    }
+                    else{
+                        button.style.color = 'white';
+                        button.style.font = 'bold';
+                        button.style.borderRight = 'groove';
+				}
+                });
+            });
+			close_section();
+			}
+
+		/*	function handleCheckboxClick(event) {
+				if (event.target.type === 'checkbox') {
+					if (!event.ctrlKey) {
+						// If Ctrl key is not pressed, uncheck all other checkboxes
+						const checkboxes = event.currentTarget.querySelectorAll('input[type="checkbox"]');
+						checkboxes.forEach(checkbox => {
+							if (checkbox !== event.target) {
+								checkbox.checked = false;
+							}
+						});
+					}
+				}
+			} */
+
+			function alert_note(note, count) {
+			   const alert_note_div  = document.getElementById("alert_note");
+                var report_count = document.createElement('span');
+                var total_count = document.createElement('span');
+                var pass_count = document.createElement('span');
+                var fail_count = document.createElement('span');
+				var skipped_count = document.createElement('span');
+                var inconclusive_count = document.createElement('span');
+				var copy_icon = document.createElement('button');
+                /*report_count.className = 'report_count';*/
+                total_count.className = 'report_count';
+                pass_count.className = 'report_count';
+                fail_count.className = 'report_count';
+				skipped_count.className = 'report_count';
+                inconclusive_count.className = 'report_count';
+				copy_icon.className = 'button';
+                report_count.id = 'report_count';
+                total_count.id = 'total_count';
+                pass_count.id = 'pass_count';
+                fail_count.id = 'fail_count';
+				skipped_count.id = 'skipped_count';
+                inconclusive_count.id = 'inconclusive_count';
+				copy_icon.id = 'copy_icon';
+
+				var alert = document.createElement('div')
+                alert.textContent = note;
+                alert.id = 'note'
+                alert_note_div.textContent = '';
+
+                report_count.textContent =  "Displayed Test case:" + count + '\xa0\xa0|';
+                total_count.textContent = "Total Test case:"+ total_tests + '\xa0\xa0|';
+                pass_count.textContent = "Pass:" + passed_tests.length+ "/"+total_tests + '\xa0\xa0|';
+                fail_count.textContent = "Failed:" + failed_tests.length+ "/"+total_tests + '\xa0\xa0|';
+				skipped_count.textContent = "Skipped:" + skip_tests.length+ "/"+total_tests + '\xa0\xa0|';
+                inconclusive_count.textContent = "Inconclusive: " + inconclusive_tests.length+ "/"+total_tests + '\xa0\xa0|';
+
+                var alert = document.createElement('div')
+                alert.textContent = note;
+                alert.id = 'note'
+                alert_note_div.textContent = '';
+
+				copy_icon.innerHTML =  ` Copy Filtered TCs Data
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"  style="width:15px;height:15px;border:0; cursor:pointer;"  align="center" valign="center" >
+					<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+				</svg>
+				`;
+
+				copy_icon.onclick = copy_function;
+
+				alert.appendChild(copy_icon);
+				alert_note_div.appendChild(alert);
+				alert_note_div.appendChild(report_count);
+
+                report_count.appendChild(total_count);
+                report_count.appendChild(pass_count);
+                report_count.appendChild(fail_count);
+				report_count.appendChild(skipped_count);
+                report_count.appendChild(inconclusive_count);
+				report_count.appendChild(copy_icon);
+
+			}
+
+			function copy_function() {
+                var selectElement
+                if(filter_type === 'testCase'){
+                    selectElement = document.getElementById('testCaseSelect');
+                    var selectedOptionIndex = selectElement.selectedIndex;
+                    if (selectedOptionIndex !== -1) {
+                        var selectedOption = selectElement.options[selectedOptionIndex];
+                        if (selectedOption.onclick) {
+                            var onclickValue = selectedOption.getAttribute('onclick');
+                            // Check the onclickValue and assign the respective copy function
+                            if (onclickValue === "show_all_testcase();") {
+                                copy_all_test_cases();
+                            } else if (onclickValue === "show_fail_testcase();") {
+                                copy_failed_test_cases();
+                            }else if (onclickValue === "show_pass_testcase();") {
+                                copy_passed_test_cases();
+                            } else if (onclickValue === "show_inconclusive_testcase();") {
+                                copy_inconclusive_test_cases();
+							} else if (onclickValue === "show_all_testcase_reqid();") {
+                                copy_all_testcase_reqid();
+							} else if (onclickValue === "show_fail_testcase_reqid();") {
+                                copy_fail_testcase_reqid();
+							} else if (onclickValue === "show_pass_testcase_reqid();") {
+                                copy_pass_testcase_reqid();
+							} else if (onclickValue === "show_inconclusive_testcase_reqid();") {
+								copy_inconclusive_testcase_reqid();
+                            } else  {
+                                // Handle other cases or provide a default action
+                                alert("Selected option has no copy function assigned");
+                            }
+                        } else {
+                            alert("Selected option has no onclick attribute");
+                        }
+                    }else {
+                        copy_all_test_cases();
+                    }
+                }else if(filter_type === 'testTag'){
+                    selectElement = document.getElementById("filter");
+                    var selectedOption = selectElement.options[selectElement.selectedIndex];
+                    var selectedValue = selectedOption.value;
+                    if (selectedFilterOption === selectedValue){
+                        copy_test_tag()
+                    } else if (selectedFilterOption === 'None' || selectedValue === 'None'){
+                        copy_all_test_cases();
+                    } else if(selectedFilterOption>selectedValue){
+                        copy_multiple_test_tag();
+                    }
+                }else {
+                    copy_all_test_cases();
+                }
+            }
+
+		function copy_multiple_test_tag() {
+				var mul_select = Array.from(select.selectedOptions).map(option => option.value);    // Get the selected options from the 'select' element
+				var test_names = [];    // Initialize an array to store unique test names
+				var value = "";      // Initialize a variable to store the concatenated test names
+				for (m = 0; m < mul_select.length; m++) {  // Iterate through each selected option
+					for (n = 0; n < tags[mul_select[m]]["test_name"].length; n++) {  // Iterate through each test name in the current option
+						var testName = tags[mul_select[m]]["test_name"][n];      // Get the current test name
+						if (!test_names.includes(testName)) { // Check if the test name is not already in the array
+							test_names.push(testName);          // Add the test name to the array
+							value += testName + "\n";  // Concatenate the test name to the 'value' variable with a newline
+						}
+					}
+				}
+
+				if (value == "") {  // Check if the final 'value' is empty
+					copy_to_clipboard("None");   // Copy "None" to the clipboard and alert the user
+					window.alert(`No test case selected`);
+				} else {
+					copy_to_clipboard(value.trim());   // Copy the concatenated test names to the clipboard and alert the user
+					window.alert("Copied");
+				}
+			}
+
+		function copy_test_tag() {
+				var value = tst_names.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert(`No ${selectedFilterOption} test case`);
+				} else {
+				copy_to_clipboard(value);
+				window.alert("Copied");
+			}
+		}
+
+		function show_all() {
+			select.selectedIndex = 0;
+			show_test(test_names,req_id,s_a_tag,exec_time,log_print,txt_report,html_report);
+			alert_note("Filter : All test cases", test_names.length);
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+		}
+
+		function show_all_testcase() {
+			select.selectedIndex = 0;
+			show_test(test_names,req_id,s_a_tag,exec_time,log_print,txt_report,html_report);
+			alert_note("Filter : All test cases", test_names.length);
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+			trigger_function(test_names[0])
+		}
+
+		function show_all_testcase_reqid() {
+			select.selectedIndex = 0;
+			show_test_reqid(test_all_reqid,reqids_all_reqid,s_a_tag,exec_time,log_print,txt_report,html_report);
+			alert_note("Filter : All test cases", test_all_reqid.length);
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+			trigger_function(test_all_reqid[0])
+		}
+
+
+		function show_fail_testcase() {
+			select.selectedIndex = 0;
+			show_test(failed_tests, fail_req_id, fail_s_a_tag, fail_exec_time, fail_print, fail_txt_report, fail_html_report);
+			alert_note("Filter : Fail test cases", failed_tests.length );
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+			trigger_function(failed_tests[0])
+		}
+
+		function show_fail_testcase_reqid() {
+			select.selectedIndex = 0;
+			show_test(test_failed_reqid, reqids_failed_reqid, fail_s_a_tag, fail_exec_time, fail_print, fail_txt_report, fail_html_report);
+			alert_note("Filter : Fail test cases", test_failed_reqid.length );
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+			trigger_function(test_failed_reqid[0])
+		}
+		function show_pass_testcase() {
+			select.selectedIndex = 0;
+			show_test(passed_tests, pass_req_id, pass_s_a_tag, pass_exec_time, pass_print, pass_txt_report, pass_html_report);
+			alert_note("Filter : Pass test cases", passed_tests.length);
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+			trigger_function(passed_tests[0])
+		}
+		function show_pass_testcase_reqid() {
+			select.selectedIndex = 0;
+			show_test(test_passed_reqid, reqids_passed_reqid, pass_s_a_tag, pass_exec_time, pass_print, pass_txt_report, pass_html_report);
+			alert_note("Filter : Pass test cases", test_passed_reqid.length);
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+			trigger_function(test_passed_reqid[0])
+		}
+
+		function show_inconclusive_testcase() {
+			select.selectedIndex = 0;
+			show_test(inconclusive_tests, inconclusive_req_id, inconclusive_s_a_tag, inconclusive_exec_time, inconclusive_print, inconclusive_txt_report, inconclusive_html_report);
+			alert_note("Filter : Inconclusive test cases", inconclusive_tests.length);
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+			trigger_function(inconclusive_tests[0])
+		}
+
+		function show_inconclusive_testcase_reqid() {
+			select.selectedIndex = 0;
+			show_test(test_inconcl_reqid, reqids_inconcl_reqid, inconclusive_s_a_tag, inconclusive_exec_time, inconclusive_print, inconclusive_txt_report, inconclusive_html_report);
+			alert_note("Filter : Inconclusive test cases", test_inconcl_reqid.length);
+			let tc_template = "";
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+			document.getElementById('copy_icon').style.visibility = 'visible'
+			trigger_function(test_inconcl_reqid[0])
+		}
+
+		function copy_to_clipboard(value) {
+			var dummy = document.createElement("textarea");
+			document.body.appendChild(dummy);
+			dummy.value = value;
+			dummy.select();
+			document.execCommand("copy");
+			document.body.removeChild(dummy);
+			return;
+		}
+
+		function copy_all_test_cases() {
+			var value = test_names.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Test(s)");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied all Test(s)");
+			}
+		}
+
+		function copy_failed_test_cases() {
+			var value = failed_tests.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Failed Test(s)");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied failed Test(s)");
+			}
+		}
+
+		function copy_passed_test_cases() {
+			var value = passed_tests.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Passed Test(s)");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied Passed Test(s)");
+			}
+		}
+
+		function copy_inconclusive_test_cases() {
+			var value = inconclusive_tests.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Inconclusive Test(s)");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied inconclusive Test(s)");
+			}
+		}
+		function copy_all_testcase_reqid() {
+
+			let unique_all_reqid = [];
+			reqids_all_reqid.forEach(element => {
+				if (!unique_all_reqid.includes(element)) {
+					unique_all_reqid.push(element);}
+			});
+
+			var value = unique_all_reqid.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Test(s) with Requirement ID");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied all Test(s) with Requirement ID");
+			}
+		}
+		function copy_fail_testcase_reqid() {
+
+			let unique_failed_reqid = [];
+			reqids_failed_reqid.forEach(element => {
+				if (!unique_failed_reqid.includes(element)) {
+					unique_failed_reqid.push(element);}
+			});
+
+			var value = unique_failed_reqid.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Failed Test(s) with Requirement ID");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied Failed Test(s) with Requirement ID");
+			}
+		}
+		function copy_pass_testcase_reqid() {
+
+			let unique_passed_reqid = [];
+			reqids_passed_reqid.forEach(element => {
+				if (!unique_passed_reqid.includes(element)) {
+					unique_passed_reqid.push(element);}
+			});
+
+			var value = unique_passed_reqid.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Passed Test(s) with Requirement ID");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied Passed Test(s) with Requirement ID ");
+			}
+		}
+		function copy_inconclusive_testcase_reqid() {
+
+			let unique_inconcl_reqid = [];
+			reqids_inconcl_reqid.forEach(element => {
+				if (!unique_inconcl_reqid.includes(element)) {
+					unique_inconcl_reqid.push(element);}
+			});
+
+			var value = unique_inconcl_reqid.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Inconclusive Test(s) with Requirement ID");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied Inconclusive Test(s) with Requirement ID");
+			}
+		}
+
+		function copy_all_req_id() {
+			var req_ids = req_id.filter(function(str) {return /\S/.test(str);});
+			var value = req_ids.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Requirement ID(s)");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied");
+			}
+		}
+
+		function copy_failed_req_id() {
+			var fail_req_ids = fail_req_id.filter(function(str) {return /\S/.test(str);});
+			var value = fail_req_ids.join("\n");
+			if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Failed Requirement ID(s)");
+			} else {
+				copy_to_clipboard(value);
+				window.alert("Copied");
+			}
+		}
+
+		function copy_passed_req_id() {
+			var pass_req_ids = pass_req_id.filter(function(str) {return /\S/.test(str);});
+			var value = pass_req_ids.join("\n");
+				if (value == "") {
+				copy_to_clipboard("None");
+				window.alert("No Passed Requirement ID(s)");
+				} else {
+				copy_to_clipboard(value);
+				window.alert("Copied");
+				}
+			}
+
+		function draw_pie_chart(data, colors) {
+			let startAngle = 0;
+			for (let i = 0; i < data.length; i++) {
+				var sliceAngle = 2 * Math.PI * data[i] / 100;
+				var endAngle = startAngle + sliceAngle;
+				var midAngle = startAngle + sliceAngle / 2;
+				var x = cx + (radius / 2) * Math.cos(midAngle);
+				var y = cy + (radius / 2) * Math.sin(midAngle);
+				var percent = data[i].toFixed(1) + '%';
+				ctx.beginPath();
+				ctx.moveTo(cx, cy);
+				ctx.fillStyle = colors[i];
+				ctx.arc(cx, cy, radius, startAngle, endAngle, false);
+				ctx.closePath();
+				ctx.fill();
+				ctx.fillStyle = 'black';
+				ctx.fillText(percent, x, y);
+				startAngle = endAngle;
+			}
+		}
+
+		function draw_legend(pass, inconclusive, fail, skip,  filtered) {
+			var labelX = 300;
+			var labelY = 10;
+			var color_label_size = 20;
+			var data = ["Passed", "Inconclusive", "Failed", "Skipped"];
+			ctx.lineWidth = 2;
+			ctx.font = "14px verdana";
+			ctx.textBaseline = "middle";
+			ctx.clearRect(280, 10, 180, 250);
+			for (var n = 0; n < data.length; n++) {
+				ctx.beginPath();
+				ctx.rect(labelX, labelY, color_label_size, color_label_size);
+				ctx.closePath();
+				ctx.fillStyle = pie_color[n];
+				ctx.fill();
+				ctx.fillStyle = "black";
+				ctx.fillText(data[n], labelX + color_label_size + 10, labelY + color_label_size / 2);
+				labelY += color_label_size + 10;
+			}
+			ctx.fillText('Total:', 300, 180);
+			ctx.fillText('Filtered:', 300, 200);
+			ctx.fillText('Passed:', 300, 220);
+			ctx.fillText('Inconclusive:', 300, 240);
+			ctx.fillText('Skipped Tests:', 300, 260);
+			ctx.fillText('Failed:', 300, 280);
+			ctx.font = "bold 14px verdana";
+			ctx.fillText(total_tests, 410, 180);
+			ctx.fillText(filtered, 410, 200);
+			ctx.fillText(pass, 410, 220);
+			ctx.fillText(inconclusive, 410, 240);
+			ctx.fillText(skip, 410, 260);
+			ctx.fillText(fail, 410, 280);
+		}
+
+		function openNav()
+		{
+			document.getElementById("mySidebar").style.width = "250px";
+			document.getElementById("main").style.marginLeft = "250px";
+			var openbtn_id = document.getElementById("openbtn_id");
+			openbtn_id.style.display = "none";
+		}
+
+		function closeNav()
+		{
+			document.getElementById("mySidebar").style.width = "0";
+			document.getElementById("main").style.marginLeft= "0";
+			var openbtn_id = document.getElementById("openbtn_id");
+			openbtn_id.style.display = "block";
+		}
+
+		const sections = document.querySelectorAll('section')
+		sections.forEach((section) => {
+			const handle = section.querySelector('a.handle');
+			const content = section.querySelector('div.wrapper');
+			handle.addEventListener('mousedown', (event) => {
+				event.preventDefault();
+				const drag = (event) => {
+					event.preventDefault();
+					let left = (100 * event.pageX) / window.innerWidth;
+					let right = 100 - left;
+					const limit = 30;
+					left = Math.max(0 + limit, Math.min(left, 100 - limit));
+					right = 100 - left;
+					content.style.gridTemplateColumns = `${left}% ${right}%`;
+					handle.style.left = `${left}%`;
+					handle.style.right = `${right}%`;
+				};
+				const mouseup = (event) => {
+					event.preventDefault();
+					document.removeEventListener('mousemove', drag);
+					document.removeEventListener('mouseup', mouseup);
+				};
+					document.addEventListener('mousemove', drag);
+					document.addEventListener('mouseup', mouseup);
+			});
+			handle.addEventListener('click', (event) => {
+					event.preventDefault();
+			});
+		});
+
+		function close_section(){
+			//document.getElementById("testcase_desc").style.height = 0;
+			document.getElementById("testcase_desc").style.visibility = 'hidden';
+			document.getElementById("testcase_list").style.minHeight = '75vh';
+			document.getElementById("testcase_list").style.maxHeight = '75vh';
+			document.getElementById(split_part).classList.remove('tc_highlighted')
+			highlit.classList.remove('tc_highlighted');
+			previousButton.classList.remove('tc_highlighted');
+		}
+
+		var buttonElement = null
+		function trigger_function(tc_name)
+		{
+			//var text = ""
+			var tc_template = "";
+			buttonElement = document.activeElement;
+			tc_select = tc_name
+			tc_select = tc_select.trim();
+			tc_name = decodeURIComponent(tc_name);
+			window.location.hash = path+'/'+tc_name;
+			window.location.hash.substring(1).split('/')[1];
+			if(document.getElementById("testcase_list").className === 'testcase_list_template'){
+				document.getElementById("testcase_desc").style.visibility = 'visible';
+				//document.getElementById("testcase_desc").style.height = ''
+				document.getElementById("testcase_list").style.minHeight = '20%';
+				document.getElementById("testcase_list").style.maxHeight = '35vh';
+			}
+			else {
+				document.getElementById("testcase_list").style.minHeight = '75vh';
+				document.getElementById("testcase_list").style.maxHeight = '75vh';
+			}
+			for (let i in test_report_obj.test_report) {
+				let compare_sel_tc = tc_select.localeCompare(test_report_obj.test_report[i].test_case_name.trim())
+				if (compare_sel_tc == '0'){
+				tc_template += "<h5>1)<b> Test case:</b> </h5>" +
+								"<p id=\"custom_style\">" + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + test_report_obj.test_report[i].test_case_name + "<p>" +
+								"<h5>2) <b>Verdict/Status:</b> </h5>" +
+								"<p id=\"custom_style\"><font color=\""+ test_report_obj.test_report[i].color +"\"><b>"+ " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + test_report_obj.test_report[i].status + "</b></font></p>" + ""
+				tc_template += "<h5>3) <b>Execution Time: </b></h5>" +
+								"<p id=\"custom_style\">"  + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +test_report_obj.test_report[i].execution_time + " Millisecond  <p>" +
+								"<h5>4) <b>Verification IDs: </b> </h5>"
+								test_report_obj.test_report[i].verified_ids.forEach(verified_ids => {
+
+									tc_template += "<p id=\"custom_style\">" + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + verified_ids + "<p>"
+								});
+				tc_template += "<h5>5)<b> Automates: </b></h5>" +
+								"<p id=\"custom_style\">"
+								test_report_obj.test_report[i].automates_ids.forEach(automates_ids => {
+									tc_template +=  " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + automates_ids + "<br />"
+								});
+								tc_template += "<p>"
+				tc_template += "<h5>6) <b>Test Tags: </b></h5>" +
+								"<p id=\"custom_style\">"
+								test_report_obj.test_report[i].tags.forEach(tags => {
+									tc_template +=  " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tags + "<br />"
+								});
+								tc_template += "<p>"
+				tc_template += "<h5>7) <b>Metadata Files Links: </b> </h5>" +
+								"<p id=\"custom_style\">"
+								test_report_obj.test_report[i].files.forEach(files => {
+									tc_template +=  " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + files + "<br />"
+								});
+								tc_template += "<p>"
+				tc_template += "<h5>8)<b> Test Details:</b> </h5>" +
+								"<p id=\"custom_style\">"
+								test_report_obj.test_report[i].details.forEach(Details => {
+									tc_template += " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Details + "<br />"
+								});
+								tc_template += "<p>"
+				tc_template += "<h5>9)<b> Precondition:</b> </h5>" +
+								"<p id=\"custom_style\">"
+								test_report_obj.test_report[i].precondition.forEach(precondition => {
+									tc_template += " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + precondition + "<br />"
+								});
+								tc_template += "<p>"
+				var testcase_path_txt_temp = "..\\contest__txt_reports\\"+ (test_report_obj.test_report[i].test_case_name) + ".txt\""
+				var testcase_path_txt = testcase_path_txt_temp.replace(":", "");
+				var testcase_path_html_temp = "..\\contest__html_reports\\"+ (test_report_obj.test_report[i].test_case_name) + ".html\""
+				var testcase_path_html = testcase_path_html_temp.replace(":", "");
+				tc_template += "<h5>10)<b> Text Report Link:</b>"
+				tc_template += "<a href =  \"" + testcase_path_txt
+				tc_template += " rel=\"noopener noreferrer\" target = \"_blank\" style=\"font-size: 18px; padding-left: 10px;\" >Report link</a>"
+				tc_template += "</h5>"
+				tc_template += "<h5>11)<b> HTML Report Link:</b>"
+				tc_template += "<a href =  \"" + testcase_path_html
+				tc_template += " rel=\"noopener noreferrer\" target = \"_blank\" style=\"font-size: 18px; padding-left: 10px;\" >Report link</a>"
+				tc_template += "</h5>"
+				tc_template += "<h5>12) <b>Test Case Execution Sequence:</b></h5>" +
+								"<p id=\"custom_style\">"
+								test_report_obj.test_report[i].test_case_execution.forEach(test_case_execution => {
+									tc_template += " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + test_case_execution + "<br />"
+								});
+								tc_template += "<p>"
+				tc_template += "<h5>13) <b>Test Case Warning(s): </b></h5>" +
+								"<p id=\"custom_style\">"
+								test_report_obj.test_report[i].test_case_warnings.forEach(test_case_warnings => {
+									tc_template += test_case_warnings
+								});
+								tc_template += "<p>"
+				tc_template += "<h5>14) <b>Verdict Comment : </b></h5>" + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + test_report_obj.test_report[i].test_case_verdict
+
+				// Update the link in the testcase_desc section
+			var testcase_path_txt_temp = "..\\contest__txt_reports\\" + (test_report_obj.test_report[i].test_case_name) + ".txt\"";
+			var testcase_path_txt = testcase_path_txt_temp.replace(":", "");
+
+			clearHighlight();
+
+			var reportLink = document.querySelector('#test_cases_report a');
+				if (reportLink)
+					{
+						reportLink.href = testcase_path_txt;
+					}
+
+			var button_element = document.getElementById(tc_name);
+				if (button_element)
+				{
+					button_element.classList.add('tc_highlighted');
+					// Update the reference to the previously active button
+					sessionStorage.setItem('highlightedButton', tc_name);
+					previousButton = button_element;
+			}
+				break;
+		}
+			}
+			document.getElementById("test_cases_report").innerHTML = tc_template;
+		}
+
+
+		function clearHighlight() {
+			// Remove highlight from the previously active button
+			if (previousButton) {
+				previousButton.classList.remove('tc_highlighted');
+				// Remove the stored highlighted button from sessionStorage
+				sessionStorage.removeItem('highlightedButton');
+			}
+		}
+</script>
+</body>
+</html>

@@ -27,7 +27,9 @@ from ptf.ptf_utils.global_params import *
 import paths
 # to be done in setup.pytest
 from ptf.ptf_utils.global_params import *
-from ptf.tools_utils.carmaker import carmaker_utils
+#from ptf.tools_utils.carmaker import carmaker_utils
+from contest_carmaker.carmaker.carmaker_utils import CarMaker
+
 
 def global_setup():
     """
@@ -37,7 +39,8 @@ def global_setup():
     Will skip execution of tests if this method fails.
     """
     # Creating object of CarMaker tool
-    cm_app = carmaker_utils.CarMaker()
+    #cm_app = carmaker_utils.CarMaker()
+    cm_app = CarMaker()
     # adding CarMaker tool object into global parameter
     set_global_parameter("carmaker", cm_app)
     # you can access 'carmaker' object as follows in setup.pytest, .pytest or .py files
@@ -51,7 +54,7 @@ def global_setup():
     project_folder  = cm_app.get_project_path()
     print(project_folder)
     
-    cm_app.set_project_dir("D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\mf_sil\\tests\\SIL\\CarMaker")
+    cm_app.set_project_dir("D:\\JenkinsServer_Main\\workspace\\FFL_CL_Simulation\\package\\tests\\SIL\\CarMaker")
     
     time.sleep(2)
 

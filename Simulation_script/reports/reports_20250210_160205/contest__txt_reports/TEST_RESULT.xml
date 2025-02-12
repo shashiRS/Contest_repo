@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="ConTest_v3.5.0 " machine="NA" user="uig44320" failures="3" skipped="0" tests="0" time="1.635688304901123"><testcase classname="Tests" name="global_setup" time="0.0"><error message="name 'carmaker_utils' is not defined" /><system-out>
+============================== begin global_setup =============================
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\test_runner.py", line 788, in run
+    test_function()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest", line 40, in global_setup
+    cm_app = carmaker_utils.CarMaker()
+NameError: name 'carmaker_utils' is not defined
+
+Executed in 0.0 msec
+[FAILED]
+
+=============================== end global_setup ==============================
+
+</system-out></testcase><testcase classname="Tests" name="SWT_SAMPLE_TESTv1(index: 0)" time="0.023374557495117188"><error message="Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function" /><system-out>
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 16:02:05,854] Running with parameters: []
+--&gt; Testcase failed with Failure(s):  Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function
+
+Executed in 23.374557495117188 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+</system-out></testcase><testcase classname="Tests" name="global_teardown" time="0.0035734176635742188"><error message="&quot;Key 'carmaker' is not found in global, local or report parameter list. Please check if you have created this key in global or local setups.&quot;" /><system-out>
+Executed in 30.296802520751953 msec
+[FAILED]
+
+============================ end SWT_SAMPLE_TESTv1 ============================
+
+
+============================ begin global_teardown ============================
+
+Traceback (most recent call last):
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\test_runner.py", line 788, in run
+    test_function()
+  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest", line 70, in global_teardown
+    cm_app = get_parameter("carmaker")
+  File "D:\JenkinsServer_Main\workspace\Contest_download\ConTest-3.3.0\ptf\ptf_utils\global_params.py", line 294, in get_parameter
+    raise KeyError(
+KeyError: "Key 'carmaker' is not found in global, local or report parameter list. Please check if you have created this key in global or local setups."
+
+Executed in 3.5734176635742188 msec
+[FAILED]
+
+============================= end global_teardown =============================
+
+</system-out></testcase></testsuite>

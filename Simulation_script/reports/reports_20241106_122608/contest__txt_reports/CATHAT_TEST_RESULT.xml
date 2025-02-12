@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catHat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="heatSWTestFrameworkLog_v050.xsd">
+    <testBases/>
+    <testEnvironments>
+        <testEnvironmentGroup name="">
+        </testEnvironmentGroup>
+    </testEnvironments>
+    <testData>
+    <!-- files -->
+    </testData>
+    <testObjects>
+    <!-- files -->
+    </testObjects>
+    <testPlans>
+    </testPlans>
+    <testrun>
+        <docInfo>
+            <properties>
+                <property name="uig44320" value="uig44320"/>
+            </properties>
+            <overview>
+                <origin> </origin>
+                <title> </title>
+                <revisionLabel> </revisionLabel>
+                <createdAt> </createdAt>
+                <docStatus> </docStatus>
+                <organization>"Continental ADC GmbH"</organization>
+                <creationResponsible> </creationResponsible>
+                <approver> </approver>
+                <history> </history>
+            </overview>
+            <scope> ""
+            </scope>
+        </docInfo>
+        <testsuites name="ConTest_v3.3.0 ">
+            <testsuite name="ConTest_v3.3.0 " tests="2">
+                <properties>
+                    <property name="Tester" value="uig44320"/>
+                    <property name="InformOnMail" value="uig44320@continental.com"/>
+                </properties>
+                <references>
+                    <testBaseRef> </testBaseRef>
+                    <testObjectRef> </testObjectRef>
+                    <testPlanRef> </testPlanRef>
+                    <testEnvironmentRef> </testEnvironmentRef>
+                    <testDataRef> </testDataRef>
+                </references>
+                <testsuiteResult tests="2" failures="2" errors="0"
+                            hostname="uig44320" skipped="0"  duration="132.73536658287048"
+                            timestampStart="2024-11-06T06:56:08">
+                    <properties>
+                        <property name="Tester" value="uig44320"/>
+                        <property name="InformOnMail" value="uig44320@continental.com"/>
+                    </properties>
+                </testsuiteResult>
+                
+                <testcase classname="ConTest_v3.3.0 " name="SWT_SAMPLE_TESTv1(index: 0)">
+                    <testcaseResult verdict="failed" duration="0.016529083251953125"
+                        timestampStart="2024-11-06T06:58:20">
+                        <properties>
+                            <property name="Tester" value="uig44320"/>
+                            <property name="InformOnMail" value="uig44320@continental.com"/>
+                        </properties>
+                    </testcaseResult>
+                    <attributes>
+                        <isRegression>no</isRegression>
+                        <isDestructive>no</isDestructive>
+                        <priority>0</priority>
+                        <estimatedExecutionTime>0</estimatedExecutionTime>
+                    </attributes>
+                    <traceability id = 'Mention requirement satisfied by this test case' />
+                    <description>""</description>
+                    <testSteps name="SWT_SAMPLE_TESTv1(index: 0)">
+                        <step id="">
+                            <description>""</description>
+                            <expectedResults>""</expectedResults>
+                            <observedResults verdict="failed"
+                             timestampStart="2024-11-06T06:58:20" timestampEnd="2024-11-06T06:58:20">
+                                    <system-out>"
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 12:28:20,536] Running with parameters: {'Test_run': 'CHECK_01_TESTv1', 'n2': 'AP\\06_Regression\\MoCo_Functional_Testing\\AUPSim_UC_ParRight_ST-1_04_02_B_SI_ExtendedEndTime'}
+--> Testcase failed with Failure(s):  Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function
+
+Executed in 16.529083251953125 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+"
+                                    </system-out>
+                            </observedResults>
+                        </step>
+                        <properties>
+                            <property name="heppy-cli::etmReadOnly::DatabaseId"
+                            value=""/>
+                        </properties>
+                    </testSteps>
+                </testcase>
+                <testcase classname="ConTest_v3.3.0 " name="SWT_SAMPLE_TESTv1(index: 1)">
+                    <testcaseResult verdict="failed" duration="0.0029320716857910156"
+                        timestampStart="2024-11-06T06:58:20">
+                        <properties>
+                            <property name="Tester" value="uig44320"/>
+                            <property name="InformOnMail" value="uig44320@continental.com"/>
+                        </properties>
+                    </testcaseResult>
+                    <attributes>
+                        <isRegression>no</isRegression>
+                        <isDestructive>no</isDestructive>
+                        <priority>0</priority>
+                        <estimatedExecutionTime>0</estimatedExecutionTime>
+                    </attributes>
+                    <traceability id = 'Mention requirement satisfied by this test case' />
+                    <description>""</description>
+                    <testSteps name="SWT_SAMPLE_TESTv1(index: 1)">
+                        <step id="">
+                            <description>""</description>
+                            <expectedResults>""</expectedResults>
+                            <observedResults verdict="failed"
+                             timestampStart="2024-11-06T06:58:20" timestampEnd="2024-11-06T06:58:20">
+                                    <system-out>"
+====================== begin SWT_SAMPLE_TESTv1(index: 1) ======================
+
+[ConTest PARAMETERIZED 12:28:20,550] Running with parameters: {'Test_run': 'CHECK_02_TESTv1', 'n2': 'AP\\06_Regression\\MoCo_Functional_Testing\\AUPSim_UC_PerpLeft_ST-2_04_04_F_SI_FirstSteerAccur'}
+--> Testcase failed with Failure(s):  Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function
+
+Executed in 2.9320716857910156 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 1) =======================
+
+"
+                                    </system-out>
+                            </observedResults>
+                        </step>
+                        <properties>
+                            <property name="heppy-cli::etmReadOnly::DatabaseId"
+                            value=""/>
+                        </properties>
+                    </testSteps>
+                </testcase>
+                <history>
+                <HistoryEntry date=""/>
+                </history>
+                <glossary>
+                <term name=""/>
+                </glossary>
+            </testsuite>
+        </testsuites>
+   </testrun>
+</catHat>
+    

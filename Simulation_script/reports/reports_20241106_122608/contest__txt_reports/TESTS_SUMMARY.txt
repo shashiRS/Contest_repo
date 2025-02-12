@@ -1,0 +1,83 @@
+[ConTest TEST_RUNNER 12:26:08,940] Starting Tests Execution
+
+============================== begin global_setup =============================
+
+<contest_carmaker.carmaker.carmaker_utils.CarMaker object at 0x00000208027A6E20>
+********************Hello World!*******************
+[ConTest CarMaker 3.0.2 12:28:15,887] Running CarMaker instance detected
+--> Testcase failed with Failure(s):  telnet connection to CarMaker gui is not established. Error: [WinError 10061] No connection could be made because the target machine actively refused it. 
+	-->  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest" line 48
+
+Executed in 131062.28137016296 msec
+[FAILED]
+
+=============================== end global_setup ==============================
+
+
+=========================== begin SWT_SAMPLE_TESTv1 ===========================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 0) ======================
+
+[ConTest PARAMETERIZED 12:28:20,536] Running with parameters: {'Test_run': 'CHECK_01_TESTv1', 'n2': 'AP\\06_Regression\\MoCo_Functional_Testing\\AUPSim_UC_ParRight_ST-1_04_02_B_SI_ExtendedEndTime'}
+--> Testcase failed with Failure(s):  Execution of 'SWT_SAMPLE_TESTv1(index: 0)' did not happen due to failure in 'global_setup' function
+
+Executed in 16.529083251953125 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 0) =======================
+
+
+====================== begin SWT_SAMPLE_TESTv1(index: 1) ======================
+
+[ConTest PARAMETERIZED 12:28:20,550] Running with parameters: {'Test_run': 'CHECK_02_TESTv1', 'n2': 'AP\\06_Regression\\MoCo_Functional_Testing\\AUPSim_UC_PerpLeft_ST-2_04_04_F_SI_FirstSteerAccur'}
+--> Testcase failed with Failure(s):  Execution of 'SWT_SAMPLE_TESTv1(index: 1)' did not happen due to failure in 'global_setup' function
+
+Executed in 2.9320716857910156 msec
+[FAILED]
+
+======================= end SWT_SAMPLE_TESTv1(index: 1) =======================
+
+
+Executed in 33.399343490600586 msec
+[FAILED]
+
+============================ end SWT_SAMPLE_TESTv1 ============================
+
+
+============================ begin global_teardown ============================
+
+--> Testcase failed with Failure(s):  Might be telnet connection not established, user trying to send appl  commands. 
+	-->  File "D:\JenkinsServer_Main\workspace\Contest_download\Simulation_script\setup.pytest" line 71
+
+Executed in 6.052970886230469 msec
+[FAILED]
+
+============================= end global_teardown =============================
+
+
+==================== TEST REPORT LOG ======================
+[Total Tests]        : 4
+[Running Tests]      : 4
+[Passed Tests]       : 0
+[Inconclusive Tests] : 0
+[Skipped Tests]      : 0
+[Failed Tests]       : 4
+[Ignored Tests]      : 0
+[Missing Tests]      : 0
+[Machine Name]       : OZD3524W
+[User Name]          : uig44320
+
+[Failing Tests] :
+                 global_setup
+                 SWT_SAMPLE_TESTv1(index: 0)
+                 SWT_SAMPLE_TESTv1(index: 1)
+                 global_teardown
+
+[Execution Time]  : 2.210981794198354 mins
+
+[TimeStamp]  : Wed Nov  6 12:28:21 2024
+
+[TestEnvironment] : ConTest_v3.3.0 
+============================================================
+

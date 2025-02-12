@@ -1,0 +1,16 @@
+<contest_carmaker.carmaker.carmaker_utils.CarMaker object at 0x000001BE07812890>
+********************Hello World!*******************
+[ConTest CarMaker 3.0.2 09:44:38,556] Command to start CarMaker: C:\LegacyApp\IPG\carmaker\win64-8.1.1\GUI\HIL.exe -cmdport 2327 -apphost localhost
+[ConTest CarMaker 3.0.2 09:44:53,750] CarMaker GUI instance started successfully
+[ConTest CarMaker 3.0.2 09:44:56,753] Project Path: D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+[ConTest CarMaker 3.0.2 09:44:56,754] Selecting Project D:/JenkinsServer_Main/workspace/FFL_CL_Simulation/package/tests/SIL/CarMaker
+[ConTest CarMaker 3.0.2 09:45:03,825] Waiting for Status idle
+[ConTest CarMaker 3.0.2 09:45:05,202] Status idle detected
+[ConTest CarMaker 3.0.2 09:45:05,202] CarMaker Started and Connected
+
+Executed in 45071.29526138306 msec
+[PASSED]
+
+=============================== end global_setup ==============================
+
